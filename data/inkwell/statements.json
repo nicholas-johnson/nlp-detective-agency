@@ -1,0 +1,72 @@
+[
+  {
+    "id": "STM-001",
+    "case_id": "CASE-42",
+    "witness": "Margaret Hayes",
+    "recorded": "1947-03-12",
+    "raw_text": "I saw HIM near the DOCKS on Tuesday!!!   He was with a man called Reeves—or so I thought.  [REDACTED] told me to keep quiet.  CASE-42 is none of my business."
+  },
+  {
+    "id": "STM-002",
+    "case_id": "CASE-42",
+    "witness": "Thomas Whitfield",
+    "recorded": "1947-03-14",
+    "raw_text": "The docks were EMPTY that night.  I heard footsteps on the cobbles.  Someone shouted Reeves' name.  Then silence."
+  },
+  {
+    "id": "STM-003",
+    "case_id": "CASE-42",
+    "witness": "Eleanor Marsh",
+    "recorded": "1947-03-15",
+    "raw_text": "Margaret Hayes is mistaken.  I was at the warehouse until midnight.  The dock workers had already gone home.  Reeves was not there—I am certain of it.  Ask Whitfield; he was drinking at the Anchor.  CASE-42 has everyone on edge."
+  },
+  {
+    "id": "STM-004",
+    "case_id": "CASE-17",
+    "witness": "James Corbin",
+    "recorded": "1947-02-08",
+    "raw_text": "The accountant left the office at six.  He carried a LEATHER satchel.  [REDACTED] followed him down River Lane."
+  },
+  {
+    "id": "STM-005",
+    "case_id": "CASE-17",
+    "witness": "Vera Langford",
+    "recorded": "1947-02-09",
+    "raw_text": "I saw the numbers guy near the station.  CASE-17 again.  He looked nervous."
+  },
+  {
+    "id": "STM-006",
+    "case_id": "CASE-17",
+    "witness": "Harold Finch",
+    "recorded": "1947-02-10",
+    "raw_text": "Nothing unusual at the warehouse that week."
+  },
+  {
+    "id": "STM-007",
+    "case_id": "CASE-88",
+    "witness": "Dorothy Keane",
+    "recorded": "1947-04-02",
+    "raw_text": "A black motorcar stopped outside my shop.  Two men got out.  One wore a grey overcoat.  [REDACTED] stayed in the car."
+  },
+  {
+    "id": "STM-008",
+    "case_id": "CASE-88",
+    "witness": "Albert Pryce",
+    "recorded": "1947-04-03",
+    "raw_text": "CASE-88 is a mess.  I told the chief already.  The grey overcoat man came back on Thursday.  He asked for directions to the docks."
+  },
+  {
+    "id": "STM-009",
+    "case_id": "CASE-42",
+    "witness": "Frank Holloway",
+    "recorded": "1947-03-18",
+    "raw_text": "I have worked the docks for twenty years.  On the night in question I was mending nets by lamp-light.  I saw two figures near pier seven.  One was tall and broad—could have been Reeves, though I cannot swear to it.  The other was shorter, wearing a cap.  They argued.  I heard the word warehouse.  Then a door slammed on the quay.  I stayed quiet.  Men like that do not like witnesses.  Margaret Hayes may have seen the same pair from the far end of the jetty.  Whitfield was drunk; I would not trust his account.  Marsh claims she was elsewhere, but the warehouse clock was stopped that week.  CASE-42 has made everyone nervous.  Ships still come in.  The fog was thick.  I could not make out faces after they turned away."
+  },
+  {
+    "id": "STM-010",
+    "case_id": "CASE-88",
+    "witness": "Iris Dunne",
+    "recorded": "1947-04-05",
+    "raw_text": "The motorcar had no plates.  Grey overcoat again."
+  }
+]

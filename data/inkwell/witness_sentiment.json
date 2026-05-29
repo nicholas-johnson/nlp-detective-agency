@@ -1,0 +1,86 @@
+[
+  {
+    "id": "SNT-001",
+    "witness": "Margaret Hayes",
+    "text": "I saw him near the docks on Tuesday. He was with a man called Reeves, or so I thought. I would rather not say more.",
+    "sentiment": "hostile"
+  },
+  {
+    "id": "SNT-002",
+    "witness": "Thomas Whitfield",
+    "text": "The docks were empty that night. I heard footsteps on the cobbles. Someone shouted Reeves' name. Then silence.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-003",
+    "witness": "Eleanor Marsh",
+    "text": "Margaret Hayes is mistaken. I was at the warehouse until midnight. Reeves was not there. I am certain of it. Ask Whitfield; he was drinking.",
+    "sentiment": "hostile"
+  },
+  {
+    "id": "SNT-004",
+    "witness": "Harold Finch",
+    "text": "Nothing unusual at the warehouse that week.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-005",
+    "witness": "James Corbin",
+    "text": "The accountant left the office at six. He carried a leather satchel. Someone followed him down River Lane.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-006",
+    "witness": "Vera Langford",
+    "text": "I saw the numbers guy near the station. He looked nervous. That is all I know.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-007",
+    "witness": "Frank Holloway",
+    "text": "I have worked the docks for twenty years. I saw two figures near pier seven. They argued. I stayed quiet. Men like that do not like witnesses.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-008",
+    "witness": "Dorothy Keane",
+    "text": "A black motorcar stopped outside my shop. Two men got out. One wore a grey overcoat. I have told you people already.",
+    "sentiment": "hostile"
+  },
+  {
+    "id": "SNT-009",
+    "witness": "Albert Pryce",
+    "text": "The grey overcoat man came back on Thursday. He asked for directions to the docks. I gave them. Nothing more to add.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-010",
+    "witness": "Iris Dunne",
+    "text": "The motorcar had no plates. Grey overcoat again. I am not repeating myself for a third time.",
+    "sentiment": "hostile"
+  },
+  {
+    "id": "SNT-011",
+    "witness": "Patrick Sloan",
+    "text": "I was home by eight. My wife can confirm it. I have no knowledge of the incident.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-012",
+    "witness": "Clara Benson",
+    "text": "You people keep asking the same questions. I already gave my statement. Leave me alone.",
+    "sentiment": "hostile"
+  },
+  {
+    "id": "SNT-013",
+    "witness": "George Talbot",
+    "text": "The lamp by the quay was out. I noticed because I walk that route every evening. I saw no one unusual.",
+    "sentiment": "calm"
+  },
+  {
+    "id": "SNT-014",
+    "witness": "Nora Whitby",
+    "text": "I do not appreciate being dragged in again. Your detectives wasted my time last week. I have nothing new to say.",
+    "sentiment": "hostile"
+  }
+]
