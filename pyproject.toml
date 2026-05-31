@@ -1,7 +1,7 @@
 [project]
-name = "deep-space-ops"
+name = "nlp-python-course"
 version = "1.0.0"
-description = "Deep Space Ops: AI Engineering with Python - 3-day course materials"
+description = "Python NLP: Inkwell Investigations - 2-day course materials"
 requires-python = ">=3.12"
 dependencies = [
     "httpx>=0.27",
