@@ -102,6 +102,15 @@ export const slides = [
     },
   },
   {
+    type: 'equation',
+    content: {
+      title: 'Skip-gram objective',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><munder><mo>max</mo><mi>θ</mi></munder><munder><mo>∑</mo><mi>t</mi></munder><munder><mo>∑</mo><mrow><mo>−</mo><mi>c</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>c</mi></mrow></munder><mi>log</mi><mspace width="0.2em"/><mi>P</mi><mo>(</mo><msub><mi>w</mi><mrow><mi>t</mi><mo>+</mo><mi>j</mi></mrow></msub><mo>∣</mo><msub><mi>w</mi><mi>t</mi></msub><mo>)</mo></math>',
+      description: "Given a target word, predict every context word within window c. The weights learned by this prediction task become the word vectors.",
+      credit: 'Mikolov et al., 2013',
+    },
+  },
+  {
     type: 'code',
     content: {
       title: 'Training with gensim',
@@ -120,6 +129,14 @@ model.wv.most_similar("dock", topn=5)`,
     },
   },
 
+  {
+    type: 'equation',
+    content: {
+      title: 'Negative sampling loss',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>log</mi><mspace width="0.2em"/><mi>σ</mi><mo>(</mo><msub><mi mathvariant="bold">v</mi><mi>w</mi></msub><mo>·</mo><msub><mi mathvariant="bold">v</mi><mi>c</mi></msub><mo>)</mo><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></munderover><mi>log</mi><mspace width="0.2em"/><mi>σ</mi><mo>(</mo><mo>−</mo><msub><mi mathvariant="bold">v</mi><mi>w</mi></msub><mo>·</mo><msub><mi mathvariant="bold">v</mi><msub><mi>n</mi><mi>i</mi></msub></msub><mo>)</mo></math>',
+      description: "Push the real context word's vector close to the target, and push k random 'noise' words apart. Avoids computing softmax over the entire vocabulary.",
+    },
+  },
   {
     type: 'title',
     content: {
@@ -191,6 +208,14 @@ model.most_similar(
     },
   },
 
+  {
+    type: 'equation',
+    content: {
+      title: 'Cosine similarity',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></mrow><mrow><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo><mspace width="0.2em"/><mo>‖</mo><mi mathvariant="bold">b</mi><mo>‖</mo></mrow></mfrac></math>',
+      description: "Two vectors pointing in similar directions have high cosine similarity. This is how most_similar() ranks neighbours and how we measure analogy accuracy.",
+    },
+  },
   {
     type: 'title',
     content: {

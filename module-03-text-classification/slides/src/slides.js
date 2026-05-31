@@ -183,6 +183,30 @@ preds = pipeline.predict(X_test)`,
   },
 
   {
+    type: 'equation',
+    content: {
+      title: 'Naive Bayes',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo><mo>∝</mo><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo><munder><mo>∏</mo><mi>w</mi></munder><mi>P</mi><mo>(</mo><mi>w</mi><mo>∣</mo><mi>c</mi><mo>)</mo></math>',
+      description: "Multiply the prior class probability by each word's likelihood given that class. 'Naive' means we assume words are independent — wrong but effective.",
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'Logistic regression — the sigmoid',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi mathvariant="bold">w</mi><mo>·</mo><mi mathvariant="bold">x</mi><mo>+</mo><mi>b</mi><mo>)</mo></mrow></msup></mrow></mfrac></math>',
+      description: "The sigmoid squashes any real number into (0, 1) — interpretable as a probability. Positive weights push toward class 1; negative weights push away.",
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'SVM margin',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>margin</mtext><mo>=</mo><mfrac><mn>2</mn><mrow><mo>‖</mo><mi mathvariant="bold">w</mi><mo>‖</mo></mrow></mfrac></math>',
+      description: "SVM finds the decision boundary that maximises the gap between the two nearest class examples. Smaller weights = wider margin = better generalisation.",
+    },
+  },
+  {
     type: 'title',
     content: {
       title: 'Demo - Hoax pipeline and classifier shootout',
@@ -268,6 +292,14 @@ scores = cross_val_score(pipeline, texts, labels, cv=5, scoring=hoax_f1)`,
         'classification_report - precision, recall, F1 per class',
         'cross_val_score - compare models without a single lucky split',
       ],
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'Precision, Recall, F1',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" rowspacing="1em"><mtr><mtd><mtext>Precision</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FP</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><mtext>Recall</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FN</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><msub><mtext>F</mtext><mn>1</mn></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><mo>·</mo><mfrac><mrow><mtext>Precision</mtext><mo>·</mo><mtext>Recall</mtext></mrow><mrow><mtext>Precision</mtext><mo>+</mo><mtext>Recall</mtext></mrow></mfrac></mtd></mtr></mtable></math>',
+      description: "Precision = of predicted positives, how many are correct. Recall = of actual positives, how many were found. F1 is their harmonic mean — it is low if either is low.",
     },
   },
   {

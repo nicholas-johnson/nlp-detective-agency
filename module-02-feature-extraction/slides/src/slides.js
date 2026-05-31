@@ -171,6 +171,22 @@ print(len(vectorizer.get_feature_names_out()))
     },
   },
   {
+    type: 'equation',
+    content: {
+      title: 'TF-IDF',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>tf-idf</mtext><mo>(</mo><mi>t</mi><mo>,</mo><mi>d</mi><mo>)</mo><mo>=</mo><mtext>tf</mtext><mo>(</mo><mi>t</mi><mo>,</mo><mi>d</mi><mo>)</mo><mo>×</mo><mtext>idf</mtext><mo>(</mo><mi>t</mi><mo>)</mo><mspace width="2em"/><mtext>where</mtext><mspace width="1em"/><mtext>idf</mtext><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mi>log</mi><mfrac><mi>N</mi><mrow><mtext>df</mtext><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mfrac></math>',
+      description: "TF counts how often a term appears in this document. IDF penalises terms that appear in many documents. The product highlights words that are frequent here but rare overall.",
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'scikit-learn IDF (smoothed)',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>idf</mtext><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mi>log</mi><mfrac><mrow><mn>1</mn><mo>+</mo><mi>N</mi></mrow><mrow><mn>1</mn><mo>+</mo><mtext>df</mtext><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mfrac><mo>+</mo><mn>1</mn></math>',
+      description: "scikit-learn adds 1 to numerator and denominator to avoid division by zero, and adds 1 to the result so no term gets zero weight.",
+    },
+  },
+  {
     type: 'code',
     content: {
       title: 'TfidfVectorizer',
@@ -204,6 +220,14 @@ score = sims[0][1]  # how similar are witnesses 0 and 1?`,
         'Find witness statements telling similar stories',
         'Skip the diagonal - a doc compared to itself is always 1.0',
       ],
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'Cosine similarity',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></mrow><mrow><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo><mspace width="0.2em"/><mo>‖</mo><mi mathvariant="bold">b</mi><mo>‖</mo></mrow></mfrac></math>',
+      description: "Measures direction, not magnitude. 1 = identical direction, 0 = no overlap, −1 = opposite. This is how we compare document fingerprints.",
     },
   },
   {

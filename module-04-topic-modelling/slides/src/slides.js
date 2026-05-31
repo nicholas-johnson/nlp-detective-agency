@@ -183,6 +183,14 @@ doc_topics = nmf.fit_transform(tfidf)`,
   },
 
   {
+    type: 'equation',
+    content: {
+      title: 'NMF factorisation',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>V</mi><mo>≈</mo><mi>W</mi><mo>×</mo><mi>H</mi></math>',
+      description: "Decompose the document-term matrix V into W (document-topic weights) and H (topic-word distributions). Both are non-negative, so weights are interpretable as 'amounts'.",
+    },
+  },
+  {
     type: 'title',
     content: {
       title: 'Demo - Document-topic profile and NMF top words',
@@ -218,6 +226,14 @@ doc_topics = nmf.fit_transform(tfidf)`,
     },
   },
 
+  {
+    type: 'equation',
+    content: {
+      title: 'Perplexity',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>perplexity</mtext><mo>=</mo><mi>exp</mi><mrow><mo>(</mo><mo>−</mo><mfrac><mrow><munder><mo>∑</mo><mi>d</mi></munder><mi>log</mi><mspace width="0.2em"/><mi>p</mi><mo>(</mo><msub><mi mathvariant="bold">w</mi><mi>d</mi></msub><mo>)</mo></mrow><mrow><munder><mo>∑</mo><mi>d</mi></munder><msub><mi>N</mi><mi>d</mi></msub></mrow></mfrac><mo>)</mo></mrow></math>',
+      description: "Lower perplexity = the model is less 'surprised' by the data. Use as a guide for choosing k, but always check top words too — perplexity alone can't tell you if topics make sense.",
+    },
+  },
   {
     type: 'title',
     content: {

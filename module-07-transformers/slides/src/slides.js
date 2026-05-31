@@ -64,6 +64,15 @@ export const slides = [
     },
   },
   {
+    type: 'equation',
+    content: {
+      title: 'Scaled dot-product attention',
+      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>Attention</mtext><mo>(</mo><mi>Q</mi><mo>,</mo><mi>K</mi><mo>,</mo><mi>V</mi><mo>)</mo><mo>=</mo><mtext>softmax</mtext><mrow><mo>(</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi>T</mi></msup></mrow><msqrt><msub><mi>d</mi><mi>k</mi></msub></msqrt></mfrac><mo>)</mo></mrow><mi>V</mi></math>',
+      description: "Each token queries all keys to get attention weights, then aggregates values. Dividing by √d_k prevents dot products from growing too large in high dimensions.",
+      credit: 'Vaswani et al., 2017',
+    },
+  },
+  {
     type: 'standard',
     content: {
       title: 'Static vs contextual',
