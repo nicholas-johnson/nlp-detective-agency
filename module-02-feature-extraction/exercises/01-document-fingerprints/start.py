@@ -1,5 +1,5 @@
 """
-Exercise 01 — Document Fingerprints
+Exercise 01 - Document Fingerprints
 The lab needs a count-based fingerprint card for every witness statement in a case.
 """
 
@@ -54,7 +54,7 @@ def main() -> None:
     statements = load_statements(DATA_PATH)
     report = fingerprint_report(statements, case_id)
 
-    print(f"Inkwell Investigations — Fingerprints for {case_id}")
+    print(f"Inkwell Investigations - Fingerprints for {case_id}")
     print("=" * 60)
     if not report:
         print("No statements found for that case.")
@@ -62,7 +62,7 @@ def main() -> None:
 
     for card in report:
         terms = ", ".join(f"{t}({c})" for t, c in card["top_terms"])
-        print(f"\n{card['id']} — {card['witness']}")
+        print(f"\n{card['id']} - {card['witness']}")
         print(f"  {terms}")
 
 

@@ -1,14 +1,14 @@
-# Exercise 03 — FastAPI CRUD
+# Exercise 03 - FastAPI CRUD
 
 Build a FastAPI application with full CRUD endpoints (list, get, create, update) and test it with httpx.
 
 ## Objectives
 
-1. Implement `create_app()` — returns a FastAPI application with missions loaded from JSON.
-2. `GET /missions` — returns all missions; supports optional `?status=active` filter.
-3. `GET /missions/{mission_id}` — returns a single mission or 404.
-4. `POST /missions` — accepts a JSON body and adds a new mission. Returns 201.
-5. `PATCH /missions/{mission_id}` — partial update of an existing mission.
+1. Implement `create_app()` - returns a FastAPI application with missions loaded from JSON.
+2. `GET /missions` - returns all missions; supports optional `?status=active` filter.
+3. `GET /missions/{mission_id}` - returns a single mission or 404.
+4. `POST /missions` - accepts a JSON body and adds a new mission. Returns 201.
+5. `PATCH /missions/{mission_id}` - partial update of an existing mission.
 
 ## Run the tests
 

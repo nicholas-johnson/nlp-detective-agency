@@ -1,0 +1,177 @@
+[
+  {
+    "id": "UD-001",
+    "text": "She saw him near the station on Tuesday.",
+    "gold_svo": [{"subj": "She", "verb": "see", "obj": "him"}]
+  },
+  {
+    "id": "UD-002",
+    "text": "The detective questioned the witness carefully.",
+    "gold_svo": [{"subj": "detective", "verb": "question", "obj": "witness"}]
+  },
+  {
+    "id": "UD-003",
+    "text": "He reported the incident to the police.",
+    "gold_svo": [{"subj": "He", "verb": "report", "obj": "incident"}]
+  },
+  {
+    "id": "UD-004",
+    "text": "They found the missing documents in the archive.",
+    "gold_svo": [{"subj": "They", "verb": "find", "obj": "documents"}]
+  },
+  {
+    "id": "UD-005",
+    "text": "The officer arrested the suspect at dawn.",
+    "gold_svo": [{"subj": "officer", "verb": "arrest", "obj": "suspect"}]
+  },
+  {
+    "id": "UD-006",
+    "text": "I heard footsteps on the cobblestones.",
+    "gold_svo": [{"subj": "I", "verb": "hear", "obj": "footsteps"}]
+  },
+  {
+    "id": "UD-007",
+    "text": "She gave the statement to the investigator.",
+    "gold_svo": [{"subj": "She", "verb": "give", "obj": "statement"}]
+  },
+  {
+    "id": "UD-008",
+    "text": "The clerk filed the report yesterday.",
+    "gold_svo": [{"subj": "clerk", "verb": "file", "obj": "report"}]
+  },
+  {
+    "id": "UD-009",
+    "text": "He denied the allegations during the interview.",
+    "gold_svo": [{"subj": "He", "verb": "deny", "obj": "allegations"}]
+  },
+  {
+    "id": "UD-010",
+    "text": "We reviewed the evidence from the crime scene.",
+    "gold_svo": [{"subj": "We", "verb": "review", "obj": "evidence"}]
+  },
+  {
+    "id": "UD-011",
+    "text": "The witness identified the man in the photograph.",
+    "gold_svo": [{"subj": "witness", "verb": "identify", "obj": "man"}]
+  },
+  {
+    "id": "UD-012",
+    "text": "They searched the warehouse for hidden records.",
+    "gold_svo": [{"subj": "They", "verb": "search", "obj": "warehouse"}]
+  },
+  {
+    "id": "UD-013",
+    "text": "She described the events of that evening.",
+    "gold_svo": [{"subj": "She", "verb": "describe", "obj": "events"}]
+  },
+  {
+    "id": "UD-014",
+    "text": "The judge read the verdict aloud.",
+    "gold_svo": [{"subj": "judge", "verb": "read", "obj": "verdict"}]
+  },
+  {
+    "id": "UD-015",
+    "text": "He left the building through the rear exit.",
+    "gold_svo": [{"subj": "He", "verb": "leave", "obj": "building"}]
+  },
+  {
+    "id": "UD-016",
+    "text": "The team analyzed the fingerprints from the door.",
+    "gold_svo": [{"subj": "team", "verb": "analyze", "obj": "fingerprints"}]
+  },
+  {
+    "id": "UD-017",
+    "text": "I noticed a stranger watching the house.",
+    "gold_svo": [{"subj": "I", "verb": "notice", "obj": "stranger"}]
+  },
+  {
+    "id": "UD-018",
+    "text": "She called the authorities immediately.",
+    "gold_svo": [{"subj": "She", "verb": "call", "obj": "authorities"}]
+  },
+  {
+    "id": "UD-019",
+    "text": "The agent tracked the shipment to the port.",
+    "gold_svo": [{"subj": "agent", "verb": "track", "obj": "shipment"}]
+  },
+  {
+    "id": "UD-020",
+    "text": "They confirmed the alibi with two witnesses.",
+    "gold_svo": [{"subj": "They", "verb": "confirm", "obj": "alibi"}]
+  },
+  {
+    "id": "UD-021",
+    "text": "He opened the safe and removed the ledger.",
+    "gold_svo": [{"subj": "He", "verb": "open", "obj": "safe"}]
+  },
+  {
+    "id": "UD-022",
+    "text": "The inspector examined the forged signature.",
+    "gold_svo": [{"subj": "inspector", "verb": "examine", "obj": "signature"}]
+  },
+  {
+    "id": "UD-023",
+    "text": "We followed the suspect down River Lane.",
+    "gold_svo": [{"subj": "We", "verb": "follow", "obj": "suspect"}]
+  },
+  {
+    "id": "UD-024",
+    "text": "She recorded the conversation on her device.",
+    "gold_svo": [{"subj": "She", "verb": "record", "obj": "conversation"}]
+  },
+  {
+    "id": "UD-025",
+    "text": "The patrol unit stopped the vehicle at the checkpoint.",
+    "gold_svo": [{"subj": "unit", "verb": "stop", "obj": "vehicle"}]
+  },
+  {
+    "id": "UD-026",
+    "text": "He witnessed the exchange near the docks.",
+    "gold_svo": [{"subj": "He", "verb": "witness", "obj": "exchange"}]
+  },
+  {
+    "id": "UD-027",
+    "text": "They recovered the stolen goods from the cellar.",
+    "gold_svo": [{"subj": "They", "verb": "recover", "obj": "goods"}]
+  },
+  {
+    "id": "UD-028",
+    "text": "The analyst compared the two handwriting samples.",
+    "gold_svo": [{"subj": "analyst", "verb": "compare", "obj": "samples"}]
+  },
+  {
+    "id": "UD-029",
+    "text": "I sent the photographs to the lab.",
+    "gold_svo": [{"subj": "I", "verb": "send", "obj": "photographs"}]
+  },
+  {
+    "id": "UD-030",
+    "text": "She met the informant behind the old theatre.",
+    "gold_svo": [{"subj": "She", "verb": "meet", "obj": "informant"}]
+  },
+  {
+    "id": "UD-031",
+    "text": "The prosecutor presented the evidence to the jury.",
+    "gold_svo": [{"subj": "prosecutor", "verb": "present", "obj": "evidence"}]
+  },
+  {
+    "id": "UD-032",
+    "text": "He checked the registry for prior convictions.",
+    "gold_svo": [{"subj": "He", "verb": "check", "obj": "registry"}]
+  },
+  {
+    "id": "UD-033",
+    "text": "They intercepted the message before delivery.",
+    "gold_svo": [{"subj": "They", "verb": "intercept", "obj": "message"}]
+  },
+  {
+    "id": "UD-034",
+    "text": "The detective linked the suspect to the warehouse fire.",
+    "gold_svo": [{"subj": "detective", "verb": "link", "obj": "suspect"}]
+  },
+  {
+    "id": "UD-035",
+    "text": "We documented every item found at the scene.",
+    "gold_svo": [{"subj": "We", "verb": "document", "obj": "item"}]
+  }
+]

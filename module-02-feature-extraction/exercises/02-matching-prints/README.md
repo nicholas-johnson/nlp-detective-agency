@@ -1,12 +1,12 @@
-# Exercise 02 — Matching Prints
+# Exercise 02 - Matching Prints
 
 Two witnesses may be telling the same story. TF-IDF weights distinctive terms, and cosine similarity measures how close two statements are in meaning-space. Your job: find the most similar witness pair in a case and compare n-gram vocabulary sizes.
 
-This builds on Exercise 01 concepts but uses **TfidfVectorizer** and **cosine similarity** — a different deliverable.
+This builds on Exercise 01 concepts but uses **TfidfVectorizer** and **cosine similarity** - a different deliverable.
 
 ## Before you start
 
-Complete Exercise 01 first (or read its README for `texts_for_case` patterns). You reimplement `load_statements` and `texts_for_case` here — exercises are self-contained.
+Complete Exercise 01 first (or read its README for `texts_for_case` patterns). You reimplement `load_statements` and `texts_for_case` here - exercises are self-contained.
 
 ```bash
 pip install -e ".[nlp,dev]"
@@ -25,7 +25,7 @@ python start.py CASE-42
 prints:
 
 ```
-Inkwell Investigations — Similarity Report for CASE-42
+Inkwell Investigations - Similarity Report for CASE-42
 ============================================================
 
 Most similar pair: STM-001 <-> STM-002  (score: 0.142)
@@ -41,7 +41,7 @@ Vocabulary sizes:
 
 ### 1. `load_statements(path)` and `texts_for_case(statements, case_id)`
 
-Same as Exercise 01 — copy the logic.
+Same as Exercise 01 - copy the logic.
 
 ### 2. `build_tfidf_matrix(texts)`
 
@@ -73,7 +73,7 @@ Find the pair of **different** documents with the highest cosine similarity:
 from sklearn.metrics.pairwise import cosine_similarity
 
 sims = cosine_similarity(matrix)   # shape (n, n)
-# sims[i][i] == 1.0 — skip the diagonal
+# sims[i][i] == 1.0 - skip the diagonal
 # check all pairs where j > i, return (doc_ids[i], doc_ids[j], score)
 ```
 
@@ -96,7 +96,7 @@ return {
 }
 ```
 
-Bigram vocabulary should be **larger** — it includes unigrams plus two-word phrases.
+Bigram vocabulary should be **larger** - it includes unigrams plus two-word phrases.
 
 ### 6. `similarity_report(statements, case_id)`
 
@@ -134,7 +134,7 @@ pytest test_start.py -v
 <details>
 <summary>Hint: skip the diagonal</summary>
 
-`cosine_similarity` of a document with itself is always 1.0. When finding the *most similar pair*, only compare **different** documents:
+`cosine_similarity` of a document with itself is always 1.0. When finding the _most similar pair_, only compare **different** documents:
 
 ```python
 for i in range(len(doc_ids)):
@@ -147,7 +147,7 @@ for i in range(len(doc_ids)):
 <details>
 <summary>Hint: TF-IDF vs raw counts</summary>
 
-Exercise 01 used counts — "dock" appearing 3 times scores high. TF-IDF down-weights terms that appear in many documents. A word unique to one witness gets a higher TF-IDF score than a word all witnesses mention.
+Exercise 01 used counts - "dock" appearing 3 times scores high. TF-IDF down-weights terms that appear in many documents. A word unique to one witness gets a higher TF-IDF score than a word all witnesses mention.
 
 </details>
 
@@ -161,7 +161,7 @@ Exercise 01 used counts — "dock" appearing 3 times scores high. TF-IDF down-we
 <details>
 <summary>Hint: difference from the demo</summary>
 
-The demo lets you **pick** two statements to compare. This exercise automatically finds the **highest-similarity pair** across all statements in a case — no user input needed.
+The demo lets you **pick** two statements to compare. This exercise automatically finds the **highest-similarity pair** across all statements in a case - no user input needed.
 
 </details>
 
@@ -169,12 +169,12 @@ The demo lets you **pick** two statements to compare. This exercise automaticall
 
 ## How this differs from Exercise 01
 
-| | Exercise 01 | Exercise 02 |
-| --- | --- | --- |
-| Vectoriser | CountVectorizer (BoW) | TfidfVectorizer |
-| Output | Fingerprint card per statement | Most similar pair + n-gram stats |
-| Metric | Raw word counts | Cosine similarity |
-| Scope | All statements in a case | Pairwise comparison |
+|            | Exercise 01                    | Exercise 02                      |
+| ---------- | ------------------------------ | -------------------------------- |
+| Vectoriser | CountVectorizer (BoW)          | TfidfVectorizer                  |
+| Output     | Fingerprint card per statement | Most similar pair + n-gram stats |
+| Metric     | Raw word counts                | Cosine similarity                |
+| Scope      | All statements in a case       | Pairwise comparison              |
 
 ---
 
@@ -186,4 +186,4 @@ The demo lets you **pick** two statements to compare. This exercise automaticall
 - [ ] `compare_ngram_vocab_sizes` returns unigram and bigram vocab sizes
 - [ ] `similarity_report` handles unknown cases gracefully
 - [ ] `python start.py CASE-42` prints the report
-- [ ] `pytest test_start.py -v` — all passed
+- [ ] `pytest test_start.py -v` - all passed

@@ -1,4 +1,4 @@
-"""Tests for Exercise 01 — Document Fingerprints."""
+"""Tests for Exercise 01 - Document Fingerprints."""
 
 from pathlib import Path
 

@@ -1,5 +1,5 @@
 """
-Inkwell Investigations — Fingerprint Lab (demo)
+Inkwell Investigations - Fingerprint Lab (demo)
 Run:  python module-02-feature-extraction/demo/demo.py
 """
 
@@ -84,7 +84,7 @@ def pick_statement(statements: list[dict], case_id: str) -> tuple[int, dict] | N
     case_stmts = [s for s in statements if s["case_id"] == case_id]
     print(f"\nStatements for {case_id}:")
     for i, s in enumerate(case_stmts, 1):
-        print(f"  {i}. {s['id']} — {s['witness']}")
+        print(f"  {i}. {s['id']} - {s['witness']}")
     choice = input("Pick a number: ").strip()
     if not choice.isdigit() or not (1 <= int(choice) <= len(case_stmts)):
         print("Invalid choice.")
@@ -95,7 +95,7 @@ def pick_statement(statements: list[dict], case_id: str) -> tuple[int, dict] | N
 
 def main() -> None:
     statements = load_statements()
-    print("Inkwell Investigations — Fingerprint Lab")
+    print("Inkwell Investigations - Fingerprint Lab")
     print("=" * 44)
 
     while True:

@@ -1,5 +1,5 @@
 """
-Exercise 01 — Crew Manifest (solution)
+Exercise 01 - Crew Manifest (solution)
 """
 
 import json

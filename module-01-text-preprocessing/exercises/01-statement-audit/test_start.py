@@ -1,4 +1,4 @@
-"""Tests for Exercise 01 — Statement Audit."""
+"""Tests for Exercise 01 - Statement Audit."""
 
 from pathlib import Path
 

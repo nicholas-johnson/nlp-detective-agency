@@ -1,0 +1,164 @@
+[
+  {
+    "id": "ARC-001",
+    "case_id": "CASE-42",
+    "title": "Pier Seven Argument",
+    "summary": "Dock workers reported an argument near pier seven on a foggy night. A tall figure matching Reeves was seen with a shorter man wearing a cap. The warehouse door slammed on the quay shortly after."
+  },
+  {
+    "id": "ARC-002",
+    "case_id": "CASE-42",
+    "title": "Net Mender's Account",
+    "summary": "A fisherman mending nets by lamp-light saw two figures on the waterfront. Fog was thick and faces were hard to make out. The word warehouse was shouted before footsteps faded toward the jetty."
+  },
+  {
+    "id": "ARC-003",
+    "case_id": "CASE-42",
+    "title": "Anchor Pub Alibi",
+    "summary": "Witness claims Reeves was drinking at the Anchor pub until closing. Dock workers had already gone home. The warehouse clock was reportedly stopped that week."
+  },
+  {
+    "id": "ARC-004",
+    "case_id": "CASE-42",
+    "title": "Margaret Hayes Sighting",
+    "summary": "A woman saw a man near the docks on Tuesday evening. She believed it was Reeves accompanied by another man. She was told to keep quiet about CASE-42."
+  },
+  {
+    "id": "ARC-005",
+    "case_id": "CASE-42",
+    "title": "Empty Docks Report",
+    "summary": "The docks were empty that night according to one witness. Footsteps echoed on the cobbles and someone shouted Reeves name. Then silence fell over the quay."
+  },
+  {
+    "id": "ARC-006",
+    "case_id": "CASE-42",
+    "title": "Warehouse Midnight Shift",
+    "summary": "A warehouse clerk insisted she worked until midnight. Dock workers had left hours earlier. She denied Reeves was on the premises and pointed investigators toward the pub."
+  },
+  {
+    "id": "ARC-007",
+    "case_id": "CASE-42",
+    "title": "Ship Arrival Log",
+    "summary": "A cargo ship arrived through heavy fog on the night in question. Pier hands unloaded crates until dawn. Several men argued on the quay about missing freight from the warehouse."
+  },
+  {
+    "id": "ARC-008",
+    "case_id": "CASE-17",
+    "title": "Accountant's Satchel",
+    "summary": "The company accountant left the office at six carrying a leather satchel. A figure followed him down River Lane toward the station. Ledger pages were later found scattered near the platform."
+  },
+  {
+    "id": "ARC-009",
+    "case_id": "CASE-17",
+    "title": "Station Platform Watch",
+    "summary": "A clerk saw the numbers man near the station looking nervous. CASE-17 paperwork was tucked under his arm. He boarded the evening train without checking his ticket."
+  },
+  {
+    "id": "ARC-010",
+    "case_id": "CASE-17",
+    "title": "Office Ledger Gap",
+    "summary": "Internal audit found a gap in the office ledger spanning three months. The accountant had access to every account code. Cash deposits at the station branch stopped matching the books."
+  },
+  {
+    "id": "ARC-011",
+    "case_id": "CASE-17",
+    "title": "Warehouse Inventory Check",
+    "summary": "Nothing unusual was reported at the warehouse that week. Stock counts matched shipping manifests. The fraud appeared confined to the downtown office."
+  },
+  {
+    "id": "ARC-012",
+    "case_id": "CASE-17",
+    "title": "River Lane Tail",
+    "summary": "A typist leaving late saw two men arguing about invoices on River Lane. One carried a briefcase of receipts. They turned toward the station when a tram passed."
+  },
+  {
+    "id": "ARC-013",
+    "case_id": "CASE-17",
+    "title": "Bank Deposit Anomaly",
+    "summary": "The branch manager noticed duplicate deposit slips filed under different account numbers. The accountant signed both batches. CASE-17 was flagged after a customer complained about missing funds."
+  },
+  {
+    "id": "ARC-014",
+    "case_id": "CASE-17",
+    "title": "Receipt Burner",
+    "summary": "Janitorial staff found ashes behind the office boiler. Partial receipts were still legible. Investigators linked the scraps to ledger entries removed in February."
+  },
+  {
+    "id": "ARC-015",
+    "case_id": "CASE-88",
+    "title": "Black Motorcar Stop",
+    "summary": "A black motorcar without plates stopped outside a shop on Mill Road. Two men got out and one wore a grey overcoat. A third man stayed in the car watching the street."
+  },
+  {
+    "id": "ARC-016",
+    "case_id": "CASE-88",
+    "title": "Overcoat Return",
+    "summary": "The grey overcoat man returned on Thursday asking for directions to the docks. CASE-88 witnesses disagree on whether he carried a package. Shop staff remember his polished shoes."
+  },
+  {
+    "id": "ARC-017",
+    "case_id": "CASE-88",
+    "title": "Plateless Vehicle",
+    "summary": "A motorcar with no registration plates was seen circling the block twice. Neighbours noted the same grey overcoat at the window. The vehicle left toward the river road at dusk."
+  },
+  {
+    "id": "ARC-018",
+    "case_id": "CASE-88",
+    "title": "Surveillance on Mill Road",
+    "summary": "Residents reported a parked motorcar outside three homes on Mill Road. The driver never entered any building. Grey overcoat was seen consulting a folded map."
+  },
+  {
+    "id": "ARC-019",
+    "case_id": "CASE-88",
+    "title": "Tail to the Docks",
+    "summary": "A shopkeeper told police the overcoat man asked for the fastest route to the waterfront. He paid in crisp notes and left no name. The motorcar turned south minutes later."
+  },
+  {
+    "id": "ARC-020",
+    "case_id": "CASE-88",
+    "title": "Chief's Frustration",
+    "summary": "CASE-88 was described as a mess by a longtime constable. Multiple witnesses mention the same grey overcoat but disagree on dates. The motorcar sightings cluster around early April."
+  },
+  {
+    "id": "ARC-021",
+    "case_id": "CASE-31",
+    "title": "Neighbourhood Noise Complaint",
+    "summary": "A family on Orchard Street complained about shouting next door. The neighbour works nights and keeps odd hours. No physical evidence was found during the first visit."
+  },
+  {
+    "id": "ARC-022",
+    "case_id": "CASE-31",
+    "title": "Shop Window Reflection",
+    "summary": "A baker saw a couple arguing in the reflection of her shop window. They moved toward the tram stop on High Street. She knew them as quiet tenants from the flat above."
+  },
+  {
+    "id": "ARC-023",
+    "case_id": "CASE-31",
+    "title": "Garden Gate Witness",
+    "summary": "An elderly man watering his garden heard a door slam two houses away. He recognised the voice of the woman who runs the corner shop. She later denied being home that afternoon."
+  },
+  {
+    "id": "ARC-024",
+    "case_id": "CASE-31",
+    "title": "Corner Shop Alibi",
+    "summary": "The shopkeeper said she closed early for inventory. Neighbours claim the lights were on until midnight. A delivery boy recalls knocking with no answer."
+  },
+  {
+    "id": "ARC-025",
+    "case_id": "CASE-31",
+    "title": "Tram Stop Argument",
+    "summary": "Passengers at the High Street tram stop reported a heated exchange between two neighbours. One threatened to involve the landlord. Both gave conflicting accounts to the constable."
+  },
+  {
+    "id": "ARC-026",
+    "case_id": "CASE-31",
+    "title": "Landlord's Ledger",
+    "summary": "The landlord produced rent receipts for every tenant on Orchard Street. One flat was paid in cash weekly. He noted frequent late-night visitors to that address."
+  },
+  {
+    "id": "ARC-027",
+    "case_id": "CASE-31",
+    "title": "Midnight Radio",
+    "summary": "A teenager heard a radio playing loudly from the flat above the shop. The music stopped when police knocked. The tenant claimed she was visiting family across town."
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "STM-001",
+    "entities": [
+      {"text": "Reeves", "label": "PERSON"},
+      {"text": "Tuesday", "label": "DATE"},
+      {"text": "docks", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "STM-002",
+    "entities": [
+      {"text": "Reeves", "label": "PERSON"},
+      {"text": "docks", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "STM-003",
+    "entities": [
+      {"text": "Margaret Hayes", "label": "PERSON"},
+      {"text": "Reeves", "label": "PERSON"},
+      {"text": "Whitfield", "label": "PERSON"},
+      {"text": "warehouse", "label": "LOC"},
+      {"text": "Anchor", "label": "LOC"},
+      {"text": "midnight", "label": "DATE"}
+    ]
+  },
+  {
+    "id": "STM-004",
+    "entities": [
+      {"text": "River Lane", "label": "LOC"},
+      {"text": "six", "label": "DATE"}
+    ]
+  },
+  {
+    "id": "STM-005",
+    "entities": [
+      {"text": "station", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "STM-006",
+    "entities": [
+      {"text": "warehouse", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "STM-007",
+    "entities": []
+  },
+  {
+    "id": "STM-008",
+    "entities": [
+      {"text": "Thursday", "label": "DATE"},
+      {"text": "docks", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "STM-009",
+    "entities": [
+      {"text": "Reeves", "label": "PERSON"},
+      {"text": "Margaret Hayes", "label": "PERSON"},
+      {"text": "Whitfield", "label": "PERSON"},
+      {"text": "Marsh", "label": "PERSON"},
+      {"text": "docks", "label": "LOC"},
+      {"text": "warehouse", "label": "LOC"},
+      {"text": "pier seven", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "STM-010",
+    "entities": []
+  }
+]

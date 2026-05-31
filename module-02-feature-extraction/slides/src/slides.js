@@ -3,14 +3,14 @@ export const slides = [
     type: 'title',
     content: {
       title: 'Python NLP',
-      subtitle: 'Inkwell Investigations — Nicholas Johnson',
+      subtitle: 'Inkwell Investigations - Nicholas Johnson',
       icon: 'search',
     },
   },
   {
     type: 'title',
     content: {
-      title: 'Module 2 — Feature Extraction',
+      title: 'Module 2 - Feature Extraction',
       subtitle: 'Bag-of-Words, n-grams, and TF-IDF',
       icon: 'hash',
     },
@@ -20,7 +20,7 @@ export const slides = [
     content: {
       title: 'Dusting for prints',
       points: [
-        'The case files are **legible** now — Module 1 cleaned and tokenised them.',
+        'The case files are **legible** now - Module 1 cleaned and tokenised them.',
         'Next step: turn text into **numerical signatures** the system can compare.',
         'Bag-of-Words counts words. **TF-IDF** weights what is distinctive.',
         'These classical techniques power search, clustering, and classification.',
@@ -57,11 +57,11 @@ export const slides = [
       title: 'Document-term matrix',
       icon: 'hash',
       points: [
-        'Ignore grammar, ignore order — **just count**.',
+        'Ignore grammar, ignore order - **just count**.',
         'Each document becomes a vector of word frequencies.',
-        'All documents share one **vocabulary** — the union of all unique terms.',
+        'All documents share one **vocabulary** - the union of all unique terms.',
         'Matrices are **sparse**: most entries are zero.',
-        'Makes text comparable with basic maths — dot products, cosine similarity.',
+        'Makes text comparable with basic maths - dot products, cosine similarity.',
       ],
     },
   },
@@ -90,9 +90,9 @@ print(vectorizer.get_feature_names_out())    # ['busy' 'dock' 'empty' ...]`,
   {
     type: 'title',
     content: {
-      title: 'Demo — BoW matrix and top terms',
+      title: 'Demo - BoW matrix and top terms',
       subtitle:
-        'python module-02-feature-extraction/demo/demo.py — options 2 & 3',
+        'python module-02-feature-extraction/demo/demo.py - options 2 & 3',
       icon: 'terminal',
     },
   },
@@ -112,9 +112,9 @@ print(vectorizer.get_feature_names_out())    # ['busy' 'dock' 'empty' ...]`,
       title: 'Unigrams, bigrams, trigrams',
       icon: 'layers',
       points: [
-        '**Unigram** — single words: `dock`, `warehouse`.',
-        '**Bigram** — word pairs: `near dock`, `dock workers`.',
-        '**Trigram** — three words: `near the dock`.',
+        '**Unigram** - single words: `dock`, `warehouse`.',
+        '**Bigram** - word pairs: `near dock`, `dock workers`.',
+        '**Trigram** - three words: `near the dock`.',
         '`ngram_range=(1, 2)` includes unigrams **and** bigrams.',
         'Higher n captures context but **explodes vocabulary size**.',
       ],
@@ -140,9 +140,9 @@ print(len(vectorizer.get_feature_names_out()))
   {
     type: 'title',
     content: {
-      title: 'Demo — N-gram vocabulary sizes',
+      title: 'Demo - N-gram vocabulary sizes',
       subtitle:
-        'python module-02-feature-extraction/demo/demo.py — option 5',
+        'python module-02-feature-extraction/demo/demo.py - option 5',
       icon: 'terminal',
     },
   },
@@ -162,8 +162,8 @@ print(len(vectorizer.get_feature_names_out()))
       title: 'Term frequency x inverse document frequency',
       icon: 'scale',
       points: [
-        '**TF** — how often a term appears in *this* document.',
-        '**IDF** — penalises terms that appear in *many* documents.',
+        '**TF** - how often a term appears in *this* document.',
+        '**IDF** - penalises terms that appear in *many* documents.',
         'Common words (`said`, `the`) get low scores everywhere.',
         'Distinctive words (`warehouse`, `reeves`) score high in the right document.',
         'Better than raw counts for finding what makes each document unique.',
@@ -202,16 +202,16 @@ sims = cosine_similarity(matrix)
 score = sims[0][1]  # how similar are witnesses 0 and 1?`,
       highlights: [
         'Find witness statements telling similar stories',
-        'Skip the diagonal — a doc compared to itself is always 1.0',
+        'Skip the diagonal - a doc compared to itself is always 1.0',
       ],
     },
   },
   {
     type: 'title',
     content: {
-      title: 'Demo — TF-IDF and similarity',
+      title: 'Demo - TF-IDF and similarity',
       subtitle:
-        'python module-02-feature-extraction/demo/demo.py — options 4 & 6',
+        'python module-02-feature-extraction/demo/demo.py - options 4 & 6',
       icon: 'terminal',
     },
   },
@@ -231,11 +231,11 @@ score = sims[0][1]  # how similar are witnesses 0 and 1?`,
       title: 'Key parameters',
       icon: 'sliders',
       points: [
-        '`min_df=2` — ignore terms appearing in fewer than 2 documents.',
-        '`max_df=0.9` — ignore terms in more than 90% of documents.',
-        '`max_features=5000` — cap vocabulary at the top N terms.',
-        '`ngram_range` — control phrase capture vs vocabulary explosion.',
-        '**Fit on training data only** — transform test data with the same vocabulary.',
+        '`min_df=2` - ignore terms appearing in fewer than 2 documents.',
+        '`max_df=0.9` - ignore terms in more than 90% of documents.',
+        '`max_features=5000` - cap vocabulary at the top N terms.',
+        '`ngram_range` - control phrase capture vs vocabulary explosion.',
+        '**Fit on training data only** - transform test data with the same vocabulary.',
       ],
     },
   },
@@ -252,7 +252,7 @@ score = sims[0][1]  # how similar are witnesses 0 and 1?`,
   {
     type: 'rules',
     content: {
-      title: 'Field rules — Module 2',
+      title: 'Field rules - Module 2',
       rules: [
         {
           rule: 'Fit on training data only',
@@ -261,7 +261,7 @@ score = sims[0][1]  # how similar are witnesses 0 and 1?`,
         },
         {
           rule: 'Sparse matrices are normal',
-          example: 'Do not call .toarray() on large corpora — stay sparse.',
+          example: 'Do not call .toarray() on large corpora - stay sparse.',
           icon: 'database',
         },
         {
@@ -281,7 +281,7 @@ score = sims[0][1]  # how similar are witnesses 0 and 1?`,
         'Install: **`pip install -e ".[nlp,dev]"`** (includes scikit-learn).',
         'Run interactively: **`python start.py CASE-42`**.',
         'Run tests from the exercise folder: **`pytest test_start.py -v`**.',
-        'Solutions in **`solution.py`** — try the exercise first!',
+        'Solutions in **`solution.py`** - try the exercise first!',
       ],
     },
   },
@@ -290,16 +290,17 @@ score = sims[0][1]  # how similar are witnesses 0 and 1?`,
     content: {
       title: 'Exercises',
       points: [
-        '01 — Document Fingerprints: BoW fingerprint card for every witness statement in a case',
-        '02 — Matching Prints: TF-IDF cosine similarity to find the most similar witness pair',
+        '01 - Document Fingerprints: BoW fingerprint card for every witness statement in a case',
+        '02 - Matching Prints: TF-IDF cosine similarity to find the most similar witness pair',
+        '03 - Article Matcher: 20 Newsgroups - validate TF-IDF similarity against real categories',
       ],
     },
   },
   {
     type: 'title',
     content: {
-      title: 'Module 2 — Complete',
-      subtitle: 'Next: Text Classification — sorting the evidence',
+      title: 'Module 2 - Complete',
+      subtitle: 'Next: Text Classification - sorting the evidence',
       icon: 'check-circle',
     },
   },

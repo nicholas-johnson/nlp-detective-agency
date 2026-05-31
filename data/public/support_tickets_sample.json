@@ -1,0 +1,244 @@
+[
+  {
+    "id": "TKT-001",
+    "text": "Hi, my order ORD-2024-991 never arrived. Please check ticket TKT-8842 for updates. Ref REF-77A.",
+    "refs": [
+      { "text": "ORD-2024-991", "label": "ORDER" },
+      { "text": "TKT-8842", "label": "TICKET" },
+      { "text": "REF-77A", "label": "REF" }
+    ]
+  },
+  {
+    "id": "TKT-002",
+    "text": "Following up on TKT-9011 - the replacement part for ORD-2024-812 is still missing.",
+    "refs": [
+      { "text": "TKT-9011", "label": "TICKET" },
+      { "text": "ORD-2024-812", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-003",
+    "text": "Can someone escalate REF-12C? Related to open case TKT-7730.",
+    "refs": [
+      { "text": "REF-12C", "label": "REF" },
+      { "text": "TKT-7730", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-004",
+    "text": "Order ORD-2025-004 was charged twice. Ticket TKT-5501 created yesterday.",
+    "refs": [
+      { "text": "ORD-2025-004", "label": "ORDER" },
+      { "text": "TKT-5501", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-005",
+    "text": "Please link TKT-6620 to REF-88B for the warranty claim on ORD-2023-441.",
+    "refs": [
+      { "text": "TKT-6620", "label": "TICKET" },
+      { "text": "REF-88B", "label": "REF" },
+      { "text": "ORD-2023-441", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-006",
+    "text": "Status update requested for TKT-9900 - no reply in 48 hours.",
+    "refs": [{ "text": "TKT-9900", "label": "TICKET" }]
+  },
+  {
+    "id": "TKT-007",
+    "text": "Wrong item shipped for ORD-2024-700. Opened TKT-4412 and REF-03D.",
+    "refs": [
+      { "text": "ORD-2024-700", "label": "ORDER" },
+      { "text": "TKT-4412", "label": "TICKET" },
+      { "text": "REF-03D", "label": "REF" }
+    ]
+  },
+  {
+    "id": "TKT-008",
+    "text": "Refund pending on ORD-2024-559 per TKT-3308 resolution.",
+    "refs": [
+      { "text": "ORD-2024-559", "label": "ORDER" },
+      { "text": "TKT-3308", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-009",
+    "text": "Customer reference REF-91F points to duplicate order ORD-2025-118.",
+    "refs": [
+      { "text": "REF-91F", "label": "REF" },
+      { "text": "ORD-2025-118", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-010",
+    "text": "Escalation: TKT-2200 blocked waiting on warehouse for ORD-2024-333.",
+    "refs": [
+      { "text": "TKT-2200", "label": "TICKET" },
+      { "text": "ORD-2024-333", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-011",
+    "text": "Please close TKT-1155 - issue resolved under REF-44A.",
+    "refs": [
+      { "text": "TKT-1155", "label": "TICKET" },
+      { "text": "REF-44A", "label": "REF" }
+    ]
+  },
+  {
+    "id": "TKT-012",
+    "text": "New ticket TKT-8001 for damaged goods from ORD-2025-002.",
+    "refs": [
+      { "text": "TKT-8001", "label": "TICKET" },
+      { "text": "ORD-2025-002", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-013",
+    "text": "Merge REF-55G with existing TKT-6677 before shipping ORD-2024-901.",
+    "refs": [
+      { "text": "REF-55G", "label": "REF" },
+      { "text": "TKT-6677", "label": "TICKET" },
+      { "text": "ORD-2024-901", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-014",
+    "text": "Tracking shows ORD-2025-045 delivered but customer denies receipt. TKT-9123.",
+    "refs": [
+      { "text": "ORD-2025-045", "label": "ORDER" },
+      { "text": "TKT-9123", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-015",
+    "text": "Internal note: REF-22H supersedes TKT-4040 for the same ORD-2023-990.",
+    "refs": [
+      { "text": "REF-22H", "label": "REF" },
+      { "text": "TKT-4040", "label": "TICKET" },
+      { "text": "ORD-2023-990", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-016",
+    "text": "Priority callback on TKT-7788 regarding cancelled ORD-2024-622.",
+    "refs": [
+      { "text": "TKT-7788", "label": "TICKET" },
+      { "text": "ORD-2024-622", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-017",
+    "text": "Agent assigned REF-66J to investigate ORD-2025-077 delay.",
+    "refs": [
+      { "text": "REF-66J", "label": "REF" },
+      { "text": "ORD-2025-077", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-018",
+    "text": "Customer uploaded photos to TKT-5519 for ORD-2024-488 return.",
+    "refs": [
+      { "text": "TKT-5519", "label": "TICKET" },
+      { "text": "ORD-2024-488", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-019",
+    "text": "Billing dispute REF-19K tied to TKT-3033 and order ORD-2023-755.",
+    "refs": [
+      { "text": "REF-19K", "label": "REF" },
+      { "text": "TKT-3033", "label": "TICKET" },
+      { "text": "ORD-2023-755", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-020",
+    "text": "SLA breach on TKT-8842 - please respond today.",
+    "refs": [{ "text": "TKT-8842", "label": "TICKET" }]
+  },
+  {
+    "id": "TKT-021",
+    "text": "Reorder requested after ORD-2025-031 failed quality check. New TKT-9901.",
+    "refs": [
+      { "text": "ORD-2025-031", "label": "ORDER" },
+      { "text": "TKT-9901", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-022",
+    "text": "Cross-reference REF-70L with partner ticket TKT-1200.",
+    "refs": [
+      { "text": "REF-70L", "label": "REF" },
+      { "text": "TKT-1200", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-023",
+    "text": "Partial shipment for ORD-2024-850 - follow up via TKT-4455.",
+    "refs": [
+      { "text": "ORD-2024-850", "label": "ORDER" },
+      { "text": "TKT-4455", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-024",
+    "text": "VIP customer: handle REF-99M and TKT-6000 before noon.",
+    "refs": [
+      { "text": "REF-99M", "label": "REF" },
+      { "text": "TKT-6000", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-025",
+    "text": "System auto-created TKT-7111 for failed payment on ORD-2025-099.",
+    "refs": [
+      { "text": "TKT-7111", "label": "TICKET" },
+      { "text": "ORD-2025-099", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-026",
+    "text": "Warehouse confirmed pick for ORD-2024-410 under REF-08N.",
+    "refs": [
+      { "text": "ORD-2024-410", "label": "ORDER" },
+      { "text": "REF-08N", "label": "REF" }
+    ]
+  },
+  {
+    "id": "TKT-027",
+    "text": "Please reopen TKT-3322 - customer says ORD-2023-600 never refunded.",
+    "refs": [
+      { "text": "TKT-3322", "label": "TICKET" },
+      { "text": "ORD-2023-600", "label": "ORDER" }
+    ]
+  },
+  {
+    "id": "TKT-028",
+    "text": "Duplicate tickets TKT-8800 and TKT-8801 for same REF-41P.",
+    "refs": [
+      { "text": "TKT-8800", "label": "TICKET" },
+      { "text": "TKT-8801", "label": "TICKET" },
+      { "text": "REF-41P", "label": "REF" }
+    ]
+  },
+  {
+    "id": "TKT-029",
+    "text": "Courier lost package from ORD-2025-012. Case TKT-5050 opened.",
+    "refs": [
+      { "text": "ORD-2025-012", "label": "ORDER" },
+      { "text": "TKT-5050", "label": "TICKET" }
+    ]
+  },
+  {
+    "id": "TKT-030",
+    "text": "Final notice: resolve REF-33Q linked to TKT-9999 and ORD-2024-777.",
+    "refs": [
+      { "text": "REF-33Q", "label": "REF" },
+      { "text": "TKT-9999", "label": "TICKET" },
+      { "text": "ORD-2024-777", "label": "ORDER" }
+    ]
+  }
+]

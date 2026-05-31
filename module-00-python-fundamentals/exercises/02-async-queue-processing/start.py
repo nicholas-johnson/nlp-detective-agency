@@ -1,5 +1,5 @@
 """
-Exercise 02 — Async Sensor Relay
+Exercise 02 - Async Sensor Relay
 Build an async producer/consumer pipeline with timeouts.
 """
 

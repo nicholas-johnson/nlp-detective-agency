@@ -47,13 +47,13 @@ def print_roster(members: list[dict]) -> None:
     print(f"\n{'Name':<30} {'Role':<20} {'Clearance':<10} {'Mission'}")
     print("-" * 80)
     for m in members:
-        mission = m["activeMission"] or "—"
+        mission = m["activeMission"] or "-"
         print(f"{m['name']:<30} {m['role']:<20} {m['clearanceLevel']:<10} {mission}")
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="DSS Pathfinder — crew manifest query tool",
+        description="DSS Pathfinder - crew manifest query tool",
     )
     parser.add_argument("--department", "-d", help="Filter by department")
     parser.add_argument(

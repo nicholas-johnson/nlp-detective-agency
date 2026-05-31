@@ -1,5 +1,5 @@
 """
-Exercise 02 — Streaming Chat
+Exercise 02 - Streaming Chat
 Upgrade the chat to stream responses token by token.
 
 The basic chat function and input loop are provided (from Exercise 01's solution).
@@ -13,17 +13,17 @@ MODEL = "gpt-4o-mini"
 
 
 # ---------------------------------------------------------------------------
-# Basic chat (from Exercise 01 — already implemented)
+# Basic chat (from Exercise 01 - already implemented)
 # ---------------------------------------------------------------------------
 
 def chat(client, messages: list[dict]) -> str:
-    """Non-streaming chat — kept for reference."""
+    """Non-streaming chat - kept for reference."""
     response = client.chat.completions.create(model=MODEL, messages=messages)
     return response.choices[0].message.content
 
 
 # ---------------------------------------------------------------------------
-# Streaming — YOUR CODE HERE
+# Streaming - YOUR CODE HERE
 # ---------------------------------------------------------------------------
 
 def stream_response(client, messages: list[dict]) -> str:
@@ -33,7 +33,7 @@ def stream_response(client, messages: list[dict]) -> str:
     1. Call client.chat.completions.create(model=MODEL, messages=messages, stream=True).
     2. Iterate over the response chunks.
     3. For each chunk, extract the token from chunk.choices[0].delta.content.
-       (It may be None for the first/last chunks — skip those.)
+       (It may be None for the first/last chunks - skip those.)
     4. Print each token immediately (sys.stdout.write + flush, no newline).
     5. Collect all tokens into a list.
     6. After the loop, print a newline.

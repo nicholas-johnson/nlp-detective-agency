@@ -1,5 +1,5 @@
 """
-Exercise 02 — Streaming Chat (solution)
+Exercise 02 - Streaming Chat (solution)
 """
 
 import sys

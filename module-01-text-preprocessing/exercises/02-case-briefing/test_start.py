@@ -1,4 +1,4 @@
-"""Tests for Exercise 02 — Case Briefing."""
+"""Tests for Exercise 02 - Case Briefing."""
 
 import json
 from pathlib import Path

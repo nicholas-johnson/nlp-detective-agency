@@ -1,8 +1,8 @@
-# Exercise 01 — Statement Audit
+# Exercise 01 - Statement Audit
 
 The chief wants a quality report on every witness statement before analysis begins. Your job: load the Inkwell archive, clean and tokenise each statement, and flag anything that looks too long or too complex for a quick read-through.
 
-This exercise focuses on **loading**, **cleaning**, **tokenising**, and **auditing** — not stopwords or lemmatisation (that comes in Exercise 02).
+This exercise focuses on **loading**, **cleaning**, **tokenising**, and **auditing** - not stopwords or lemmatisation (that comes in Exercise 02).
 
 ## Before you start
 
@@ -13,7 +13,7 @@ pip install -e ".[nlp,dev]"
 python -c "import nltk; nltk.download('punkt_tab'); nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4')"
 ```
 
-Open `start.py` in this folder. Each function has a `# TODO` — implement them in order.
+Open `start.py` in this folder. Each function has a `# TODO` - implement them in order.
 
 ## The data
 
@@ -36,7 +36,7 @@ The text is deliberately messy: ALL CAPS, extra spaces, `[REDACTED]` blocks, and
 When your functions are complete, running `start.py` prints an audit table like:
 
 ```
-Inkwell Investigations — Statement Audit
+Inkwell Investigations - Statement Audit
 ========================================================================
 ID         Witness                Sents Words  Review
 ------------------------------------------------------------------------
@@ -47,7 +47,7 @@ STM-009    Frank Holloway            17   131  YES
 10 statements audited, 2 flagged for review.
 ```
 
-The `main()` function is already written — you only implement the helper functions it calls.
+The `main()` function is already written - you only implement the helper functions it calls.
 
 ## Functions to implement
 
@@ -104,11 +104,11 @@ Given one statement dict, return an audit record:
     "witness": statement["witness"],
     "sentence_count": ...,   # len of tokenize_sentences(statement["raw_text"])
     "word_count": ...,       # count of alphabetic tokens only
-    "needs_review": ...,     # True or False — see rules below
+    "needs_review": ...,     # True or False - see rules below
 }
 ```
 
-**Review rules** — flag a statement when **either**:
+**Review rules** - flag a statement when **either**:
 
 - `sentence_count > 4` (strictly greater than four), or
 - `word_count > 120` (strictly greater than 120)
@@ -194,7 +194,7 @@ Always pass text through `normalize_text` before `sent_tokenize` or `word_tokeni
 <details>
 <summary>Hint: regex flags</summary>
 
-Use `flags=re.IGNORECASE` on the `[redacted]` pattern so `[REDACTED]`, `[redacted]`, and `[Redacted]` all match. The `case-\d+` pattern should also be case-insensitive since you lowercased first — but applying `IGNORECASE` does not hurt.
+Use `flags=re.IGNORECASE` on the `[redacted]` pattern so `[REDACTED]`, `[redacted]`, and `[Redacted]` all match. The `case-\d+` pattern should also be case-insensitive since you lowercased first - but applying `IGNORECASE` does not hurt.
 
 </details>
 
@@ -207,7 +207,7 @@ NLTK needs the `punkt_tab` data package. If you see a `LookupError`, run:
 python -c "import nltk; nltk.download('punkt_tab')"
 ```
 
-Single-letter "sentences" like `"A. B. C. D."` are **not** split into four sentences — that is expected NLTK behaviour. Real witness prose works fine.
+Single-letter "sentences" like `"A. B. C. D."` are **not** split into four sentences - that is expected NLTK behaviour. Real witness prose works fine.
 
 </details>
 
@@ -222,4 +222,4 @@ Single-letter "sentences" like `"A. B. C. D."` are **not** split into four sente
 - [ ] `needs_review` is `True` only when sentence count > 4 **or** word count > 120
 - [ ] `audit_archive` returns all audits sorted by `id`
 - [ ] `python start.py` prints the audit table
-- [ ] `pytest test_start.py -v` — 12 passed
+- [ ] `pytest test_start.py -v` - 12 passed

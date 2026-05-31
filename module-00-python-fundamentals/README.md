@@ -1,6 +1,6 @@
-# Module 0 — Python Fundamentals
+# Module 0 - Python Fundamentals
 
-> The DSS Pathfinder runs Python from bridge to engine room. Before we build a single agent, every subsystem — crew manifests, sensor telemetry, mission briefings — needs a solid foundation. This module is your systems check: data structures for wrangling ship records, modules and CLI tools for automation, dataclasses and Protocols for clean architecture, async for concurrent I/O, and a FastAPI service so the rest of the fleet can query mission data over HTTP.
+> The DSS Pathfinder runs Python from bridge to engine room. Before we build a single agent, every subsystem - crew manifests, sensor telemetry, mission briefings - needs a solid foundation. This module is your systems check: data structures for wrangling ship records, modules and CLI tools for automation, dataclasses and Protocols for clean architecture, async for concurrent I/O, and a FastAPI service so the rest of the fleet can query mission data over HTTP.
 
 ## Learning goals
 
@@ -12,9 +12,9 @@
 
 ---
 
-## Data structures — the cargo hold
+## Data structures - the cargo hold
 
-Every piece of data on the Pathfinder — crew records, sensor readings, mission objectives — lives in one of four core structures. Pick the right one and your code stays fast and readable.
+Every piece of data on the Pathfinder - crew records, sensor readings, mission objectives - lives in one of four core structures. Pick the right one and your code stays fast and readable.
 
 **Lists** are ordered, mutable sequences. They are the default when you need to iterate, filter, or accumulate. Crew rosters, sensor reading buffers, and log entries are all natural lists.
 
@@ -53,7 +53,7 @@ shared = science_specs & eng_specs       # intersection
 science_only = science_specs - eng_specs  # difference
 ```
 
-**Tuples** are immutable sequences — good for fixed records and function return values. Because they cannot be changed after creation, they are safe to use as dict keys.
+**Tuples** are immutable sequences - good for fixed records and function return values. Because they cannot be changed after creation, they are safe to use as dict keys.
 
 ```python
 mission_summaries = [
@@ -70,9 +70,9 @@ for mid, name, status, risk in mission_summaries:
 
 ## Modules, CLI args, and logging
 
-Real ship tools are not Jupyter notebooks — they are command-line programs that log what they do. Python gives you `argparse` for CLI arguments and `logging` for structured output.
+Real ship tools are not Jupyter notebooks - they are command-line programs that log what they do. Python gives you `argparse` for CLI arguments and `logging` for structured output.
 
-**Modules and `__main__`** — every `.py` file is a module. The `if __name__ == "__main__":` guard lets a file work both as an importable library and as a standalone script.
+**Modules and `__main__`** - every `.py` file is a module. The `if __name__ == "__main__":` guard lets a file work both as an importable library and as a standalone script.
 
 ```python
 import argparse
@@ -94,7 +94,7 @@ args = parser.parse_args()
 
 ---
 
-## Dataclasses — structured ship records
+## Dataclasses - structured ship records
 
 Plain dicts are fine for throwaway data. Anything that lives longer than a few lines deserves a `@dataclass`. You get `__init__`, `__repr__`, and `__eq__` for free, plus type hints that document the shape.
 
@@ -117,16 +117,17 @@ class CrewMember:
 ```
 
 Key details:
+
 - `field(default_factory=list)` prevents the mutable-default trap (all instances sharing one list).
-- `str | None` is Python 3.10+ union syntax — cleaner than `Optional[str]`.
+- `str | None` is Python 3.10+ union syntax - cleaner than `Optional[str]`.
 - Properties like `is_available` give you derived state without extra storage.
-- Prefer returning new instances over mutating existing ones (immutable style) — this makes debugging agent state much easier later.
+- Prefer returning new instances over mutating existing ones (immutable style) - this makes debugging agent state much easier later.
 
 ---
 
-## Protocol — contracts without inheritance
+## Protocol - contracts without inheritance
 
-The Pathfinder's agent components — tools, memory backends, formatters — need to agree on interfaces without forcing a shared base class. `typing.Protocol` defines a structural (duck-typed) contract: any object with matching methods satisfies it.
+The Pathfinder's agent components - tools, memory backends, formatters - need to agree on interfaces without forcing a shared base class. `typing.Protocol` defines a structural (duck-typed) contract: any object with matching methods satisfies it.
 
 ```python
 from typing import Protocol
@@ -139,13 +140,13 @@ def print_briefings(items: list[Briefable]):
         print(item.briefing())
 ```
 
-`Mission` and `ShipSystem` can both implement `briefing()` independently — no inheritance chain, no import dependency. This keeps agent code loosely coupled and testable. You will use this pattern heavily when building pluggable session backends in Module 1 and tool registries in Module 2.
+`Mission` and `ShipSystem` can both implement `briefing()` independently - no inheritance chain, no import dependency. This keeps agent code loosely coupled and testable. You will use this pattern heavily when building pluggable session backends in Module 1 and tool registries in Module 2.
 
 ---
 
-## Async essentials — why it matters for agents
+## Async essentials - why it matters for agents
 
-AI agents spend most of their time waiting — on LLM API responses, tool server calls, database queries. Synchronous code blocks the entire thread on each wait. `async`/`await` lets one thread handle many concurrent waits, which is exactly what an agent orchestrator needs.
+AI agents spend most of their time waiting - on LLM API responses, tool server calls, database queries. Synchronous code blocks the entire thread on each wait. `async`/`await` lets one thread handle many concurrent waits, which is exactly what an agent orchestrator needs.
 
 **Key primitives:**
 
@@ -160,7 +161,7 @@ results = await asyncio.gather(
 )
 ```
 
-**Producer/consumer with Queue** — the pattern you will use for streaming sensor data:
+**Producer/consumer with Queue** - the pattern you will use for streaming sensor data:
 
 ```python
 async def producer(queue: asyncio.Queue):
@@ -193,7 +194,7 @@ task.cancel()  # CancelledError propagates for cleanup
 
 ---
 
-## HTTP basics — FastAPI + httpx
+## HTTP basics - FastAPI + httpx
 
 The Pathfinder exposes mission data over HTTP so other ships and stations can query it. **FastAPI** is modern, async-native, and generates OpenAPI docs automatically. **httpx** is the async-capable HTTP client you use to test it.
 
@@ -224,7 +225,7 @@ async with httpx.AsyncClient(transport=transport, base_url="http://test") as cli
 ## Field rules
 
 - **Use dataclasses for domain objects.** Dicts are fine for JSON; dataclasses are better for code.
-- **Async for I/O, sync for computation.** Agent loops are mostly I/O — async is the default.
+- **Async for I/O, sync for computation.** Agent loops are mostly I/O - async is the default.
 - **Log, do not print.** `logging.info` > `print()` in anything beyond a throwaway demo.
 
 ---
@@ -241,11 +242,11 @@ python module-00-python-fundamentals/demo/05_http_basics.py
 
 ## Exercises
 
-| Folder | Mission |
-| ------ | ------- |
-| [`exercises/01-dataclass-filtering`](exercises/01-dataclass-filtering/) | Parse, filter, and transform crew JSON with dataclasses and CLI args. |
-| [`exercises/02-async-queue-processing`](exercises/02-async-queue-processing/) | Async queue processing of ship sensor data with timeouts. |
-| [`exercises/03-fastapi-crud`](exercises/03-fastapi-crud/) | FastAPI CRUD for missions with httpx test client. |
+| Folder                                                                        | Mission                                                               |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [`exercises/01-dataclass-filtering`](exercises/01-dataclass-filtering/)       | Parse, filter, and transform crew JSON with dataclasses and CLI args. |
+| [`exercises/02-async-queue-processing`](exercises/02-async-queue-processing/) | Async queue processing of ship sensor data with timeouts.             |
+| [`exercises/03-fastapi-crud`](exercises/03-fastapi-crud/)                     | FastAPI CRUD for missions with httpx test client.                     |
 
 Run tests for this module:
 

@@ -1,4 +1,4 @@
-"""Tests for Exercise 03 — Mission API."""
+"""Tests for Exercise 03 - Mission API."""
 
 import pytest
 import httpx

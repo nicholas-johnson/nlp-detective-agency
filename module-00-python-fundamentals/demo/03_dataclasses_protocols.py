@@ -1,5 +1,5 @@
 """
-Demo: Dataclasses and Protocols — OOP vs functional style for agent components.
+Demo: Dataclasses and Protocols - OOP vs functional style for agent components.
 Run:  python module-00-python-fundamentals/demo/03_dataclasses_protocols.py
 """
 
@@ -69,7 +69,7 @@ class ShipSystem:
 
 
 def print_briefings(items: list[Briefable]) -> None:
-    """Works with any object that has a .briefing() method — no inheritance needed."""
+    """Works with any object that has a .briefing() method - no inheritance needed."""
     print("\n--- Status briefings ---")
     for item in items:
         print(f"  {item.briefing()}")

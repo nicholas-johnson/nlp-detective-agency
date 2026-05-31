@@ -1,5 +1,5 @@
 """
-Exercise 01 — First Chat (solution)
+Exercise 01 - First Chat (solution)
 """
 
 SYSTEM_PROMPT = "You are the DSS Pathfinder ship AI. Be helpful and concise."

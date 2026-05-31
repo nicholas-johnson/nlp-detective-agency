@@ -1,4 +1,4 @@
-"""Tests for Exercise 01 — Sentiment Triage."""
+"""Tests for Exercise 01 - Sentiment Triage."""
 
 from pathlib import Path
 

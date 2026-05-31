@@ -1,5 +1,5 @@
 """
-Exercise 01 — Sentiment Triage
+Exercise 01 - Sentiment Triage
 Flag whether witness statements read calm or hostile before interview.
 """
 
@@ -58,7 +58,7 @@ def main() -> None:
     records = load_sentiment_data(DATA_PATH)
     report = triage_report(records)
 
-    print("Inkwell Investigations — Sentiment Triage")
+    print("Inkwell Investigations - Sentiment Triage")
     print("=" * 44)
     print(f"Accuracy: {report['accuracy']:.3f}")
     print(f"F1 (hostile): {report['f1']:.3f}")

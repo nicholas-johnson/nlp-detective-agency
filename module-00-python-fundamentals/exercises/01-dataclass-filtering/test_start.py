@@ -1,4 +1,4 @@
-"""Tests for Exercise 01 — Crew Manifest."""
+"""Tests for Exercise 01 - Crew Manifest."""
 
 from pathlib import Path
 

@@ -1,8 +1,8 @@
-# Exercise 02 — Hoax Filter
+# Exercise 02 - Hoax Filter
 
-The tip line is flooded with hoaxes. Credible tips mention specifics — times, places, names. Hoaxes are vague, sensational, or contradictory.
+The tip line is flooded with hoaxes. Credible tips mention specifics - times, places, names. Hoaxes are vague, sensational, or contradictory.
 
-The demo runs an interactive classifier shootout. This exercise **automates** the comparison, trains the best model, and lists **false negatives** — hoaxes that slip through as credible.
+The demo runs an interactive classifier shootout. This exercise **automates** the comparison, trains the best model, and lists **false negatives** - hoaxes that slip through as credible.
 
 ## Before you start
 
@@ -10,19 +10,19 @@ The demo runs an interactive classifier shootout. This exercise **automates** th
 pip install -e ".[nlp,dev]"
 ```
 
-Open `start.py`. Each function has a `# TODO` — implement them in order.
+Open `start.py`. Each function has a `# TODO` - implement them in order.
 
 ## The data
 
 Anonymous tip-offs live in `data/inkwell/tips.json`. Each record has:
 
-| Field   | Description                |
-| ------- | -------------------------- |
-| `id`    | Tip ID (e.g. `TIP-001`)    |
-| `text`  | Tip letter text            |
-| `label` | `credible` or `hoax`       |
+| Field   | Description             |
+| ------- | ----------------------- |
+| `id`    | Tip ID (e.g. `TIP-001`) |
+| `text`  | Tip letter text         |
+| `label` | `credible` or `hoax`    |
 
-There are **18 tips** — 10 credible, 8 hoax — with slight class imbalance to motivate precision/recall discussion.
+There are **18 tips** - 10 credible, 8 hoax - with slight class imbalance to motivate precision/recall discussion.
 
 ## What you'll build
 
@@ -33,7 +33,7 @@ python start.py
 prints a classifier shootout table, confusion matrix, and slipped-through hoax IDs:
 
 ```
-Inkwell Investigations — Hoax Filter Report
+Inkwell Investigations - Hoax Filter Report
 ============================================
 
 Classifier            F1 mean   F1 std
@@ -168,7 +168,7 @@ pytest test_start.py -v
 <details>
 <summary>Hint: cross_val_score and F1</summary>
 
-With string labels, `scoring="f1"` fails — use `make_scorer(f1_score, pos_label="hoax")` so cross-validation measures hoax recall/precision. All three classifiers are compared on the same metric.
+With string labels, `scoring="f1"` fails - use `make_scorer(f1_score, pos_label="hoax")` so cross-validation measures hoax recall/precision. All three classifiers are compared on the same metric.
 
 </details>
 
@@ -182,7 +182,7 @@ For wide sparse TF-IDF matrices (many features, few documents), `dual="auto"` le
 <details>
 <summary>Hint: false negatives vs false positives</summary>
 
-For a **hoax filter**, false negatives are dangerous — a hoax marked credible wastes detective time. False positives (credible marked hoax) discard good leads. Tune thresholds based on which error costs more.
+For a **hoax filter**, false negatives are dangerous - a hoax marked credible wastes detective time. False positives (credible marked hoax) discard good leads. Tune thresholds based on which error costs more.
 
 </details>
 
@@ -220,4 +220,4 @@ TF-IDF features can make convergence slow. `max_iter=1000` avoids warnings on sm
 - [ ] `false_negatives` returns only hoax tips predicted as credible
 - [ ] `hoax_report` combines comparison, best model, matrix, and slipped IDs
 - [ ] `python start.py` prints shootout table and slipped hoaxes
-- [ ] `pytest test_start.py -v` — all passed
+- [ ] `pytest test_start.py -v` - all passed

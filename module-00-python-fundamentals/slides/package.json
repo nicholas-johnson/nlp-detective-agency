@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Slides: Module 0 — Python Fundamentals",
+  "description": "Slides: Module 0 - Python Fundamentals",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

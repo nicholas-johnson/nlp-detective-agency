@@ -1,5 +1,5 @@
 """
-Exercise 03 — Prompt Engineering
+Exercise 03 - Prompt Engineering
 Write system prompts that make the LLM behave in specific ways.
 
 The run_prompt() helper and the interactive main() are provided.
@@ -15,7 +15,7 @@ MODEL = "gpt-4o-mini"
 
 
 # ---------------------------------------------------------------------------
-# Base prompts — study these before writing your own
+# Base prompts - study these before writing your own
 # ---------------------------------------------------------------------------
 
 BASE_PROMPTS = {
@@ -44,7 +44,7 @@ BASE_PROMPTS = {
 
 
 # ---------------------------------------------------------------------------
-# Helper — handles the API call so you can focus on prompts
+# Helper - handles the API call so you can focus on prompts
 # ---------------------------------------------------------------------------
 
 def run_prompt(client, system_prompt: str, user_message: str) -> str:
@@ -60,14 +60,14 @@ def run_prompt(client, system_prompt: str, user_message: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Challenges — write a system prompt for each one
+# Challenges - write a system prompt for each one
 # ---------------------------------------------------------------------------
 
 def pirate_prompt() -> str:
     """
     Return a system prompt that makes the AI talk like a pirate.
 
-    The response should include pirate-flavoured language — words like
+    The response should include pirate-flavoured language - words like
     "arr", "matey", "ye", "ahoy", "treasure", "seas", etc.
 
     Hint: tell the model WHO it is and HOW it should speak.
@@ -81,7 +81,7 @@ def bullet_prompt() -> str:
     Return a system prompt that forces the AI to answer in bullet points.
 
     Every answer should be a list of bullet points (lines starting with "- ").
-    No introductory sentence, no closing sentence — just bullets.
+    No introductory sentence, no closing sentence - just bullets.
 
     Hint: be explicit about the format and tell the model what NOT to include.
     """
@@ -94,7 +94,7 @@ def json_prompt() -> str:
     Return a system prompt that makes the AI respond with valid JSON.
 
     The response should be a JSON object with at least an "answer" key.
-    No markdown fences, no explanation — just raw JSON.
+    No markdown fences, no explanation - just raw JSON.
 
     Hint: specify the exact schema you want and forbid extras.
     """
@@ -148,7 +148,7 @@ def few_shot_prompt() -> str:
 
 
 # ---------------------------------------------------------------------------
-# Challenge registry — maps names to (prompt_fn, test_message) pairs
+# Challenge registry - maps names to (prompt_fn, test_message) pairs
 # ---------------------------------------------------------------------------
 
 CHALLENGES = {
@@ -201,7 +201,7 @@ def main() -> None:
                 prompt_fn, example_msg = CHALLENGES[choice]
                 prompt = prompt_fn()
                 if prompt is None:
-                    print(f"  '{choice}' not implemented yet — write it in start.py!\n")
+                    print(f"  '{choice}' not implemented yet - write it in start.py!\n")
                     continue
                 current_prompt = prompt
                 current_name = choice

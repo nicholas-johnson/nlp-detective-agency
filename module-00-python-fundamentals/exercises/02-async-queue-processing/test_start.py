@@ -1,4 +1,4 @@
-"""Tests for Exercise 02 — Async Sensor Relay."""
+"""Tests for Exercise 02 - Async Sensor Relay."""
 
 import asyncio
 

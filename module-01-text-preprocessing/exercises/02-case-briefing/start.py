@@ -1,5 +1,5 @@
 """
-Exercise 02 — Case Briefing
+Exercise 02 - Case Briefing
 Detectives working a case need a word-frequency briefing from witness statements.
 """
 
@@ -75,7 +75,7 @@ def main() -> None:
     statements = json.loads(DATA_PATH.read_text())
     briefing = case_briefing(statements, case_id)
 
-    print(f"\nInkwell Investigations — Briefing for {case_id}")
+    print(f"\nInkwell Investigations - Briefing for {case_id}")
     print("=" * 40)
     if not briefing:
         print("No statements found for that case.")

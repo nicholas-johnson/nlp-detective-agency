@@ -1,5 +1,5 @@
 """
-Exercise 03 — Mission API (solution)
+Exercise 03 - Mission API (solution)
 """
 
 import json
@@ -12,7 +12,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data"
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="DSS Pathfinder — Mission API")
+    app = FastAPI(title="DSS Pathfinder - Mission API")
 
     @app.on_event("startup")
     async def load_data():

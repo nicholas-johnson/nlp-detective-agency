@@ -1,5 +1,5 @@
 """
-Inkwell Investigations — Triage Desk (demo)
+Inkwell Investigations - Triage Desk (demo)
 Run:  python module-03-text-classification/demo/demo.py
 """
 
@@ -69,7 +69,7 @@ def train_test(records: list[dict], label_key: str) -> tuple:
 def pick_record(records: list[dict], label: str = "record") -> dict | None:
     for i, r in enumerate(records, 1):
         extra = r.get("witness", r.get("id", ""))
-        print(f"  {i}. {r['id']} — {extra}")
+        print(f"  {i}. {r['id']} - {extra}")
     choice = input(f"Pick a {label}: ").strip()
     if not choice.isdigit() or not (1 <= int(choice) <= len(records)):
         print("Invalid choice.")
@@ -78,13 +78,13 @@ def pick_record(records: list[dict], label: str = "record") -> dict | None:
 
 
 def main() -> None:
-    print("Inkwell Investigations — Triage Desk")
+    print("Inkwell Investigations - Triage Desk")
     print("=" * 40)
 
     while True:
         print("\n1. List datasets")
-        print("2. Sentiment — predict one witness statement")
-        print("3. Hoax — predict one tip")
+        print("2. Sentiment - predict one witness statement")
+        print("3. Hoax - predict one tip")
         print("4. Classifier shootout on tips (NB / LR / SVM)")
         print("5. Classification report for hoax detector")
         print("0. Quit")

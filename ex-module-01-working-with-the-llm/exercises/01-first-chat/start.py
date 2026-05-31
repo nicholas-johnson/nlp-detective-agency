@@ -1,5 +1,5 @@
 """
-Exercise 01 — First Chat
+Exercise 01 - First Chat
 Make your first LLM API call, then build an interactive console chat.
 """
 

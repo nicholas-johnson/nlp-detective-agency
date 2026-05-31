@@ -1,5 +1,5 @@
 """
-Exercise 02 — Async Sensor Relay (solution)
+Exercise 02 - Async Sensor Relay (solution)
 """
 
 import asyncio

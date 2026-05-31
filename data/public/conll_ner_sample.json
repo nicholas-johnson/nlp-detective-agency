@@ -1,0 +1,340 @@
+[
+  {
+    "id": "CONLL-001",
+    "text": "Peter Blackburn is a spokesman for the European Parliament .",
+    "entities": [
+      {"text": "Peter Blackburn", "label": "PERSON"},
+      {"text": "European Parliament", "label": "ORG"}
+    ]
+  },
+  {
+    "id": "CONLL-002",
+    "text": "He said a proposal last month by EU Farm Commissioner Franz Fischler was illegal .",
+    "entities": [
+      {"text": "EU", "label": "ORG"},
+      {"text": "Franz Fischler", "label": "PERSON"}
+    ]
+  },
+  {
+    "id": "CONLL-003",
+    "text": "Germany 's representative to the European Union 's veterinary committee Werner Hoyer said .",
+    "entities": [
+      {"text": "Germany", "label": "LOC"},
+      {"text": "European Union", "label": "ORG"},
+      {"text": "Werner Hoyer", "label": "PERSON"}
+    ]
+  },
+  {
+    "id": "CONLL-004",
+    "text": "The European Commission said on Thursday it disagreed with German advice .",
+    "entities": [
+      {"text": "European Commission", "label": "ORG"},
+      {"text": "Thursday", "label": "MISC"},
+      {"text": "German", "label": "MISC"}
+    ]
+  },
+  {
+    "id": "CONLL-005",
+    "text": "Shares in BAe were down 11 pence at 410 pence by 1420 GMT .",
+    "entities": [
+      {"text": "BAe", "label": "ORG"},
+      {"text": "GMT", "label": "MISC"}
+    ]
+  },
+  {
+    "id": "CONLL-006",
+    "text": "New York City Mayor Rudolph Giuliani said on Thursday .",
+    "entities": [
+      {"text": "New York City", "label": "LOC"},
+      {"text": "Rudolph Giuliani", "label": "PERSON"},
+      {"text": "Thursday", "label": "MISC"}
+    ]
+  },
+  {
+    "id": "CONLL-007",
+    "text": "The U.S. Treasury said it welcomed the IMF agreement with Russia .",
+    "entities": [
+      {"text": "U.S.", "label": "LOC"},
+      {"text": "Treasury", "label": "ORG"},
+      {"text": "IMF", "label": "ORG"},
+      {"text": "Russia", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-008",
+    "text": "British Prime Minister Tony Blair arrived in Tokyo on Monday .",
+    "entities": [
+      {"text": "British", "label": "MISC"},
+      {"text": "Tony Blair", "label": "PERSON"},
+      {"text": "Tokyo", "label": "LOC"},
+      {"text": "Monday", "label": "MISC"}
+    ]
+  },
+  {
+    "id": "CONLL-009",
+    "text": "Microsoft Corp. said it would appeal the ruling by a federal judge .",
+    "entities": [
+      {"text": "Microsoft Corp.", "label": "ORG"}
+    ]
+  },
+  {
+    "id": "CONLL-010",
+    "text": "Analysts at Goldman Sachs in London raised their rating on BP .",
+    "entities": [
+      {"text": "Goldman Sachs", "label": "ORG"},
+      {"text": "London", "label": "LOC"},
+      {"text": "BP", "label": "ORG"}
+    ]
+  },
+  {
+    "id": "CONLL-011",
+    "text": "French Foreign Minister Hubert Vedrine met with officials in Beijing .",
+    "entities": [
+      {"text": "French", "label": "MISC"},
+      {"text": "Hubert Vedrine", "label": "PERSON"},
+      {"text": "Beijing", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-012",
+    "text": "The World Bank approved a loan for projects in Indonesia .",
+    "entities": [
+      {"text": "World Bank", "label": "ORG"},
+      {"text": "Indonesia", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-013",
+    "text": "Citigroup Inc. reported quarterly earnings from its operations in Asia .",
+    "entities": [
+      {"text": "Citigroup Inc.", "label": "ORG"},
+      {"text": "Asia", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-014",
+    "text": "President Bill Clinton spoke at a conference in Washington .",
+    "entities": [
+      {"text": "Bill Clinton", "label": "PERSON"},
+      {"text": "Washington", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-015",
+    "text": "Saudi Arabia and Kuwait discussed oil production levels on Tuesday .",
+    "entities": [
+      {"text": "Saudi Arabia", "label": "LOC"},
+      {"text": "Kuwait", "label": "LOC"},
+      {"text": "Tuesday", "label": "MISC"}
+    ]
+  },
+  {
+    "id": "CONLL-016",
+    "text": "IBM announced a partnership with Nokia in Helsinki .",
+    "entities": [
+      {"text": "IBM", "label": "ORG"},
+      {"text": "Nokia", "label": "ORG"},
+      {"text": "Helsinki", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-017",
+    "text": "The Australian dollar fell against the U.S. dollar in Sydney trading .",
+    "entities": [
+      {"text": "Australian", "label": "MISC"},
+      {"text": "U.S.", "label": "LOC"},
+      {"text": "Sydney", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-018",
+    "text": "Chancellor Gerhard Schroeder addressed the parliament in Berlin .",
+    "entities": [
+      {"text": "Gerhard Schroeder", "label": "PERSON"},
+      {"text": "Berlin", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-019",
+    "text": "Toyota Motor Corp. opened a new plant near Osaka .",
+    "entities": [
+      {"text": "Toyota Motor Corp.", "label": "ORG"},
+      {"text": "Osaka", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-020",
+    "text": "The United Nations envoy traveled to Bosnia on Wednesday .",
+    "entities": [
+      {"text": "United Nations", "label": "ORG"},
+      {"text": "Bosnia", "label": "LOC"},
+      {"text": "Wednesday", "label": "MISC"}
+    ]
+  },
+  {
+    "id": "CONLL-021",
+    "text": "Reuters reported that Shell shares rose in Amsterdam .",
+    "entities": [
+      {"text": "Reuters", "label": "ORG"},
+      {"text": "Shell", "label": "ORG"},
+      {"text": "Amsterdam", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-022",
+    "text": "Italian Prime Minister Romano Prodi resigned after a vote in Rome .",
+    "entities": [
+      {"text": "Italian", "label": "MISC"},
+      {"text": "Romano Prodi", "label": "PERSON"},
+      {"text": "Rome", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-023",
+    "text": "Intel Corp. unveiled a new chip at a trade show in San Francisco .",
+    "entities": [
+      {"text": "Intel Corp.", "label": "ORG"},
+      {"text": "San Francisco", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-024",
+    "text": "The Bank of Japan kept interest rates unchanged in Tokyo .",
+    "entities": [
+      {"text": "Bank of Japan", "label": "ORG"},
+      {"text": "Tokyo", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-025",
+    "text": "Canadian officials met with representatives from Mexico City .",
+    "entities": [
+      {"text": "Canadian", "label": "MISC"},
+      {"text": "Mexico City", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-026",
+    "text": "Volkswagen AG said sales in Brazil increased last quarter .",
+    "entities": [
+      {"text": "Volkswagen AG", "label": "ORG"},
+      {"text": "Brazil", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-027",
+    "text": "Defense Secretary William Cohen visited troops in South Korea .",
+    "entities": [
+      {"text": "William Cohen", "label": "PERSON"},
+      {"text": "South Korea", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-028",
+    "text": "The Paris-based OECD published a report on trade with China .",
+    "entities": [
+      {"text": "Paris", "label": "LOC"},
+      {"text": "OECD", "label": "ORG"},
+      {"text": "China", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-029",
+    "text": "Honda Motor Co. announced results from its division in Canada .",
+    "entities": [
+      {"text": "Honda Motor Co.", "label": "ORG"},
+      {"text": "Canada", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-030",
+    "text": "Swiss authorities arrested a suspect linked to a bank in Geneva .",
+    "entities": [
+      {"text": "Swiss", "label": "MISC"},
+      {"text": "Geneva", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-031",
+    "text": "Oracle Corp. hired executives from rival Sun Microsystems .",
+    "entities": [
+      {"text": "Oracle Corp.", "label": "ORG"},
+      {"text": "Sun Microsystems", "label": "ORG"}
+    ]
+  },
+  {
+    "id": "CONLL-032",
+    "text": "Prime Minister Jean Chretien spoke to reporters in Ottawa .",
+    "entities": [
+      {"text": "Jean Chretien", "label": "PERSON"},
+      {"text": "Ottawa", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-033",
+    "text": "The Federal Reserve raised rates after a meeting in Washington .",
+    "entities": [
+      {"text": "Federal Reserve", "label": "ORG"},
+      {"text": "Washington", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-034",
+    "text": "Spanish workers protested outside offices of Telefonica in Madrid .",
+    "entities": [
+      {"text": "Spanish", "label": "MISC"},
+      {"text": "Telefonica", "label": "ORG"},
+      {"text": "Madrid", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-035",
+    "text": "Singapore Airlines expanded routes to cities in Australia .",
+    "entities": [
+      {"text": "Singapore Airlines", "label": "ORG"},
+      {"text": "Australia", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-036",
+    "text": "Chairman Jack Welch retired from General Electric in Connecticut .",
+    "entities": [
+      {"text": "Jack Welch", "label": "PERSON"},
+      {"text": "General Electric", "label": "ORG"},
+      {"text": "Connecticut", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-037",
+    "text": "The European Central Bank met in Frankfurt on Friday .",
+    "entities": [
+      {"text": "European Central Bank", "label": "ORG"},
+      {"text": "Frankfurt", "label": "LOC"},
+      {"text": "Friday", "label": "MISC"}
+    ]
+  },
+  {
+    "id": "CONLL-038",
+    "text": "A delegation from Egypt arrived in Israel for talks .",
+    "entities": [
+      {"text": "Egypt", "label": "LOC"},
+      {"text": "Israel", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-039",
+    "text": "Sony Corp. launched a product line at an event in Tokyo .",
+    "entities": [
+      {"text": "Sony Corp.", "label": "ORG"},
+      {"text": "Tokyo", "label": "LOC"}
+    ]
+  },
+  {
+    "id": "CONLL-040",
+    "text": "Chancellor Gordon Brown presented the budget in London .",
+    "entities": [
+      {"text": "Gordon Brown", "label": "PERSON"},
+      {"text": "London", "label": "LOC"}
+    ]
+  }
+]

@@ -1,5 +1,5 @@
 """
-Exercise 01 — Statement Audit
+Exercise 01 - Statement Audit
 The chief wants a quality report on every witness statement before analysis begins.
 """
 
@@ -60,7 +60,7 @@ def main() -> None:
     statements = load_statements(DATA_PATH)
     audits = audit_archive(statements)
 
-    print("Inkwell Investigations — Statement Audit")
+    print("Inkwell Investigations - Statement Audit")
     print("=" * 72)
     print(f"{'ID':<10} {'Witness':<22} {'Sents':>5} {'Words':>5}  Review")
     print("-" * 72)

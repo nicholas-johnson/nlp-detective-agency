@@ -1,5 +1,5 @@
 """
-Inkwell Investigations — Evidence Prep Room (demo)
+Inkwell Investigations - Evidence Prep Room (demo)
 Run:  python module-01-text-preprocessing/demo/demo.py
 """
 
@@ -55,7 +55,7 @@ def preprocess_statement(text: str) -> list[str]:
 def pick_statement(statements: list[dict]) -> dict | None:
     print("\nStatements:")
     for i, s in enumerate(statements, 1):
-        print(f"  {i}. {s['id']} — {s['witness']} ({s['case_id']})")
+        print(f"  {i}. {s['id']} - {s['witness']} ({s['case_id']})")
     choice = input("Pick a number: ").strip()
     if not choice.isdigit() or not (1 <= int(choice) <= len(statements)):
         print("Invalid choice.")
@@ -72,7 +72,7 @@ def archive_briefing(statements: list[dict], top_n: int = 10) -> list[tuple[str,
 
 def main() -> None:
     statements = load_statements()
-    print("Inkwell Investigations — Evidence Prep Room")
+    print("Inkwell Investigations - Evidence Prep Room")
     print("=" * 44)
 
     while True:

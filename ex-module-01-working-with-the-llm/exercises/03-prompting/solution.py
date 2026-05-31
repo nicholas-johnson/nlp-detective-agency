@@ -1,5 +1,5 @@
 """
-Exercise 03 — Prompt Engineering (solution)
+Exercise 03 - Prompt Engineering (solution)
 """
 
 from dotenv import load_dotenv
@@ -179,7 +179,7 @@ def main() -> None:
                 prompt_fn, example_msg = CHALLENGES[choice]
                 prompt = prompt_fn()
                 if prompt is None:
-                    print(f"  '{choice}' not implemented yet — write it in start.py!\n")
+                    print(f"  '{choice}' not implemented yet - write it in start.py!\n")
                     continue
                 current_prompt = prompt
                 current_name = choice

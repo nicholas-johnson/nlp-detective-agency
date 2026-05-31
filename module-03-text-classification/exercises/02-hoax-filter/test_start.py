@@ -1,4 +1,4 @@
-"""Tests for Exercise 02 — Hoax Filter."""
+"""Tests for Exercise 02 - Hoax Filter."""
 
 from pathlib import Path
 

@@ -3,14 +3,14 @@ export const slides = [
     type: 'title',
     content: {
       title: 'Python NLP',
-      subtitle: 'Inkwell Investigations — Nicholas Johnson',
+      subtitle: 'Inkwell Investigations - Nicholas Johnson',
       icon: 'search',
     },
   },
   {
     type: 'title',
     content: {
-      title: 'Module 1 — Text Preprocessing',
+      title: 'Module 1 - Text Preprocessing',
       subtitle: 'Tokenise, clean, and prepare case files for analysis',
       icon: 'file-text',
     },
@@ -20,7 +20,7 @@ export const slides = [
     content: {
       title: 'The evidence prep room',
       points: [
-        'You have joined **Inkwell Investigations** — a detective agency drowning in unsorted case files.',
+        'You have joined **Inkwell Investigations** - a detective agency drowning in unsorted case files.',
         'Witness statements, tip-off letters, and clippings arrive messy: ALL CAPS, shorthand, redactions.',
         'Before any analysis begins, every document needs to be **cleaned, normalised, and tokenised**.',
         'This module is your evidence prep room: turn chaotic prose into machine-readable text.',
@@ -44,7 +44,7 @@ export const slides = [
   {
     type: 'code',
     content: {
-      title: 'Setup — one-time NLTK download',
+      title: 'Setup - one-time NLTK download',
       code: `pip install -e ".[nlp,dev]"
 
 python -c "
@@ -55,8 +55,8 @@ nltk.download('wordnet')
 nltk.download('omw-1.4')
 "`,
       highlights: [
-        'punkt_tab — sentence tokenisation',
-        'stopwords + wordnet — filtering and lemmatisation',
+        'punkt_tab - sentence tokenisation',
+        'stopwords + wordnet - filtering and lemmatisation',
       ],
     },
   },
@@ -76,11 +76,11 @@ nltk.download('omw-1.4')
       title: 'Why tokenise?',
       icon: 'scissors',
       points: [
-        'A witness statement is a wall of prose — tokenisation splits it into examinable pieces.',
+        'A witness statement is a wall of prose - tokenisation splits it into examinable pieces.',
         '**Sentence tokenisation** finds sentence boundaries (`.`, `!`, `?`).',
         'Trickier than it looks: *"Dr. Reeves arrived at 4 p.m."* is **one** sentence, not four.',
-        '**Word tokenisation** splits into tokens — words and punctuation as separate items.',
-        'Always **normalise first**, then tokenise — or `DOCKS` and `docks` count as different tokens.',
+        '**Word tokenisation** splits into tokens - words and punctuation as separate items.',
+        'Always **normalise first**, then tokenise - or `DOCKS` and `docks` count as different tokens.',
       ],
     },
   },
@@ -99,11 +99,11 @@ sent_tokenize(text)
 # ['I saw HIM near the DOCKS on Tuesday!!!',
 #  'He was with a man called Reeves.']
 
-word_tokenize("Reeves—or so I thought.")
-# ['Reeves', '—', 'or', 'so', 'I', 'thought', '.']`,
+word_tokenize("Reeves-or so I thought.")
+# ['Reeves', '-', 'or', 'so', 'I', 'thought', '.']`,
       highlights: [
-        'sent_tokenize — sentence boundaries',
-        'word_tokenize — words + punctuation as separate tokens',
+        'sent_tokenize - sentence boundaries',
+        'word_tokenize - words + punctuation as separate tokens',
       ],
     },
   },
@@ -113,10 +113,10 @@ word_tokenize("Reeves—or so I thought.")
       title: 'NLTK vs spaCy',
       icon: 'git-branch',
       points: [
-        '**NLTK** — learning, quick scripts, classical NLP. Output: lists of strings.',
-        '**spaCy** — production pipelines, NER, POS tagging. Output: rich `Doc` objects.',
-        'NLTK setup: `nltk.download("punkt_tab")` — no model download.',
-        'spaCy setup: `python -m spacy download en_core_web_sm` — larger install.',
+        '**NLTK** - learning, quick scripts, classical NLP. Output: lists of strings.',
+        '**spaCy** - production pipelines, NER, POS tagging. Output: rich `Doc` objects.',
+        'NLTK setup: `nltk.download("punkt_tab")` - no model download.',
+        'spaCy setup: `python -m spacy download en_core_web_sm` - larger install.',
         'This module uses **NLTK** in exercises. You will meet spaCy again in Module 6.',
       ],
     },
@@ -124,9 +124,9 @@ word_tokenize("Reeves—or so I thought.")
   {
     type: 'title',
     content: {
-      title: 'Demo — Tokenisation',
+      title: 'Demo - Tokenisation',
       subtitle:
-        'python module-01-text-preprocessing/demo/demo.py — menu options 2 & 3',
+        'python module-01-text-preprocessing/demo/demo.py - menu options 2 & 3',
       icon: 'terminal',
     },
   },
@@ -146,11 +146,11 @@ word_tokenize("Reeves—or so I thought.")
       title: 'What needs cleaning?',
       icon: 'eraser',
       points: [
-        '**Case folding** — lowercase so `DOCKS` and `docks` match.',
-        '**Redactions** — `[REDACTED]` blocks carry no semantic value; strip them.',
-        '**Case references** — `CASE-42` scattered through prose; remove for topic analysis.',
-        '**Whitespace** — collapse runs of spaces, tabs, and newlines.',
-        '**Unicode** — normalise curly quotes and em-dashes with `unicodedata.normalize("NFKC", text)`.',
+        '**Case folding** - lowercase so `DOCKS` and `docks` match.',
+        '**Redactions** - `[REDACTED]` blocks carry no semantic value; strip them.',
+        '**Case references** - `CASE-42` scattered through prose; remove for topic analysis.',
+        '**Whitespace** - collapse runs of spaces, tabs, and newlines.',
+        '**Unicode** - normalise curly quotes and em-dashes with `unicodedata.normalize("NFKC", text)`.',
       ],
     },
   },
@@ -178,9 +178,9 @@ def normalize_text(text: str) -> str:
   {
     type: 'title',
     content: {
-      title: 'Demo — Cleaning',
+      title: 'Demo - Cleaning',
       subtitle:
-        'python module-01-text-preprocessing/demo/demo.py — menu option 4',
+        'python module-01-text-preprocessing/demo/demo.py - menu option 4',
       icon: 'terminal',
     },
   },
@@ -202,7 +202,7 @@ def normalize_text(text: str) -> str:
       points: [
         '*"the"*, *"a"*, *"is"* tell you nothing about a suspect.',
         'English stopword lists contain ~170 high-frequency function words.',
-        'Filter with `token.isalpha()` — drop punctuation tokens too.',
+        'Filter with `token.isalpha()` - drop punctuation tokens too.',
         'Stopword removal is task-dependent: keep them for sentiment if negation matters.',
       ],
     },
@@ -235,7 +235,7 @@ filtered = [
         {
           heading: 'Stemming (Porter)',
           points: [
-            '**Rule-based** — chop suffixes with heuristics.',
+            '**Rule-based** - chop suffixes with heuristics.',
             'Fast; good for search indexing and bag-of-words.',
             '`investigating` → `investig`, `investigated` → `investig`.',
             'Can produce non-words; no vocabulary lookup.',
@@ -244,7 +244,7 @@ filtered = [
         {
           heading: 'Lemmatisation (WordNet)',
           points: [
-            '**Dictionary-based** — reduce to root form using vocabulary + POS.',
+            '**Dictionary-based** - reduce to root form using vocabulary + POS.',
             'Slower but more accurate; produces real words.',
             '`docks` → `dock`, `investigating` (verb) → `investigate`.',
             'Hint POS with `pos="v"` for verbs, `pos="a"` for adjectives.',
@@ -270,16 +270,16 @@ lemmas  = [lemmatizer.lemmatize(w) for w in words]
 # lemmas: ['investigating', 'investigated', 'dock']`,
       highlights: [
         'Stemming collapses all three investigate-forms to "investig"',
-        'Lemmatisation needs POS hint for verbs — default is noun',
+        'Lemmatisation needs POS hint for verbs - default is noun',
       ],
     },
   },
   {
     type: 'title',
     content: {
-      title: 'Demo — Stopwords and stem vs lemma',
+      title: 'Demo - Stopwords and stem vs lemma',
       subtitle:
-        'python module-01-text-preprocessing/demo/demo.py — menu options 5 & 6',
+        'python module-01-text-preprocessing/demo/demo.py - menu options 5 & 6',
       icon: 'terminal',
     },
   },
@@ -299,7 +299,7 @@ lemmas  = [lemmatizer.lemmatize(w) for w in words]
       title: 'Pure functions, chained',
       icon: 'layers',
       points: [
-        'One-off cleaning scripts do not scale — chain steps into one function.',
+        'One-off cleaning scripts do not scale - chain steps into one function.',
         'Each step is a **pure function**: text in, transformed output out.',
         'Easy to test each step independently (`normalize_text`, `remove_stopwords`, etc.).',
         'For batch work: map across documents, aggregate with `collections.Counter`.',
@@ -354,9 +354,9 @@ def case_briefing(statements, case_id, top_n=10):
   {
     type: 'title',
     content: {
-      title: 'Demo — Full pipeline and briefing',
+      title: 'Demo - Full pipeline and briefing',
       subtitle:
-        'python module-01-text-preprocessing/demo/demo.py — menu options 7 & 8',
+        'python module-01-text-preprocessing/demo/demo.py - menu options 7 & 8',
       icon: 'terminal',
     },
   },
@@ -373,17 +373,17 @@ def case_briefing(statements, case_id, top_n=10):
   {
     type: 'rules',
     content: {
-      title: 'Field rules — Module 1',
+      title: 'Field rules - Module 1',
       rules: [
         {
           rule: 'Never leak test data into preprocessing',
           example:
-            'Fit vectorisers and statistics on training data only — transform test separately.',
+            'Fit vectorisers and statistics on training data only - transform test separately.',
           icon: 'shield',
         },
         {
           rule: 'Stemming is fast; lemmatisation is accurate',
-          example: 'Pick based on downstream task — briefings want lemmas, search wants stems.',
+          example: 'Pick based on downstream task - briefings want lemmas, search wants stems.',
           icon: 'scale',
         },
         {
@@ -403,9 +403,9 @@ def case_briefing(statements, case_id, top_n=10):
       points: [
         'Install NLP extras: **`pip install -e ".[nlp,dev]"`**.',
         'Each exercise has **`start.py`** (your work) and **`test_start.py`** (pytest).',
-        'Run interactively: **`python start.py`** — see your output before running tests.',
+        'Run interactively: **`python start.py`** - see your output before running tests.',
         'Run tests from the exercise folder: **`pytest test_start.py -v`**.',
-        'Solutions are in **`solution.py`** — try the exercise first!',
+        'Solutions are in **`solution.py`** - try the exercise first!',
       ],
     },
   },
@@ -414,16 +414,17 @@ def case_briefing(statements, case_id, top_n=10):
     content: {
       title: 'Exercises',
       points: [
-        '01 — Statement Audit: batch-audit every witness statement; flag long or complex statements for review',
-        '02 — Case Briefing: build the preprocessing pipeline and generate a word-frequency briefing for one case',
+        '01 - Statement Audit: batch-audit every witness statement; flag long or complex statements for review',
+        '02 - Case Briefing: build the preprocessing pipeline and generate a word-frequency briefing for one case',
+        '03 - Review Scanner: movie reviews - compare positive vs negative vocabulary after preprocessing',
       ],
     },
   },
   {
     type: 'title',
     content: {
-      title: 'Module 1 — Complete',
-      subtitle: 'Next: Feature Extraction — dusting for prints',
+      title: 'Module 1 - Complete',
+      subtitle: 'Next: Feature Extraction - dusting for prints',
       icon: 'check-circle',
     },
   },

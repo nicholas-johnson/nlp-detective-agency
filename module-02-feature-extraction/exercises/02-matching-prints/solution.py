@@ -1,5 +1,5 @@
 """
-Exercise 02 — Matching Prints (solution)
+Exercise 02 - Matching Prints (solution)
 """
 
 import json
@@ -89,7 +89,7 @@ def main() -> None:
     statements = load_statements(DATA_PATH)
     report = similarity_report(statements, case_id)
 
-    print(f"Inkwell Investigations — Similarity Report for {case_id}")
+    print(f"Inkwell Investigations - Similarity Report for {case_id}")
     print("=" * 60)
     if report["most_similar"] is None:
         print("No statements found for that case.")

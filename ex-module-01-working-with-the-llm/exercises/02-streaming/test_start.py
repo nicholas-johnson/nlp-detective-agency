@@ -1,4 +1,4 @@
-"""Tests for Exercise 02 — Streaming Chat."""
+"""Tests for Exercise 02 - Streaming Chat."""
 
 import os
 from unittest.mock import MagicMock

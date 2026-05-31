@@ -1,5 +1,5 @@
 """
-Exercise 02 — Hoax Filter (solution)
+Exercise 02 - Hoax Filter (solution)
 """
 
 import json
@@ -118,7 +118,7 @@ def main() -> None:
     records = load_tips(DATA_PATH)
     report = hoax_report(records)
 
-    print("Inkwell Investigations — Hoax Filter Report")
+    print("Inkwell Investigations - Hoax Filter Report")
     print("=" * 44)
 
     print(f"\n{'Classifier':<20} {'F1 mean':>8} {'F1 std':>8}")

@@ -2,7 +2,7 @@ export const slides = [
   {
     type: 'title',
     content: {
-      title: 'Module 0 — Python Fundamentals',
+      title: 'Module 0 - Python Fundamentals',
       subtitle: 'Core Python for AI development',
       icon: 'code',
     },
@@ -14,7 +14,7 @@ export const slides = [
       points: [
         'This module covers the Python patterns used throughout the course.',
         'Before we build a single agent, we need a solid foundation.',
-        'Data structures, modules, async, and HTTP — the core toolkit.',
+        'Data structures, modules, async, and HTTP - the core toolkit.',
       ],
     },
   },
@@ -38,10 +38,10 @@ export const slides = [
       title: 'Data structures',
       icon: 'database',
       points: [
-        '**Lists** — ordered, mutable, iterable. User records, event logs.',
-        '**Dicts** — O(1) key-value lookup. Lookup tables, configuration.',
-        '**Sets** — unique elements, fast membership, set algebra. Tags, categories.',
-        '**Tuples** — immutable sequences. Fixed records, function returns.',
+        '**Lists** - ordered, mutable, iterable. User records, event logs.',
+        '**Dicts** - O(1) key-value lookup. Lookup tables, configuration.',
+        '**Sets** - unique elements, fast membership, set algebra. Tags, categories.',
+        '**Tuples** - immutable sequences. Fixed records, function returns.',
       ],
     },
   },
@@ -87,7 +87,7 @@ for u in users:
   {
     type: 'title',
     content: {
-      title: 'Demo — Data structures',
+      title: 'Demo - Data structures',
       subtitle: 'Switch to terminal: python demo/01_data_structures.py',
       icon: 'terminal',
     },
@@ -109,8 +109,8 @@ for u in users:
       title: 'Modules and packages',
       icon: 'box',
       points: [
-        '`import json`, `from pathlib import Path` — standard library.',
-        '`if __name__ == "__main__":` — script vs import guard.',
+        '`import json`, `from pathlib import Path` - standard library.',
+        '`if __name__ == "__main__":` - script vs import guard.',
         'Packages = directories with `__init__.py` (or implicit namespace).',
         'Keep imports at the top; organise by stdlib → third-party → local.',
       ],
@@ -129,7 +129,7 @@ parser.add_argument("--department", "-d")
 parser.add_argument("--min-clearance", "-c", type=int, default=0)
 args = parser.parse_args()`,
       highlights: [
-        'argparse is stdlib — no extra dependencies',
+        'argparse is stdlib - no extra dependencies',
         'Type conversion, defaults, and help text built in',
       ],
     },
@@ -137,12 +137,12 @@ args = parser.parse_args()`,
   {
     type: 'standard',
     content: {
-      title: 'Logging — better than print()',
+      title: 'Logging - better than print()',
       icon: 'clipboard-list',
       points: [
-        '`logging.basicConfig(level=logging.INFO)` — one-line setup.',
+        '`logging.basicConfig(level=logging.INFO)` - one-line setup.',
         'Levels: DEBUG → INFO → WARNING → ERROR → CRITICAL.',
-        '`logger.info("Loaded %d records", count)` — lazy formatting.',
+        '`logger.info("Loaded %d records", count)` - lazy formatting.',
         'Production: structured logs (JSON), not print statements.',
       ],
     },
@@ -151,7 +151,7 @@ args = parser.parse_args()`,
   {
     type: 'title',
     content: {
-      title: 'Demo — Modules + CLI',
+      title: 'Demo - Modules + CLI',
       subtitle: 'Switch to terminal: python demo/02_modules_cli.py',
       icon: 'terminal',
     },
@@ -199,7 +199,7 @@ class Employee:
     def is_available(self) -> bool:
         return self.active_project is None`,
       highlights: [
-        'str | None — Python 3.10+ union syntax',
+        'str | None - Python 3.10+ union syntax',
         'Properties for derived state without extra storage',
       ],
     },
@@ -207,11 +207,11 @@ class Employee:
   {
     type: 'standard',
     content: {
-      title: 'Protocol — contracts without inheritance',
+      title: 'Protocol - contracts without inheritance',
       icon: 'shield',
       points: [
         '`typing.Protocol` defines a structural interface.',
-        'Any class with matching methods satisfies it — no base class needed.',
+        'Any class with matching methods satisfies it - no base class needed.',
         'Perfect for agent components: tools, memory backends, formatters.',
         'Duck typing with type checker support.',
       ],
@@ -230,7 +230,7 @@ def print_briefings(items: list[Briefable]):
     for item in items:
         print(item.briefing())
 
-# Order and Invoice both qualify —
+# Order and Invoice both qualify -
 # no shared base class needed`,
       highlights: [
         'Structural subtyping: if it has .briefing(), it qualifies',
@@ -242,7 +242,7 @@ def print_briefings(items: list[Briefable]):
   {
     type: 'title',
     content: {
-      title: 'Demo — Dataclasses + Protocols',
+      title: 'Demo - Dataclasses + Protocols',
       subtitle: 'Switch to terminal: python demo/03_dataclasses_protocols.py',
       icon: 'terminal',
     },
@@ -261,10 +261,10 @@ def print_briefings(items: list[Briefable]):
   {
     type: 'standard',
     content: {
-      title: 'Async essentials — why it matters for agents',
+      title: 'Async essentials - why it matters for agents',
       icon: 'zap',
       points: [
-        'AI agents wait on network calls — LLM APIs, tool servers, databases.',
+        'AI agents wait on network calls - LLM APIs, tool servers, databases.',
         '`async`/`await` lets one thread handle many concurrent waits.',
         'Key primitives: `asyncio.create_task`, `gather`, `Queue`, `wait_for`.',
         '`Task.cancel()` for cleanup when the user walks away.',
@@ -320,7 +320,7 @@ task.cancel()`,
   {
     type: 'title',
     content: {
-      title: 'Demo — Async essentials',
+      title: 'Demo - Async essentials',
       subtitle: 'Switch to terminal: python demo/04_async_essentials.py',
       icon: 'terminal',
     },
@@ -339,13 +339,13 @@ task.cancel()`,
   {
     type: 'standard',
     content: {
-      title: 'HTTP basics — FastAPI + httpx',
+      title: 'HTTP basics - FastAPI + httpx',
       icon: 'globe',
       points: [
-        '**FastAPI** — modern, async, auto-generates OpenAPI docs.',
-        '**httpx** — async-capable HTTP client (like requests but better).',
-        'Path params, query params, JSON bodies — all typed.',
-        'Test with `httpx.ASGITransport` — no real server needed.',
+        '**FastAPI** - modern, async, auto-generates OpenAPI docs.',
+        '**httpx** - async-capable HTTP client (like requests but better).',
+        'Path params, query params, JSON bodies - all typed.',
+        'Test with `httpx.ASGITransport` - no real server needed.',
       ],
     },
   },
@@ -365,7 +365,7 @@ async def list_projects(status: str | None = None):
     return {"count": len(results), "projects": results}`,
       highlights: [
         'Type hints become query parameter validation',
-        'Return dicts/lists — FastAPI serializes to JSON',
+        'Return dicts/lists - FastAPI serializes to JSON',
       ],
     },
   },
@@ -373,7 +373,7 @@ async def list_projects(status: str | None = None):
   {
     type: 'title',
     content: {
-      title: 'Demo — HTTP + FastAPI',
+      title: 'Demo - HTTP + FastAPI',
       subtitle: 'Switch to terminal: python demo/05_http_basics.py',
       icon: 'terminal',
     },
@@ -392,7 +392,7 @@ async def list_projects(status: str | None = None):
   {
     type: 'rules',
     content: {
-      title: 'Field rules — Module 0',
+      title: 'Field rules - Module 0',
       rules: [
         {
           rule: 'Use dataclasses for domain objects',
@@ -401,7 +401,7 @@ async def list_projects(status: str | None = None):
         },
         {
           rule: 'async for I/O, sync for computation',
-          example: 'Agent loops are mostly I/O — async is the default.',
+          example: 'Agent loops are mostly I/O - async is the default.',
           icon: 'zap',
         },
         {
@@ -417,16 +417,16 @@ async def list_projects(status: str | None = None):
     content: {
       title: 'Exercises',
       points: [
-        '01 — Data processing: dataclasses, filtering, formatting',
-        '02 — Async pipeline: queues, timeouts, producer/consumer',
-        '03 — REST API: FastAPI CRUD with httpx tests',
+        '01 - Data processing: dataclasses, filtering, formatting',
+        '02 - Async pipeline: queues, timeouts, producer/consumer',
+        '03 - REST API: FastAPI CRUD with httpx tests',
       ],
     },
   },
   {
     type: 'title',
     content: {
-      title: 'Module 0 — Complete',
+      title: 'Module 0 - Complete',
       subtitle: 'Next: working with the LLM',
       icon: 'check-circle',
     },

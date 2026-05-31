@@ -1,5 +1,5 @@
 """
-Demo: asyncio essentials — tasks, queues, timeouts, cancellation.
+Demo: asyncio essentials - tasks, queues, timeouts, cancellation.
 Run:  python module-00-python-fundamentals/demo/04_async_essentials.py
 """
 
@@ -81,7 +81,7 @@ async def demo_timeout():
         result = await asyncio.wait_for(deep_space_scan(), timeout=1.0)
         print(f"  {result}")
     except asyncio.TimeoutError:
-        print("  Scan timed out after 1s — aborting.")
+        print("  Scan timed out after 1s - aborting.")
 
 
 # --- Cancellation ---
@@ -91,10 +91,10 @@ async def continuous_monitor():
     try:
         while True:
             cycle += 1
-            print(f"  [monitor] Cycle {cycle} — all clear")
+            print(f"  [monitor] Cycle {cycle} - all clear")
             await asyncio.sleep(0.3)
     except asyncio.CancelledError:
-        print(f"  [monitor] Cancelled after {cycle} cycles — cleaning up")
+        print(f"  [monitor] Cancelled after {cycle} cycles - cleaning up")
         raise
 
 

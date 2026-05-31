@@ -1,4 +1,4 @@
-"""Tests for Exercise 03 — Prompt Engineering."""
+"""Tests for Exercise 03 - Prompt Engineering."""
 
 import json
 import os
@@ -57,7 +57,7 @@ class TestChallengeFunctions:
     ])
     def test_returns_nonempty_string(self, fn):
         result = fn()
-        assert result is not None, f"{fn.__name__}() returned None — implement it!"
+        assert result is not None, f"{fn.__name__}() returned None - implement it!"
         assert isinstance(result, str), f"{fn.__name__}() must return a string"
         assert len(result) > 10, f"{fn.__name__}() prompt is too short to be useful"
 

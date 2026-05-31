@@ -1,4 +1,4 @@
-"""Tests for Exercise 02 — Matching Prints."""
+"""Tests for Exercise 02 - Matching Prints."""
 
 from pathlib import Path
 

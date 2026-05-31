@@ -1,6 +1,6 @@
-# Module 1 — Working with the LLM
+# Module 1 - Working with the LLM
 
-> Time to talk to the model. After building a solid Python foundation, this module is your "hello world" with LLMs — making real API calls, building a CLI chat interface where users type questions and see answers stream back token by token, and learning how to craft prompts that get the results you want. By the end of this module you have a working chatbot and a toolkit of prompting techniques you can apply immediately.
+> Time to talk to the model. After building a solid Python foundation, this module is your "hello world" with LLMs - making real API calls, building a CLI chat interface where users type questions and see answers stream back token by token, and learning how to craft prompts that get the results you want. By the end of this module you have a working chatbot and a toolkit of prompting techniques you can apply immediately.
 
 ## Learning goals
 
@@ -25,7 +25,7 @@ def chat(client, messages):
     return response.choices[0].message.content
 ```
 
-The model sees the full context every time — that is how it "remembers" the conversation. The catch is that the history grows with every turn. When it exceeds the model's context window you need to truncate or summarise (covered in Module 7).
+The model sees the full context every time - that is how it "remembers" the conversation. The catch is that the history grows with every turn. When it exceeds the model's context window you need to truncate or summarise (covered in Module 7).
 
 Wrap this in an input loop:
 
@@ -114,7 +114,7 @@ The key insight is that prompts are **instructions, not wishes**. Vague prompts 
 
 ## Demo
 
-One script walks through the whole module — basic chat, streaming, and prompting patterns:
+One script walks through the whole module - basic chat, streaming, and prompting patterns:
 
 ```bash
 python module-01-working-with-the-llm/demo/demo.py
@@ -122,13 +122,13 @@ python module-01-working-with-the-llm/demo/demo.py
 
 ## Exercises
 
-The exercises chain — each one builds on the previous. Run them with `python start.py` for an interactive chat, or use `pytest` to validate.
+The exercises chain - each one builds on the previous. Run them with `python start.py` for an interactive chat, or use `pytest` to validate.
 
-| Folder | Mission |
-| ------ | ------- |
-| [`exercises/01-first-chat`](exercises/01-first-chat/) | Make your first LLM API call and build an input loop. |
-| [`exercises/02-streaming`](exercises/02-streaming/) | Upgrade the chat to stream responses token by token. |
-| [`exercises/03-prompting`](exercises/03-prompting/) | Write system prompts that control persona, format, guardrails, and few-shot patterns. |
+| Folder                                                | Mission                                                                               |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [`exercises/01-first-chat`](exercises/01-first-chat/) | Make your first LLM API call and build an input loop.                                 |
+| [`exercises/02-streaming`](exercises/02-streaming/)   | Upgrade the chat to stream responses token by token.                                  |
+| [`exercises/03-prompting`](exercises/03-prompting/)   | Write system prompts that control persona, format, guardrails, and few-shot patterns. |
 
 Run tests for this module:
 
@@ -142,5 +142,5 @@ From repo root: `pnpm slides:01`, or `cd module-01-working-with-the-llm/slides &
 
 ## Reference
 
-- [OpenAI API — Chat completions](https://platform.openai.com/docs/guides/text-generation)
-- [OpenAI — Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering)
+- [OpenAI API - Chat completions](https://platform.openai.com/docs/guides/text-generation)
+- [OpenAI - Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering)

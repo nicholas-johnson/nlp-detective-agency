@@ -1,4 +1,4 @@
-# Exercise 01 — Sentiment Triage
+# Exercise 01 - Sentiment Triage
 
 Before a detective interviews a witness, the system flags whether the statement reads **calm** or **hostile**. That helps prioritise follow-up and set interview tone.
 
@@ -10,20 +10,20 @@ The demo lets you pick one statement and predict interactively. This exercise tr
 pip install -e ".[nlp,dev]"
 ```
 
-Open `start.py`. Each function has a `# TODO` — implement them in order.
+Open `start.py`. Each function has a `# TODO` - implement them in order.
 
 ## The data
 
 Labeled witness statements live in `data/inkwell/witness_sentiment.json`. Each record has:
 
-| Field       | Description                          |
-| ----------- | ------------------------------------ |
-| `id`        | Statement ID (e.g. `WS-001`)         |
-| `witness`   | Witness name                         |
-| `text`      | Statement text                       |
-| `sentiment` | `calm` or `hostile`                  |
+| Field       | Description                  |
+| ----------- | ---------------------------- |
+| `id`        | Statement ID (e.g. `WS-001`) |
+| `witness`   | Witness name                 |
+| `text`      | Statement text               |
+| `sentiment` | `calm` or `hostile`          |
 
-There are **14 records** — 7 calm, 7 hostile — drawn from Inkwell case files and a few synthetic statements.
+There are **14 records** - 7 calm, 7 hostile - drawn from Inkwell case files and a few synthetic statements.
 
 ## What you'll build
 
@@ -34,7 +34,7 @@ python start.py
 prints triage metrics and any misclassifications:
 
 ```
-Inkwell Investigations — Sentiment Triage
+Inkwell Investigations - Sentiment Triage
 ============================================
 Accuracy: 0.750
 F1 (hostile): 0.667
@@ -69,7 +69,7 @@ return train_test_split(
 )
 ```
 
-**Stratify** keeps the same calm/hostile ratio in train and test. With 14 records, you get 11 train / 3 test (or 10/4 depending on rounding — sklearn handles this).
+**Stratify** keeps the same calm/hostile ratio in train and test. With 14 records, you get 11 train / 3 test (or 10/4 depending on rounding - sklearn handles this).
 
 ### 3. `build_sentiment_pipeline()`
 
@@ -86,7 +86,7 @@ return Pipeline([
 ])
 ```
 
-Pipelines ensure TF-IDF is fit on training data only — no leakage.
+Pipelines ensure TF-IDF is fit on training data only - no leakage.
 
 ### 4. `train_and_evaluate(records)`
 
@@ -108,11 +108,11 @@ Full workflow:
 }
 ```
 
-Use `pos_label="hostile"` for F1 — we care about catching hostile statements.
+Use `pos_label="hostile"` for F1 - we care about catching hostile statements.
 
 ### 5. `triage_report(records)`
 
-Delegate to `train_and_evaluate` — it is the public entry point for the full report.
+Delegate to `train_and_evaluate` - it is the public entry point for the full report.
 
 ---
 
@@ -156,7 +156,7 @@ predictions = [
 <details>
 <summary>Hint: stratify requires at least 2 per class</summary>
 
-Stratified splitting needs at least one sample per class in each split. Our balanced dataset (7/7) is fine. With tiny or imbalanced data, stratify can fail — use `stratify=None` only when you must.
+Stratified splitting needs at least one sample per class in each split. Our balanced dataset (7/7) is fine. With tiny or imbalanced data, stratify can fail - use `stratify=None` only when you must.
 
 </details>
 
@@ -184,4 +184,4 @@ Naive Bayes works well with sparse TF-IDF features and trains fast on small data
 - [ ] `train_and_evaluate` returns accuracy, F1, and per-test predictions
 - [ ] `triage_report` delegates to `train_and_evaluate`
 - [ ] `python start.py` prints metrics and misclassifications
-- [ ] `pytest test_start.py -v` — all passed
+- [ ] `pytest test_start.py -v` - all passed

@@ -1,12 +1,12 @@
-# Exercise 02 — Case Briefing
+# Exercise 02 - Case Briefing
 
-Detectives working a single case need a word-frequency briefing — what themes keep appearing across witness statements? Your job: preprocess the text, strip noise, lemmatise the tokens, and produce a ranked list of the most common terms for one case.
+Detectives working a single case need a word-frequency briefing - what themes keep appearing across witness statements? Your job: preprocess the text, strip noise, lemmatise the tokens, and produce a ranked list of the most common terms for one case.
 
 This exercise builds on the cleaning ideas from Exercise 01 but adds **stopwords**, **lemmatisation**, and **aggregation**. The deliverable is different: a thematic briefing for one `case_id`, not a per-statement audit.
 
 ## Before you start
 
-Complete Exercise 01 first (or at least read its `normalize_text` logic). You will reimplement `normalize_text` in this file — exercises are self-contained and do not import from each other.
+Complete Exercise 01 first (or at least read its `normalize_text` logic). You will reimplement `normalize_text` in this file - exercises are self-contained and do not import from each other.
 
 NLTK setup (if you have not already):
 
@@ -34,7 +34,7 @@ python start.py CASE-42
 prints something like:
 
 ```
-Inkwell Investigations — Briefing for CASE-42
+Inkwell Investigations - Briefing for CASE-42
 ========================================
    1. dock                 4
    2. reef                 4
@@ -43,11 +43,11 @@ Inkwell Investigations — Briefing for CASE-42
    ...
 ```
 
-(Exact rankings may vary slightly depending on lemmatisation — `docks` becomes `dock`, `reeves` may become `reef`.)
+(Exact rankings may vary slightly depending on lemmatisation - `docks` becomes `dock`, `reeves` may become `reef`.)
 
 If you pass an unknown case ID, you should see `No statements found for that case.`
 
-The `main()` function is already written — you implement the pipeline functions it relies on.
+The `main()` function is already written - you implement the pipeline functions it relies on.
 
 ## The preprocessing pipeline
 
@@ -128,7 +128,7 @@ for text in texts:
 return counter
 ```
 
-Only count tokens with **length >= 3** — this filters out short noise like `am`, `ok`.
+Only count tokens with **length >= 3** - this filters out short noise like `am`, `ok`.
 
 ### 7. `case_briefing(statements, case_id, top_n=10)`
 
@@ -138,7 +138,7 @@ Put it together:
 2. If none found, return `[]`
 3. Extract `raw_text` from each matching statement
 4. Call `term_frequencies` on those texts
-5. Return `.most_common(top_n)` — a list of `(term, count)` tuples, highest count first
+5. Return `.most_common(top_n)` - a list of `(term, count)` tuples, highest count first
 
 ```python
 case_stmts = statements_for_case(statements, case_id)
@@ -185,7 +185,7 @@ All 9 tests should pass when you are done.
 <details>
 <summary>Hint: why reimplement normalize_text?</summary>
 
-Each exercise is self-contained so you can copy or zip a single folder without broken imports. Copy your working `normalize_text` from Exercise 01 — the logic is identical.
+Each exercise is self-contained so you can copy or zip a single folder without broken imports. Copy your working `normalize_text` from Exercise 01 - the logic is identical.
 
 </details>
 
@@ -226,7 +226,7 @@ It returns `(item, count)` pairs sorted by count descending.
 <details>
 <summary>Hint: empty case returns empty list</summary>
 
-If `statements_for_case` finds no matches (e.g. `CASE-99`), return `[]` immediately. Do not call `most_common` on an empty counter — just return `[]`.
+If `statements_for_case` finds no matches (e.g. `CASE-99`), return `[]` immediately. Do not call `most_common` on an empty counter - just return `[]`.
 
 </details>
 
@@ -240,7 +240,7 @@ WordNet lemmatisation can mangle names. `reeves` may lemmatise to `reef` because
 <details>
 <summary>Hint: difference from the demo archive briefing</summary>
 
-The module demo (`demo/demo.py`) computes top terms across **all** cases. This exercise filters to **one** `case_id` — a narrower, case-specific briefing. Same techniques, different scope.
+The module demo (`demo/demo.py`) computes top terms across **all** cases. This exercise filters to **one** `case_id` - a narrower, case-specific briefing. Same techniques, different scope.
 
 </details>
 
@@ -248,14 +248,14 @@ The module demo (`demo/demo.py`) computes top terms across **all** cases. This e
 
 ## How this differs from Exercise 01
 
-| | Exercise 01 | Exercise 02 |
-| --- | --- | --- |
-| Goal | Audit each statement | Summarise one case |
-| Tokenisation | Sentences + words | Words only |
-| Stopwords | No | Yes |
-| Lemmatisation | No | Yes |
-| Output | Per-statement dict | Ranked term list |
-| Scope | Entire archive | Single `case_id` |
+|               | Exercise 01          | Exercise 02        |
+| ------------- | -------------------- | ------------------ |
+| Goal          | Audit each statement | Summarise one case |
+| Tokenisation  | Sentences + words    | Words only         |
+| Stopwords     | No                   | Yes                |
+| Lemmatisation | No                   | Yes                |
+| Output        | Per-statement dict   | Ranked term list   |
+| Scope         | Entire archive       | Single `case_id`   |
 
 ---
 
@@ -270,4 +270,4 @@ The module demo (`demo/demo.py`) computes top terms across **all** cases. This e
 - [ ] `case_briefing` returns `[]` for unknown cases
 - [ ] `case_briefing` returns `top_n` `(term, count)` pairs sorted by frequency
 - [ ] `python start.py CASE-42` prints a briefing
-- [ ] `pytest test_start.py -v` — 9 passed
+- [ ] `pytest test_start.py -v` - 9 passed

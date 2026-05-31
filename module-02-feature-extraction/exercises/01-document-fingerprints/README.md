@@ -1,6 +1,6 @@
-# Exercise 01 — Document Fingerprints
+# Exercise 01 - Document Fingerprints
 
-The lab needs a count-based fingerprint card for every witness statement in a case. Raw word counts reveal what each witness talked about most — the first step in comparing statements.
+The lab needs a count-based fingerprint card for every witness statement in a case. Raw word counts reveal what each witness talked about most - the first step in comparing statements.
 
 This exercise uses **CountVectorizer** (Bag-of-Words). TF-IDF and similarity come in Exercise 02.
 
@@ -10,13 +10,13 @@ This exercise uses **CountVectorizer** (Bag-of-Words). TF-IDF and similarity com
 pip install -e ".[nlp,dev]"
 ```
 
-Open `start.py`. Each function has a `# TODO` — implement them in order.
+Open `start.py`. Each function has a `# TODO` - implement them in order.
 
 ## The data
 
 Witness statements live in `data/inkwell/statements.json`. Each record has `id`, `case_id`, `witness`, and `raw_text`.
 
-`CASE-42` has **4 statements** — a good case to test with.
+`CASE-42` has **4 statements** - a good case to test with.
 
 ## What you'll build
 
@@ -27,13 +27,13 @@ python start.py CASE-42
 prints fingerprint cards like:
 
 ```
-Inkwell Investigations — Fingerprints for CASE-42
+Inkwell Investigations - Fingerprints for CASE-42
 ============================================================
 
-STM-001 — Margaret Hayes
+STM-001 - Margaret Hayes
   saw(2), docks(1), tuesday(1), ...
 
-STM-002 — Thomas Whitfield
+STM-002 - Thomas Whitfield
   dock(1), empty(1), night(1), ...
 ```
 
@@ -75,7 +75,7 @@ return matrix, feature_names
 ```
 
 - `stop_words="english"` removes common words like "the", "was", "and"
-- `matrix` is a **sparse** scipy matrix — shape `(num_documents, vocab_size)`
+- `matrix` is a **sparse** scipy matrix - shape `(num_documents, vocab_size)`
 - `feature_names` is an array of vocabulary terms
 
 ### 4. `top_terms(matrix, feature_names, doc_index, n=5)`
@@ -128,7 +128,7 @@ pytest test_start.py -v
 <details>
 <summary>Hint: sparse matrices</summary>
 
-`matrix.toarray()` converts to a dense numpy array — fine for small exercises. For large corpora, use sparse indexing:
+`matrix.toarray()` converts to a dense numpy array - fine for small exercises. For large corpora, use sparse indexing:
 
 ```python
 row = matrix.getrow(doc_index)
@@ -149,14 +149,14 @@ Never call `.toarray()` on a matrix with millions of features.
 <details>
 <summary>Hint: sorting by count</summary>
 
-`row.argsort()[::-1]` returns indices from highest to lowest value. Skip zero-count terms — they are not interesting fingerprint material.
+`row.argsort()[::-1]` returns indices from highest to lowest value. Skip zero-count terms - they are not interesting fingerprint material.
 
 </details>
 
 <details>
 <summary>Hint: STM-002 should mention the dock</summary>
 
-Thomas Whitfield's statement is *"The docks were EMPTY that night..."* After vectorisation, `dock` or `docks` should appear in his top terms. The test checks for this.
+Thomas Whitfield's statement is _"The docks were EMPTY that night..."_ After vectorisation, `dock` or `docks` should appear in his top terms. The test checks for this.
 
 </details>
 
@@ -170,4 +170,4 @@ Thomas Whitfield's statement is *"The docks were EMPTY that night..."* After vec
 - [ ] `top_terms` returns `(term, count)` pairs sorted by count
 - [ ] `fingerprint_report` returns cards sorted by `id`
 - [ ] `python start.py CASE-42` prints fingerprint cards
-- [ ] `pytest test_start.py -v` — all passed
+- [ ] `pytest test_start.py -v` - all passed

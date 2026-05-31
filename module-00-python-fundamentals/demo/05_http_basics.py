@@ -1,5 +1,5 @@
 """
-Demo: HTTP basics — FastAPI server + httpx client.
+Demo: HTTP basics - FastAPI server + httpx client.
 Run:  python module-00-python-fundamentals/demo/05_http_basics.py
 
 Starts a FastAPI server on port 8001, hits it with httpx, then shuts down.
@@ -15,7 +15,7 @@ from fastapi import FastAPI, HTTPException
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 
-app = FastAPI(title="DSS Pathfinder — Mission Briefing API")
+app = FastAPI(title="DSS Pathfinder - Mission Briefing API")
 
 MISSIONS: list[dict] = []
 
