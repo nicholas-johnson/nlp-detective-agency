@@ -143,7 +143,7 @@ Always load the config alongside the model. Six months later, you need to know w
 
 Training a model in a notebook (or script) is half the job. The other half is making it **usable** - callable by other systems, other people, or a frontend - without requiring Python knowledge.
 
-**FastAPI** is a modern Python web framework for building APIs. It validates request data with **Pydantic** models, generates automatic API documentation, and runs on **uvicorn** (an ASGI server).
+**FastAPI** is a modern Python web framework for building APIs. It validates request data with **Pydantic** models, generates automatic API documentation, and runs on **uvicorn**, a fast Python web server designed for async frameworks like FastAPI.
 
 ### Building the service
 

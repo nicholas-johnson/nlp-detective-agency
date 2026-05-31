@@ -110,7 +110,7 @@ You do not need to implement any of these - spaCy's pre-trained model handles ta
 
 ## Dependency parsing - who did what to whom
 
-**Constituency parsing** (phrase-structure trees) groups words into nested phrases: `[S [NP I] [VP [V saw] [NP him]]]`. **Dependency parsing** takes a different approach: every word connects to exactly one head word, forming a tree of grammatical relationships.
+**Constituency parsing** (phrase-structure trees) groups words into nested phrases. In the notation `[S [NP I] [VP [V saw] [NP him]]]`, `NP` is a noun phrase, `VP` is a verb phrase, `V` is a verb, and `S` wraps the whole sentence. The tree shows _what groups together_ — "saw him" forms a verb phrase, for example. **Dependency parsing** takes a different approach: instead of grouping words into phrases, it shows _what depends on what_ — each word points to the one word it grammatically modifies or is governed by, forming a tree of relationships.
 
 Each token has:
 
@@ -127,7 +127,7 @@ Essential relations for witness statements:
 | `pobj`   | Object of preposition  | near → docks     |
 | `ROOT`   | Root of the sentence   | saw              |
 
-Nivre (2003) introduced **transition-based parsing**: read tokens left-to-right, maintain a stack and buffer, and apply shift/reduce actions to build the tree incrementally. This is how spaCy's parser works internally.
+Nivre (2003) introduced **transition-based parsing**: the parser processes tokens left-to-right, deciding at each step whether to attach the current word to a previous one (and with what relationship). This incremental approach is fast — linear in sentence length — which is why spaCy can parse thousands of documents per second.
 
 ```python
 for token in doc:

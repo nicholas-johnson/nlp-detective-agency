@@ -86,6 +86,16 @@ X_train, X_test, y_train, y_test = train_test_split(
     },
   },
 
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Dataset overview',
+      subtitle:
+        'python module-03-text-classification/demo/demo.py - option 1',
+      icon: 'terminal',
+    },
+  },
+
   // ---- Pipelines ----
   {
     type: 'title',
@@ -114,6 +124,16 @@ preds = pipeline.predict(X_test)`,
         'One object - fit, predict, cross-validate',
         'Test data never influences the vocabulary',
       ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Sentiment pipeline',
+      subtitle:
+        'python module-03-text-classification/demo/demo.py - option 2',
+      icon: 'terminal',
     },
   },
 
@@ -159,6 +179,16 @@ preds = pipeline.predict(X_test)`,
           ],
         },
       ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Hoax pipeline and classifier shootout',
+      subtitle:
+        'python module-03-text-classification/demo/demo.py - options 3 & 4',
+      icon: 'terminal',
     },
   },
 
@@ -254,28 +284,13 @@ scores = cross_val_score(pipeline, texts, labels, cv=5, scoring=hoax_f1)`,
     },
   },
 
-  // ---- Demo ----
   {
     type: 'title',
     content: {
-      title: 'Demo - Classification menu',
+      title: 'Demo - Classification report and confusion matrix',
       subtitle:
-        'python module-03-text-classification/demo/demo.py',
+        'python module-03-text-classification/demo/demo.py - option 5',
       icon: 'terminal',
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'Demo options',
-      icon: 'list',
-      points: [
-        '**1** - Dataset counts by label',
-        '**2** - Train sentiment pipeline; predict one statement',
-        '**3** - Train hoax pipeline; predict one tip',
-        '**4** - Classifier shootout (NB / LR / SVM cross-val F1)',
-        '**5** - Classification report + confusion matrix',
-      ],
     },
   },
 

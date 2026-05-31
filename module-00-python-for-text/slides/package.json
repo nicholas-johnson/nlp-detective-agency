@@ -1,9 +1,9 @@
 {
-  "name": "@ai-python-course/module-00-slides",
+  "name": "@nlp-python-course/module-00-python-for-text-slides",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Slides: Module 0 - Python Fundamentals",
+  "description": "Slides: Module 0 - Python for Text Analysis",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

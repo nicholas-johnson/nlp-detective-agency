@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for Deep Space Ops exercises."""
+"""Shared pytest fixtures for Inkwell Investigations NLP exercises."""
 
 import json
 from pathlib import Path
@@ -6,23 +6,30 @@ from pathlib import Path
 import pytest
 
 DATA_DIR = Path(__file__).parent / "data"
+INKWELL_DIR = DATA_DIR / "inkwell"
+PUBLIC_DIR = DATA_DIR / "public"
 
 
 @pytest.fixture()
-def missions():
-    return json.loads((DATA_DIR / "missions.json").read_text())
+def statements():
+    return json.loads((INKWELL_DIR / "statements.json").read_text())
 
 
 @pytest.fixture()
-def crew():
-    return json.loads((DATA_DIR / "crew.json").read_text())
+def tips():
+    return json.loads((INKWELL_DIR / "tips.json").read_text())
 
 
 @pytest.fixture()
-def star_systems():
-    return json.loads((DATA_DIR / "star_systems.json").read_text())
+def cold_cases():
+    return json.loads((INKWELL_DIR / "cold_cases.json").read_text())
 
 
 @pytest.fixture()
-def ship_logs():
-    return json.loads((DATA_DIR / "ship_logs.json").read_text())
+def witness_sentiment():
+    return json.loads((INKWELL_DIR / "witness_sentiment.json").read_text())
+
+
+@pytest.fixture()
+def statement_entities():
+    return json.loads((INKWELL_DIR / "statement_entities.json").read_text())

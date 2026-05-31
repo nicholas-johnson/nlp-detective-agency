@@ -80,6 +80,16 @@ export const slides = [
   {
     type: 'title',
     content: {
+      title: 'Demo - Context and token IDs',
+      subtitle:
+        'python module-07-transformers/demo/demo.py - option 6',
+      icon: 'terminal',
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
       title: 'Tokenization',
       subtitle: 'Subwords, not whitespace',
       icon: 'hash',
@@ -123,6 +133,16 @@ export const slides = [
   {
     type: 'title',
     content: {
+      title: 'Demo - tiktoken explorer',
+      subtitle:
+        'python module-07-transformers/demo/demo.py - option 5',
+      icon: 'terminal',
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
       title: 'Hugging Face pipelines',
       subtitle: 'Deploy in minutes',
       icon: 'play',
@@ -152,6 +172,16 @@ export const slides = [
         'Useful when labels are scarce or exploratory.',
         'Domain nuance may still need **fine-tuning**.',
       ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Sentiment, NER, summarization, zero-shot',
+      subtitle:
+        'python module-07-transformers/demo/demo.py - options 1, 2, 3 & 4',
+      icon: 'terminal',
     },
   },
 

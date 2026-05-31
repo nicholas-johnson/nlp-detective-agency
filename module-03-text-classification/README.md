@@ -22,7 +22,9 @@ This module uses **scikit-learn** for pipelines and classifiers. Module 2's vect
 
 ## Train/test splits - fair trials
 
-A model that memorises the evidence is useless in court. **Supervised learning** requires labelled examples: texts paired with known categories (`calm` / `hostile`, `credible` / `hoax`). You train on one subset and evaluate on held-out data the model never saw during training.
+A model that memorises the evidence is useless in court. Text classification is a **supervised learning** task. Supervised learning means learning from **labelled input-output pairs** — each training example is a text paired with a known category (e.g. `calm` / `hostile`, `credible` / `hoax`). The model uses these pairs to discover which patterns predict which label, then applies what it learned to label unseen inputs. This contrasts with **unsupervised learning** (Module 4), where there are no labels at all and the algorithm must discover structure on its own.
+
+Because the model needs ground truth to learn what "credible" vs "hoax" looks like, you train on one subset and evaluate on held-out data the model never saw during training.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -50,7 +52,9 @@ When training accuracy is high but test accuracy is low, the model has **overfit
 - No regularisation on logistic regression or SVM
 - Training set too small for the number of features
 
-Controls: reduce `max_features` in TF-IDF, increase regularisation (`C` parameter), collect more labelled data, or use cross-validation (below) for a more stable estimate.
+**Regularisation** is the primary defence against overfitting. It adds a penalty term to the model's objective function that discourages large weights. This prevents the model from relying too heavily on any single feature — for example, a rare word that perfectly separates training classes by coincidence but carries no real predictive power. The `C` parameter in logistic regression and SVM controls the trade-off: smaller `C` means stronger regularisation (more penalty on large weights, simpler model), while larger `C` allows the model to fit the training data more closely.
+
+Other controls: reduce `max_features` in TF-IDF, collect more labelled data, or use cross-validation (below) for a more stable estimate.
 
 ---
 
@@ -112,9 +116,11 @@ Pipeline([("tfidf", TfidfVectorizer(stop_words="english")), ("clf", MultinomialN
 
 $$P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w} \cdot \mathbf{x} + b) = \frac{1}{1 + e^{-(\mathbf{w} \cdot \mathbf{x} + b)}}$$
 
-Each TF-IDF feature gets a weight $w_i$. A **positive weight** means that word pushes toward the positive class; a **negative weight** pushes away. This makes logistic regression interpretable - you can inspect the highest-weight features to see which words drive predictions.
+The **sigmoid** ($\sigma$) function squashes any real number into the range (0, 1), which lets the output be interpreted as a probability. Large positive inputs map to ≈1, large negative inputs map to ≈0, and zero maps to exactly 0.5 (maximum uncertainty). This is why "logistic regression" is used for classification despite the name "regression" — the sigmoid turns a continuous score into a class probability.
 
-The **C** parameter controls regularisation: smaller C means stronger penalty on large weights, reducing overfitting on rare words. **`max_iter`** sets the optimisation iteration limit - increase it if the solver warns about non-convergence.
+Each TF-IDF feature gets a weight $w_i$. A **positive weight** means that word pushes toward the positive class; a **negative weight** pushes away. This makes logistic regression interpretable — you can inspect the highest-weight features to see which words drive predictions.
+
+The **C** parameter controls regularisation (see overfitting section above): smaller C means stronger penalty on large weights, reducing overfitting on rare words. **`max_iter`** sets the optimisation iteration limit — increase it if the solver warns about non-convergence.
 
 | Strengths                      | Weaknesses                                         |
 | ------------------------------ | -------------------------------------------------- |
@@ -131,7 +137,7 @@ Pipeline([("tfidf", TfidfVectorizer(stop_words="english")),
 
 ### Linear Support Vector Machine
 
-Joachims (1998) showed that **Support Vector Machines** excel at text classification. Linear SVM finds the hyperplane that **maximises the margin** - the distance between the decision boundary and the nearest training points from each class:
+Joachims (1998) showed that **Support Vector Machines** excel at text classification. Linear SVM finds the **hyperplane** that **maximises the margin**. A hyperplane is a flat decision boundary — a line in 2D, a plane in 3D, and a higher-dimensional analogue when features number in the thousands (as with TF-IDF). The margin is the distance between this boundary and the nearest training points from each class:
 
 $$\text{margin} = \frac{2}{\|\mathbf{w}\|}$$
 

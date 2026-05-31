@@ -72,11 +72,13 @@ Blei, Ng, and Jordan (2003) introduced **LDA** as a generative probabilistic mod
 
 ### The generative story
 
+LDA is a **generative model** — it describes a hypothetical random process that _could_ have produced the observed data. Nobody believes documents were literally generated this way; the model is a mathematical fiction. Its value is that when you invert the process (given the observed words, infer the hidden topics), you recover useful structure. This inversion is exactly what `fit_transform()` does.
+
 LDA assumes documents were _generated_ by the following process:
 
 1. For each document $d$, draw a **topic proportion vector** $\theta_d \sim \text{Dir}(\alpha)$
 2. For each word position in document $d$:
-   - Draw a **topic assignment** $z \sim \text{Multinomial}(\theta_d)$
+   - Draw a **topic assignment** $z \sim \text{Multinomial}(\theta_d)$ — a multinomial distribution models the probability of picking one item from a fixed set of options, like rolling a loaded die where each face has a different probability; here, "draw a topic" means randomly selecting one topic according to the document's topic proportions
    - Draw a **word** $w \sim \text{Multinomial}(\phi_z)$ from that topic's word distribution
 
 Topic modelling **inverts** this process: given the observed words, infer the hidden topic structure ($\theta$, $\phi$, and $z$).
@@ -90,7 +92,7 @@ The concentration parameter $\alpha$ controls how mixed or focused documents are
 | $\alpha$ value          | Effect on documents                                         |
 | ----------------------- | ----------------------------------------------------------- |
 | $\alpha < 1$ (e.g. 0.1) | Sparse mixtures - each document is about few topics         |
-| $\alpha = 1$            | Uniform over the simplex                                    |
+| $\alpha = 1$            | Uniform — all possible topic mixtures are equally likely     |
 | $\alpha > 1$ (e.g. 10)  | Uniform mixtures - every document blends all topics equally |
 
 For investigative briefings, lower $\alpha$ often produces cleaner topic assignments - each case file maps to one or two dominant themes.

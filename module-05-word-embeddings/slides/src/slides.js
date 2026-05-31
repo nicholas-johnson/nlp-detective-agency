@@ -120,6 +120,16 @@ model.wv.most_similar("dock", topn=5)`,
     },
   },
 
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Train Word2Vec and nearest neighbours',
+      subtitle:
+        'python module-05-word-embeddings/demo/demo.py - options 1 & 2',
+      icon: 'terminal',
+    },
+  },
+
   // ---- Pre-trained ----
   {
     type: 'title',
@@ -148,6 +158,16 @@ model.most_similar(
     },
   },
 
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Pre-trained GloVe queries',
+      subtitle:
+        'python module-05-word-embeddings/demo/demo.py - option 4',
+      icon: 'terminal',
+    },
+  },
+
   // ---- Similarity ----
   {
     type: 'title',
@@ -171,6 +191,16 @@ model.most_similar(
     },
   },
 
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Vector arithmetic',
+      subtitle:
+        'python module-05-word-embeddings/demo/demo.py - option 3',
+      icon: 'terminal',
+    },
+  },
+
   // ---- Document vectors ----
   {
     type: 'title',
@@ -191,6 +221,16 @@ model.most_similar(
         'Fails on long mixed-topic documents - opposing senses cancel out.',
         'Transformers (Module 7) solve this with contextual embeddings.',
       ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Document similarity by averaging',
+      subtitle:
+        'python module-05-word-embeddings/demo/demo.py - option 5',
+      icon: 'terminal',
     },
   },
 
@@ -232,28 +272,13 @@ model.most_similar(
     },
   },
 
-  // ---- Demo ----
   {
     type: 'title',
     content: {
-      title: 'Demo - Embedding Lab',
-      subtitle: 'python module-05-word-embeddings/demo/demo.py',
+      title: 'Demo - PCA projection of top words',
+      subtitle:
+        'python module-05-word-embeddings/demo/demo.py - option 6',
       icon: 'terminal',
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'Demo options',
-      icon: 'list',
-      points: [
-        '**1** - Train Word2Vec, show vocab size',
-        '**2** - Nearest neighbours for any word',
-        '**3** - Vector arithmetic',
-        '**4** - Pre-trained GloVe queries',
-        '**5** - Document similarity by averaging',
-        '**6** - PCA projection of top words',
-      ],
     },
   },
 

@@ -118,6 +118,16 @@ doc_topics = lda.fit_transform(dtm)  # (n_docs, n_topics)`,
     },
   },
 
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Archive stats and LDA top words',
+      subtitle:
+        'python module-04-topic-modelling/demo/demo.py - options 1 & 2',
+      icon: 'terminal',
+    },
+  },
+
   // ---- NMF ----
   {
     type: 'title',
@@ -172,6 +182,16 @@ doc_topics = nmf.fit_transform(tfidf)`,
     },
   },
 
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Document-topic profile and NMF top words',
+      subtitle:
+        'python module-04-topic-modelling/demo/demo.py - options 3 & 4',
+      icon: 'terminal',
+    },
+  },
+
   // ---- Choosing k ----
   {
     type: 'title',
@@ -195,6 +215,16 @@ doc_topics = nmf.fit_transform(tfidf)`,
         'Perplexity guides k - top words confirm it',
         'Too many topics → noise; too few → merged themes',
       ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Perplexity sweep',
+      subtitle:
+        'python module-04-topic-modelling/demo/demo.py - option 5',
+      icon: 'terminal',
     },
   },
 
@@ -234,28 +264,13 @@ doc_topics = nmf.fit_transform(tfidf)`,
     },
   },
 
-  // ---- Demo ----
   {
     type: 'title',
     content: {
-      title: 'Demo - Archive Room',
-      subtitle: 'python module-04-topic-modelling/demo/demo.py',
+      title: 'Demo - pyLDAvis export',
+      subtitle:
+        'python module-04-topic-modelling/demo/demo.py - option 6',
       icon: 'terminal',
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'Demo options',
-      icon: 'list',
-      points: [
-        '**1** - Archive stats (doc count, avg length)',
-        '**2** - LDA top words (pick k)',
-        '**3** - Document-topic profile for one case',
-        '**4** - NMF top words',
-        '**5** - Perplexity sweep k=3..6',
-        '**6** - Export pyLDAvis HTML',
-      ],
     },
   },
 

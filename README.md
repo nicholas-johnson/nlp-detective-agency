@@ -86,7 +86,7 @@ Shared data lives in [`data/`](data/) — Inkwell case files in `data/inkwell/` 
 Each module includes a Vite app under `slides/` that renders teaching decks with the workspace package [`slide-deck`](slide-deck/).
 
 ```bash
-pnpm slides:01          # same pattern :01 … :07, :capstone
+pnpm slides:00          # same pattern :00 … :07, :capstone
 # or
 cd module-04-topic-modelling/slides && pnpm dev
 ```
@@ -118,7 +118,13 @@ All **exercises** run in **Python** and are checked with **pytest** (`start.py` 
 
 ### Module 0 — [Python for Text Analysis](module-00-python-for-text/)
 
-**Topics:** Strings, slicing, regex, file/encoding handling (UTF-8, CSV, JSON), Counter, defaultdict, comprehensions, NumPy/pandas basics for text.
+**Topics:** Strings (slicing, methods, f-strings), regular expressions (`re`), file I/O (`pathlib`, JSON, encoding), collections (`Counter`, `defaultdict`), comprehensions, type hints, CLI basics (`sys.argv`, `argparse`), NLP library survey.
+
+| Exercise | Folder | What you build |
+| -------- | ------ | -------------- |
+| String sleuthing | [`exercises/01-string-sleuthing`](module-00-python-for-text/exercises/01-string-sleuthing/) | Slice, search, normalise witness strings |
+| Regex extraction | [`exercises/02-regex-extraction`](module-00-python-for-text/exercises/02-regex-extraction/) | Extract dates, case IDs, redacted markers |
+| Corpus loader | [`exercises/03-corpus-loader`](module-00-python-for-text/exercises/03-corpus-loader/) | Load JSON data, word frequencies with Counter |
 
 ### Module 1 — [Text Preprocessing](module-01-text-preprocessing/)
 

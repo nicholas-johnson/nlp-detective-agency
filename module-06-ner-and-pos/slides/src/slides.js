@@ -68,6 +68,16 @@ export const slides = [
   {
     type: 'title',
     content: {
+      title: 'Demo - Pipeline tour',
+      subtitle:
+        'python module-06-ner-and-pos/demo/demo.py - option 1',
+      icon: 'terminal',
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
       title: 'POS tagging',
       subtitle: 'Grammar of the statement',
       icon: 'type',
@@ -113,6 +123,16 @@ export const slides = [
   {
     type: 'title',
     content: {
+      title: 'Demo - SVO triples by case',
+      subtitle:
+        'python module-06-ner-and-pos/demo/demo.py - option 2',
+      icon: 'terminal',
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
       title: 'Named Entity Recognition',
       subtitle: 'Naming the suspects',
       icon: 'users',
@@ -147,6 +167,16 @@ export const slides = [
   {
     type: 'title',
     content: {
+      title: 'Demo - NER evidence board and displacy',
+      subtitle:
+        'python module-06-ner-and-pos/demo/demo.py - options 3 & 5',
+      icon: 'terminal',
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
       title: 'Custom rules',
       subtitle: 'EntityRuler',
       icon: 'settings',
@@ -163,6 +193,16 @@ export const slides = [
         'Regex patterns: `CASE-\\d+`, `TKT-\\d+`, `ORD-\\d{4}-\\d+`.',
         'Pipe **order matters** - ruler runs before NER.',
       ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - EntityRuler for CASE IDs',
+      subtitle:
+        'python module-06-ner-and-pos/demo/demo.py - option 4',
+      icon: 'terminal',
     },
   },
 
@@ -204,28 +244,6 @@ export const slides = [
         'Same functions, public datasets under `data/public/`.',
         'Expect **lower scores** on real data - domain shift is normal.',
         'Core tests use Inkwell only.',
-      ],
-    },
-  },
-
-  {
-    type: 'title',
-    content: {
-      title: 'Demo',
-      subtitle: 'Linguistic Lab',
-      icon: 'terminal',
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'Interactive menu',
-      icon: 'play',
-      points: [
-        'Pipeline tour - tokens, POS, deps, ents.',
-        'SVO triples and NER evidence board by case.',
-        'EntityRuler for CASE IDs.',
-        'displacy HTML export and pipe timing.',
       ],
     },
   },

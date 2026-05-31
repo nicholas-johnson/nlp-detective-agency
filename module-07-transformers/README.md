@@ -30,7 +30,7 @@ Same install - `[local-ml]` includes `torch`, `transformers`, `datasets`, and `a
 
 ## Attention and transformers - how the specialist thinks
 
-Traditional models (BoW, Word2Vec) read words in isolation or from a fixed context window. **Transformers** (Vaswani et al., 2017) process all tokens simultaneously and use **self-attention** to weigh every token against every other token in the input.
+Traditional models (BoW, Word2Vec) read words in isolation or from a fixed context window. **Transformers** (Vaswani et al., 2017) process all tokens simultaneously and use **self-attention** to weigh every token against every other token in the input. The "self" means the model attends within the _same_ input sequence — each token looks at every other token in that sentence to decide what context matters. This contrasts with cross-attention (used in translation models), where tokens in one language attend to tokens in another.
 
 "Bank" near "river" and "bank" near "money" resolve differently because the model attends to different surrounding words - not because someone hand-coded the distinction.
 
@@ -38,7 +38,9 @@ Traditional models (BoW, Word2Vec) read words in isolation or from a fixed conte
 Input tokens → Embedding layer → Multi-head self-attention (×N layers) → Task head
 ```
 
-You do not need to implement attention - understand that **context flows through the stack** and the same word gets a different representation in different sentences.
+A **task head** is a small output layer added on top of the transformer's general-purpose representation. For classification, it maps the final hidden state to class probabilities. For NER, it maps each token's hidden state to an entity tag. Swapping the head lets the same pre-trained transformer serve different tasks without retraining the whole model.
+
+You do not need to implement attention — understand that **context flows through the stack** and the same word gets a different representation in different sentences.
 
 ### Scaled dot-product attention
 
@@ -90,7 +92,9 @@ After pre-training, BERT is **fine-tuned** on labelled task data by adding a tas
 
 ### DistilBERT
 
-Sanh et al. (2019) created **DistilBERT** via **knowledge distillation**: a smaller student model (6 layers) is trained to mimic the output distribution of the full BERT teacher (12 layers). Result: ~40% smaller, ~60% faster, ~97% of BERT's performance on GLUE benchmarks. Good default for this course.
+Sanh et al. (2019) created **DistilBERT** via **knowledge distillation**: a smaller "student" model (6 layers) is trained to mimic the full "teacher" BERT (12 layers). The key insight is that the student is trained not on hard labels (correct/incorrect) but on the teacher's full probability distribution over all classes. These "soft targets" contain richer information — they reveal which wrong answers the teacher considered plausible. A student trained on soft targets learns more from each example than one trained on hard labels alone.
+
+Result: ~40% smaller, ~60% faster, ~97% of BERT's performance on **GLUE** (General Language Understanding Evaluation) benchmarks. GLUE is a standard suite of 9 NLP tasks — including sentiment analysis, textual entailment, and paraphrase detection — used to benchmark language models. "97% of BERT's score" means DistilBERT matches the full model on nearly every task despite being 40% smaller. Good default for this course.
 
 ---
 

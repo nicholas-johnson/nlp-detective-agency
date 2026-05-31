@@ -51,9 +51,11 @@ D2          0     0      1        1
 D3          1     1      0        0
 ```
 
+This table is a **document-term matrix (DTM)** — the standard representation in text analysis. Rows are documents, columns are vocabulary terms, and cells hold counts (or weights, when using TF-IDF). Every text analysis technique in this course — similarity, classification, topic modelling — starts from a DTM.
+
 D1 and D3 share the word `dock` but differ on `empty` vs `busy`. D2 is distinct because it mentions `warehouse` instead of `dock`. A classifier (Module 3) or similarity search can use these differences directly.
 
-In practice, vocabularies are **much larger** - thousands or tens of thousands of terms - and matrices are **sparse**: most entries are zero because any one document uses only a tiny fraction of all words.
+In practice, vocabularies are **much larger** — thousands or tens of thousands of terms — and matrices are **sparse**: most entries are zero because any one document uses only a tiny fraction of all words.
 
 ```python
 from sklearn.feature_extraction.text import CountVectorizer
@@ -180,7 +182,9 @@ sims = cosine_similarity(matrix)
 
 Text feature matrices are **sparse**: the vast majority of entries are zero. A corpus with 10,000 unique words and 1,000 documents has 10 million matrix cells, but each document might use only 100–300 distinct words - meaning 97–99% of entries are zero.
 
-scikit-learn stores sparse matrices in **compressed sparse row (CSR)** format internally. This saves memory and makes operations fast. You should **not** call `.toarray()` on large corpora - converting a 10,000 × 50,000 sparse matrix to dense would require gigabytes of RAM.
+scikit-learn stores sparse matrices in **compressed sparse row (CSR)** format internally. Instead of allocating a cell for every document-word pair, CSR stores only the non-zero values and their row/column positions. A matrix that is 97% zeros uses roughly 3% of the memory a full dense array would need, and arithmetic operations skip the zeros entirely. This is why scikit-learn vectorisers return sparse matrices by default.
+
+You should **not** call `.toarray()` on large corpora — converting a 10,000 × 50,000 sparse matrix to dense would require gigabytes of RAM.
 
 ```python
 matrix = vectorizer.fit_transform(texts)

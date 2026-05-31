@@ -33,7 +33,27 @@ Preprocessing always involves a tradeoff:
 | Smaller vocabulary (stopword removal)                  | Function words that sometimes carry sentiment ("not good") |
 | Related forms grouped (`investigate`, `investigating`) | Distinctions between word senses (`bank` river vs money)   |
 
-**Zipf's law** explains why stopword removal helps. In almost every natural language corpus, word frequency follows a power law: a few words (`the`, `a`, `is`) account for a huge share of all tokens, while the long tail contains thousands of rare words that appear once or twice. If you count raw tokens without filtering, your features are dominated by function words that carry almost no investigative signal. Removing stopwords shifts attention to the distinctive terms - `docks`, `ledger`, `Reeves` - that actually differentiate documents.
+### Zipf's law
+
+**Zipf's law** (Zipf, 1949) is an empirical observation about word frequency in natural language: if you rank every word in a corpus by how often it appears, the frequency of the $r$-th ranked word is inversely proportional to its rank:
+
+$$f(r) \propto \frac{1}{r^s}, \quad s \approx 1$$
+
+In plain terms: the most common word appears roughly twice as often as the second most common, three times as often as the third, and so on. This pattern holds across virtually every human language, genre, and time period.
+
+A worked example from our 10 Inkwell witness statements:
+
+| Rank | Word   | Count | Predicted ($\approx 26/r$) |
+| ---- | ------ | ----- | -------------------------- |
+| 1    | `the`  | 26    | 26                         |
+| 2    | `i`    | 14    | 13                         |
+| 3    | `was`  | 11    | 8.7                        |
+| 4    | `a`    | 7     | 6.5                        |
+| 5    | `on`   | 6     | 5.2                        |
+
+The top few words dominate the total count. Meanwhile the **long tail** — the vast majority of _unique_ words — each appear only once or twice. In our 10 statements there are 188 unique words, but most of them (`docks`, `warehouse`, `ledger`, `Reeves`) occur fewer than three times each. Collectively these rare words make up most of the vocabulary, but individually each one is dwarfed by `the`.
+
+This is why stopword removal helps: without filtering, your features are dominated by high-frequency function words (`the`, `a`, `is`) that carry almost no investigative signal. Removing them shifts attention to the distinctive content words that actually differentiate documents.
 
 Apply preprocessing **deliberately**, not automatically. Keep the original text for audit trails. Fit any statistics (vocabulary, stopword lists) on training data only.
 
@@ -59,7 +79,9 @@ sentences = sent_tokenize(text)
 
 ### Word tokenisation
 
-**Word tokenisation** splits text into tokens. NLTK's `word_tokenize` follows **Penn Treebank conventions**: contractions become two tokens (`"don't"` → `do`, `'`, `n't`), punctuation is separated, and hyphenated compounds may split depending on context.
+**Word tokenisation** splits text into individual tokens. Why not just split on spaces? Because punctuation glued to a word (`thought.`) would create a different vocabulary entry from the same word without punctuation (`thought`), and contractions like `don't` hide a negation (`not`) that downstream models need to see.
+
+NLTK's `word_tokenize` follows **Penn Treebank conventions**: contractions become separate tokens (`"don't"` → `do`, `n't`), punctuation is detached from words, and hyphenated compounds may split depending on context.
 
 ```python
 from nltk.tokenize import word_tokenize
@@ -150,16 +172,21 @@ Apply cleaning **before** tokenisation. Tokenise the normalised text, not the ra
 
 ### Stopwords
 
-**Stopwords** are high-frequency function words with little semantic content for most classification and topic tasks. NLTK ships a list of 179 English stopwords derived from the Brown corpus.
+Linguists divide words into two broad classes. **Content words** (nouns, main verbs, adjectives, adverbs) carry meaning: `docks`, `investigate`, `hostile`. **Function words** (articles, prepositions, pronouns, auxiliaries, conjunctions) provide grammatical structure: `the`, `of`, `he`, `was`, `and`. Function words appear at the top of every Zipf distribution, but they tell you nothing about whether a statement mentions the docks or the warehouse.
+
+**Stopwords** are these high-frequency function words. For most classification and topic tasks, removing them improves signal-to-noise. NLTK ships a default list of 179 English stopwords compiled from the Brown corpus. The list is not sacred — it is a sensible starting point. You can inspect it, add domain-specific words, or remove words that matter for your task:
 
 ```python
 from nltk.corpus import stopwords
 
 stops = set(stopwords.words("english"))
+# stops is a plain Python set — you can modify it
+# stops.discard("not")      # keep negation for sentiment
+# stops.add("said")         # add a domain-specific stopword
 tokens = [t for t in tokens if t.isalpha() and t not in stops]
 ```
 
-Be cautious with negation: removing `not` turns "not guilty" into "guilty". For sentiment tasks (Module 3), consider keeping negation words or using bigrams (`not guilty` as a single feature in Module 2).
+Be cautious with negation: removing `not` turns "not guilty" into "guilty". For sentiment tasks (Module 3), consider keeping negation words or using bigrams (`not_guilty` as a single feature in Module 2).
 
 ### Stemming - Porter's algorithm
 
@@ -192,23 +219,44 @@ The **Snowball stemmer** is Porter's successor: it supports multiple languages a
 
 ### Lemmatisation - dictionary lookup
 
-**Lemmatisation** reduces words to their dictionary form (lemma) using vocabulary and part-of-speech information. Miller (1995) created **WordNet**, a lexical database where words are organised into **synsets** - sets of synonyms sharing a meaning. The lemmatiser looks up each token in WordNet and returns the canonical form for that POS tag.
+A **lemma** is the base or dictionary-headword form of a word — the form you would look up in a dictionary. The words `go`, `goes`, `going`, `went`, and `gone` are all inflected forms of the lemma `go`. A dictionary has one entry for `go`, not five.
 
-Why POS matters: `saw` as a verb lemmatises to `see`; `saw` as a noun stays `saw`. Without POS, the lemmatiser defaults to noun and produces wrong results.
+**Lemmatisation** maps each word in your text back to its lemma. Unlike stemming, which applies mechanical suffix rules and often produces fragments that are not real words (`investig`, `studi`), lemmatisation uses linguistic knowledge to return a valid dictionary entry (`investigate`, `study`). That makes lemmatised output readable — important when you need to present results in briefings or topic labels.
+
+#### How NLTK's lemmatiser works
+
+NLTK's lemmatiser is powered by **WordNet** (Miller, 1995), a large lexical database of English. WordNet organises words into **synsets** — sets of synonyms that share a core meaning. For example, the synset `{car, auto, automobile, motorcar}` groups four words under the shared meaning "a motor vehicle with four wheels". Each synset has a canonical headword (the lemma).
+
+Internally, the lemmatiser calls WordNet's **Morphy** function, which works in two steps:
+
+1. **Strip suffixes** using a set of rules (similar in spirit to stemming): try removing `-s`, `-es`, `-ed`, `-ing`, `-er`, `-est`, etc.
+2. **Validate against the lexicon**: check whether the stripped form exists as a headword in WordNet. If it does, accept it. If not, try the next rule. If no rule produces a valid headword, return the original word unchanged.
+
+This "strip then validate" approach is what guarantees real words — stemming only does step 1 and stops.
+
+#### Part-of-speech matters
+
+The lemmatiser needs to know a word's part of speech because the same surface form can belong to different lemmas depending on its grammatical role:
+
+- `saw` as a **verb** → lemma `see` (past tense)
+- `saw` as a **noun** → lemma `saw` (a cutting tool)
+- `better` as an **adjective** → lemma `good`
+- `better` as an **adverb** → lemma `well`
+
+If you do not supply a POS tag, NLTK defaults to **noun**. This means every verb in your corpus silently gets the wrong lemma — `investigating` stays `investigating` instead of becoming `investigate`. This is a common gotcha.
 
 ```python
 from nltk.stem import WordNetLemmatizer
 
 lemmatizer = WordNetLemmatizer()
 lemmatizer.lemmatize("investigating", pos="v")  # 'investigate'
+lemmatizer.lemmatize("investigating")            # 'investigating' (wrong — noun default)
 lemmatizer.lemmatize("docks")                    # 'dock'
 lemmatizer.lemmatize("saw", pos="v")             # 'see'
 lemmatizer.lemmatize("saw", pos="n")             # 'saw'
 ```
 
-Use `pos='v'` for verbs, `pos='a'` for adjectives, `pos='r'` for adverbs. Default is noun.
-
-NLTK uses WordNet's **Morphy** function internally - a rule-based morphological analyser that tries suffix stripping patterns and validates results against the WordNet lexicon.
+Use `pos='v'` for verbs, `pos='a'` for adjectives, `pos='r'` for adverbs, `pos='n'` for nouns (default). In a real pipeline, you would use a POS tagger (Module 6) to determine each token's tag automatically before lemmatising.
 
 ### When to use which
 
@@ -221,18 +269,24 @@ NLTK uses WordNet's **Morphy** function internally - a rule-based morphological 
 
 ## Building a preprocessing pipeline - the assembly line
 
-One-off cleaning scripts do not scale. Chain steps into a reusable function where each stage is a pure function - input text in, transformed output out:
+One-off cleaning scripts do not scale. Chain steps into a reusable function where each stage takes input and returns output without modifying anything outside itself:
 
 ```python
 def preprocess_statement(text: str) -> list[str]:
-    text = normalize_text(text)
-    tokens = word_tokenize(text)
-    tokens = [t for t in tokens if t.isalpha()]
-    tokens = remove_stopwords(tokens)
-    return lemmatize_tokens(tokens)
+    text = normalize_text(text)       # 1. clean raw text (regex, case fold, unicode)
+    tokens = word_tokenize(text)      # 2. split into tokens
+    tokens = [t for t in tokens if t.isalpha()]  # 3. drop punctuation tokens
+    tokens = remove_stopwords(tokens) # 4. drop high-frequency function words
+    return lemmatize_tokens(tokens)   # 5. reduce to dictionary forms
 ```
 
-This design makes testing easy: verify `normalize_text` independently of `lemmatize_tokens`. It also mirrors the scikit-learn `Pipeline` pattern you will use in Module 3 - fit on training data, transform on test data, never leak statistics across the split.
+The ordering matters:
+
+- **Normalise before tokenising** — so the tokeniser sees consistent text (no stray encoding, no `[REDACTED]` blocks creating spurious tokens).
+- **Remove stopwords before lemmatising** — so the lemmatiser has fewer tokens to process (it requires a lexicon lookup per token, which is slower than a set membership test).
+- **Lemmatise last** — because lemmatisation can depend on the surrounding context (POS tags), and earlier steps should not alter the tokens it needs to see.
+
+This design makes testing easy: verify `normalize_text` independently of `lemmatize_tokens`. It also mirrors the scikit-learn `Pipeline` pattern you will use in Module 3 — fit on training data, transform on test data, never leak statistics across the split.
 
 For batch work, map the pipeline across a list of documents and aggregate results (word frequencies, audit counts) with `collections.Counter`.
 
@@ -240,7 +294,7 @@ For batch work, map the pipeline across a list of documents and aggregate result
 
 ## Field rules
 
-- **Never preprocess your test set with statistics from training data.** Fit on train, transform on test.
+- **Fit preprocessing statistics on training data only.** Vocabulary, IDF weights, and stopword lists should be derived from the training set and then applied unchanged to the test set — never the reverse.
 - **Stemming is fast but crude; lemmatisation is slower but accurate.** Pick based on your downstream task.
 - **Keep the original text.** Always store raw text alongside cleaned versions for audit trails.
 
@@ -289,6 +343,7 @@ From repo root: `pnpm slides:01`, or `cd module-01-text-preprocessing/slides && 
 - [NLTK - Tokenizing text](https://www.nltk.org/book/ch03.html)
 - [spaCy - Linguistic Features](https://spacy.io/usage/linguistic-features)
 - [NLTK - Stemming and Lemmatization](https://www.nltk.org/book/ch05.html)
+- Zipf, G. K. (1949). _Human Behavior and the Principle of Least Effort_. Addison-Wesley.
 - Porter, M. F. (1980). An algorithm for suffix stripping. _Program_, 14(3), 130–137.
 - Miller, G. A. (1995). WordNet: A lexical database for English. _Communications of the ACM_, 38(11), 39–41.
 - Kiss, T., & Strunk, J. (2006). Unsupervised multilingual sentence boundary detection. _Computational Linguistics_, 32(4), 485–525.

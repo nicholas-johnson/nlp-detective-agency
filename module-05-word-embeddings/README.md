@@ -47,7 +47,7 @@ Individual dimensions are **not interpretable** - no single axis means "waterfro
 
 ## Word2Vec - learning the map
 
-Mikolov et al. (2013a) introduced **Word2Vec**, which trains a shallow neural network on a prediction task using co-occurrence statistics from a large corpus. The network has one hidden layer whose weight matrix _is_ the embedding table - each row is a word vector.
+Mikolov et al. (2013a) introduced **Word2Vec**, which trains a **shallow neural network** on a prediction task using co-occurrence statistics from a large corpus. A neural network is a function that learns to transform inputs into outputs through layers of simple computations. "Shallow" means it has just **one hidden layer** — as opposed to deep networks with many layers (Module 7). In Word2Vec, the hidden layer's weight matrix _is_ the embedding table — each row is a word vector. Training the network is simply a means to learn those vectors.
 
 Two architectures share the same embedding matrix but predict differently:
 
@@ -81,7 +81,7 @@ Train on Inkwell statements + cold-case summaries for domain-specific neighbours
 
 ### Negative sampling
 
-Computing the full softmax over a vocabulary of 100,000+ words at every training step is prohibitively expensive. Mikolov et al. (2013b) introduced **negative sampling**: instead of normalising over the entire vocabulary, contrast the true context word against a small number of randomly sampled "negative" words:
+The **softmax** function converts a vector of raw scores (one per vocabulary word) into probabilities that sum to 1, by exponentiating each score and dividing by the total. Computing this full softmax over a vocabulary of 100,000+ words at every training step is prohibitively expensive. Mikolov et al. (2013b) introduced **negative sampling**: instead of normalising over the entire vocabulary, contrast the true context word against a small number of randomly sampled "negative" words:
 
 $$\log \sigma(\mathbf{v}_w \cdot \mathbf{v}_c) + \sum_{i=1}^{k} \log \sigma(-\mathbf{v}_w \cdot \mathbf{v}_{n_i})$$
 
@@ -191,7 +191,7 @@ One vector per document, no OOV, captures context. Requires an API key - see Exe
 
 ## Visualisation - projecting to 2D
 
-High-dimensional vectors cannot be plotted directly. **Principal Component Analysis (PCA)** projects them to 2D by finding the directions of maximum variance:
+High-dimensional vectors (50+ dimensions) cannot be visualised directly — we need a way to reduce them to 2 or 3 dimensions for plotting. **Principal Component Analysis (PCA)** is a dimensionality reduction technique that finds the directions along which data points vary the most and projects everything onto those axes. Reducing from 50 dimensions to 2 loses most detail, but points that are nearby in 2D were genuinely close in the original high-dimensional space, making clusters and relationships visible:
 
 ```python
 from sklearn.decomposition import PCA
