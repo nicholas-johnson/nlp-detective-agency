@@ -249,6 +249,20 @@ preds = pipeline.predict(X_test)`,
     },
   },
   {
+    type: 'standard',
+    content: {
+      title: 'How Naive Bayes learns',
+      icon: 'settings',
+      points: [
+        'No iterative optimisation — training is **just counting**.',
+        '**Prior**: count documents per class — P(spam) = spam docs / total docs.',
+        '**Likelihoods**: count how often each word appears in each class — P(free | spam) = count of "free" in spam / total words in spam.',
+        '**Laplace smoothing** adds 1 to every count so unseen words get a small probability instead of zero.',
+        'One pass through the data — this is why NB trains in milliseconds even on large corpora.',
+      ],
+    },
+  },
+  {
     type: 'code',
     content: {
       title: 'Naive Bayes pipeline',

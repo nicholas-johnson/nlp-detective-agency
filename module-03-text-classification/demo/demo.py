@@ -71,6 +71,15 @@ def pick_record(records: list[dict], label: str = "record") -> dict | None:
     return records[int(choice) - 1]
 
 
+def _tip_feature_vector(pipeline: Pipeline, text: str):
+    """Return the TF-IDF vector, feature names, and non-zero indices for one document."""
+    tfidf = pipeline.named_steps["tfidf"]
+    vec = tfidf.transform([text])
+    features = tfidf.get_feature_names_out()
+    nonzero = vec.nonzero()[1]
+    return vec, features, nonzero
+
+
 def predict_tip(classifier_key: str, records: list[dict]) -> None:
     X_train, X_test, y_train, y_test = train_test(records, "label")
     pipeline = build_pipeline(classifier_key)
@@ -80,34 +89,82 @@ def predict_tip(classifier_key: str, records: list[dict]) -> None:
     if record is None:
         return
 
-    pred = pipeline.predict([record["text"]])[0]
+    text = record["text"]
+    pred = pipeline.predict([text])[0]
     print(f"\nPrediction: {pred}  (actual: {record['label']})")
 
+    vec, features, nonzero = _tip_feature_vector(pipeline, text)
+    clf = pipeline.named_steps["clf"]
+
     if classifier_key == "nb":
-        proba = pipeline.predict_proba([record["text"]])[0]
-        classes = pipeline.classes_
+        proba = pipeline.predict_proba([text])[0]
+        classes = list(pipeline.classes_)
         print("\nPosterior probabilities:")
         for cls, p in zip(classes, proba):
-            print(f"  {cls}: {p:.3f}")
+            marker = " ←" if cls == pred else ""
+            print(f"  {cls}: {p:.3f}{marker}")
+
+        log_prob = clf.feature_log_prob_
+        print("\nTop words from this tip (by log-likelihood difference):")
+        diffs = {}
+        hoax_idx = classes.index("hoax")
+        cred_idx = classes.index("credible")
+        for j in nonzero:
+            diff = log_prob[hoax_idx, j] - log_prob[cred_idx, j]
+            diffs[j] = diff
+        ranked = sorted(diffs, key=lambda j: abs(diffs[j]), reverse=True)[:8]
+        for j in ranked:
+            direction = "hoax" if diffs[j] > 0 else "credible"
+            print(f"  {features[j]:<20} log-diff {diffs[j]:+.2f}  → {direction}")
 
     elif classifier_key == "lr":
-        clf = pipeline.named_steps["clf"]
-        tfidf = pipeline.named_steps["tfidf"]
-        features = tfidf.get_feature_names_out()
+        proba = clf.predict_proba([vec.toarray()[0]])[0]
+        classes = list(clf.classes_)
+        print("\nClass probabilities:")
+        for cls, p in zip(classes, proba):
+            marker = " ←" if cls == pred else ""
+            print(f"  {cls}: {p:.3f}{marker}")
+
         weights = clf.coef_[0]
-        top_hoax = np.argsort(weights)[-5:][::-1]
-        top_credible = np.argsort(weights)[:5]
-        hoax_idx = list(clf.classes_).index("hoax")
-        if hoax_idx == 0:
-            top_hoax, top_credible = top_credible, top_hoax
-        print("\nTop features pushing toward hoax:")
+        tfidf_vals = vec.toarray()[0]
+        contributions = weights * tfidf_vals
+
+        print("\nWords from this tip (by contribution to score):")
+        active = [(j, contributions[j]) for j in nonzero if abs(contributions[j]) > 1e-6]
+        active.sort(key=lambda x: abs(x[1]), reverse=True)
+        hoax_idx = classes.index("hoax")
+        sign = 1 if hoax_idx == 1 else -1
+        for j, contrib in active[:8]:
+            direction = "hoax" if contrib * sign > 0 else "credible"
+            print(f"  {features[j]:<20} weight {weights[j]:+.3f}  tfidf {tfidf_vals[j]:.2f}  contrib {contrib:+.3f}  → {direction}")
+
+        print("\nTop model features overall (hoax):")
+        top_hoax = np.argsort(weights * sign)[-5:][::-1]
         for i in top_hoax:
             print(f"  {features[i]:<20} {weights[i]:+.3f}")
-        print("Top features pushing toward credible:")
+        print("Top model features overall (credible):")
+        top_credible = np.argsort(weights * sign)[:5]
         for i in top_credible:
             print(f"  {features[i]:<20} {weights[i]:+.3f}")
 
     elif classifier_key == "svm":
+        weights = clf.coef_[0]
+        classes = list(clf.classes_)
+        hoax_idx = classes.index("hoax")
+        sign = 1 if hoax_idx == 1 else -1
+        tfidf_vals = vec.toarray()[0]
+        contributions = weights * tfidf_vals
+        decision = clf.decision_function(vec)[0]
+
+        print(f"\nDecision score: {decision:+.3f}  ({'hoax side' if decision * sign > 0 else 'credible side'})")
+
+        print("\nWords from this tip (by contribution to decision):")
+        active = [(j, contributions[j]) for j in nonzero if abs(contributions[j]) > 1e-6]
+        active.sort(key=lambda x: abs(x[1]), reverse=True)
+        for j, contrib in active[:8]:
+            direction = "hoax" if contrib * sign > 0 else "credible"
+            print(f"  {features[j]:<20} weight {weights[j]:+.3f}  tfidf {tfidf_vals[j]:.2f}  contrib {contrib:+.3f}  → {direction}")
+
         preds = pipeline.predict(X_test)
         f1 = f1_score(y_test, preds, pos_label="hoax")
         print(f"\nHold-out F1 (hoax): {f1:.3f}")
