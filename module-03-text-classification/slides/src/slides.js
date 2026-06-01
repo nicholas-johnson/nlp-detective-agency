@@ -239,6 +239,16 @@ preds = pipeline.predict(X_test)`,
     },
   },
   {
+    type: 'equation',
+    content: {
+      title: 'Worked example — is this message spam?',
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mtext>spam</mtext><mo>∣</mo><mi>d</mi><mo>)</mo><mo>∝</mo><mi>P</mi><mo>(</mo><mtext>spam</mtext><mo>)</mo><mo>×</mo><mi>P</mi><mo>(</mo><mtext>free</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo><mo>×</mo><mi>P</mi><mo>(</mo><mtext>money</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo><mo>×</mo><mi>P</mi><mo>(</mo><mtext>offer</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo></math>',
+      description:
+        'For the message "free money offer": multiply the prior probability of spam by each word\'s likelihood under the spam class. Repeat for ham, then compare — the higher product wins.',
+    },
+  },
+  {
     type: 'code',
     content: {
       title: 'Naive Bayes pipeline',
@@ -298,6 +308,20 @@ pipeline = Pipeline([
     },
   },
   {
+    type: 'standard',
+    content: {
+      title: 'How logistic regression learns',
+      icon: 'settings',
+      points: [
+        'Start with random weights — predictions are terrible.',
+        'Measure error with **log loss**: penalises confident wrong answers heavily.',
+        'Adjust weights by **gradient descent** — nudge each weight in the direction that reduces the loss.',
+        'Repeat for many iterations — `max_iter=1000` — until the weights converge.',
+        'The result: a weight per word that reflects how much it pushes toward each class.',
+      ],
+    },
+  },
+  {
     type: 'code',
     content: {
       title: 'Logistic Regression pipeline',
@@ -354,6 +378,20 @@ pipeline = Pipeline([
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>margin</mtext><mo>=</mo><mfrac><mn>2</mn><mrow><mo>‖</mo><mi mathvariant="bold">w</mi><mo>‖</mo></mrow></mfrac></math>',
       description:
         'SVM finds the decision boundary that maximises the gap between the two nearest class examples. Smaller weights = wider margin = better generalisation.',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'How SVM learns',
+      icon: 'settings',
+      points: [
+        'Goal: find the boundary with the **widest possible margin** between classes.',
+        'Formulated as an **optimisation problem** — minimise weight size while keeping all training points on the correct side.',
+        '**C** relaxes the constraint: small C allows some points inside the margin (soft margin) for better generalisation.',
+        'Only the **support vectors** (nearest points to the boundary) affect the solution — all other points are ignored.',
+        'Much faster than trying every possible boundary — solved with efficient quadratic programming.',
+      ],
     },
   },
   {
