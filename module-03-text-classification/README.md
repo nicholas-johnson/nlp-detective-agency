@@ -4,6 +4,7 @@
 
 ## Learning goals
 
+- Explain what a **model** is in supervised text classification.
 - Split data into **train/test sets** and understand why leakage ruins evaluation.
 - Build **scikit-learn pipelines** that chain vectorisation and classification.
 - Train and compare classifiers: **Naive Bayes**, **Logistic Regression**, and **SVM**.
@@ -80,17 +81,39 @@ The pipeline handles everything: raw text in, labels out. When you call `pipelin
 
 ---
 
+## What is a model?
+
+A **model** in supervised text classification is a fitted pipeline that has learned which word patterns predict which labels. When you call `pipeline.fit(X_train, y_train)`, the vectoriser learns vocabulary and the classifier learns decision parameters from labelled training pairs. When you call `pipeline.predict(X_test)`, those learned parameters are applied to text the model has never seen. The Pipeline object — vectoriser plus classifier — *is* the model.
+
+---
+
 ## Classifiers for text - picking your jury
 
 Module 2 gave you vectors. Now you need a decision boundary - a rule that separates classes in that high-dimensional space. Three classifiers dominate text classification.
 
 ### Multinomial Naive Bayes
 
-McCallum and Nigam (1998) popularised **Multinomial Naive Bayes** for text. It applies **Bayes' theorem** with a simplifying assumption:
+Naive Bayes applies **Bayes' theorem** to classify text. Before looking at any equations, the core idea is simple: start with a **prior belief** about how common each class is (e.g. most tips are credible), then **update that belief** using the evidence in the document (e.g. words like "wire $500" are strong signals for hoax). The updated belief is the **posterior** — the probability of each class after reading the text.
+
+#### Prior, likelihood, and posterior
+
+Bayes' theorem connects three quantities:
+
+- **Prior** $P(c)$ — how common is class $c$ in the training data? This is the base rate (e.g. 10 credible tips out of 18 total).
+- **Likelihood** $P(d \mid c)$ — how typical is document $d$ for class $c$? If hoax tips often contain words like "conspiracy" and "payment", a tip with those words has high likelihood under the hoax class.
+- **Posterior** $P(c \mid d)$ — what we actually want: the probability of class $c$ **after** reading document $d$.
+
+The denominator $P(d)$ is the same for all classes when comparing, so we often work with proportions rather than exact probabilities.
+
+#### Bayes' theorem
 
 $$P(c \mid d) = \frac{P(d \mid c) \, P(c)}{P(d)}$$
 
-where $c$ is a class and $d$ is a document represented as word counts. The **naive** assumption treats each word as independent given the class:
+Read this as: **posterior = (likelihood × prior) / evidence**. The prior is the base rate; the likelihood measures how well the document fits the class; the posterior is the updated belief.
+
+#### The naive assumption
+
+For text, we estimate $P(w \mid c)$ from word counts in training documents of class $c$. McCallum and Nigam (1998) popularised this as **Multinomial Naive Bayes**. The **naive** assumption treats each word as independent given the class, which lets us replace the full document likelihood with a product over individual words:
 
 $$P(d \mid c) \propto \prod_{w \in d} P(w \mid c)^{\text{count}(w, d)}$$
 
@@ -112,13 +135,25 @@ Pipeline([("tfidf", TfidfVectorizer(stop_words="english")), ("clf", MultinomialN
 
 ### Logistic Regression
 
-**Logistic regression** models the probability of class membership as a sigmoid function of a linear combination of features:
+Where Naive Bayes multiplies word probabilities, **logistic regression** takes a different approach: every word in the vocabulary gets a learned **weight**, and the model adds up the weights of all words present in a document to produce a single score. A high positive score means the document looks like one class; a high negative score means it looks like the other. The **sigmoid** function then converts that raw score into a probability between 0 and 1.
+
+#### How weights combine
+
+Imagine two TF-IDF features with learned weights: "payment" has weight +2.1 (pushes toward hoax) and "witness" has weight −1.8 (pushes toward credible). A tip containing both words gets a combined score of roughly $2.1 + (-1.8) = +0.3$ (simplified — in practice every word in the document contributes). The sigmoid converts +0.3 into a probability just above 0.5 — a marginal hoax prediction. A tip with "payment" but not "witness" scores higher and gets a more confident hoax label.
+
+This is the linear combination $\mathbf{w} \cdot \mathbf{x} + b$, where $\mathbf{x}$ is the TF-IDF vector and $\mathbf{w}$ is the weight vector learned during training.
+
+#### The sigmoid
 
 $$P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w} \cdot \mathbf{x} + b) = \frac{1}{1 + e^{-(\mathbf{w} \cdot \mathbf{x} + b)}}$$
 
-The **sigmoid** ($\sigma$) function squashes any real number into the range (0, 1), which lets the output be interpreted as a probability. Large positive inputs map to ≈1, large negative inputs map to ≈0, and zero maps to exactly 0.5 (maximum uncertainty). This is why "logistic regression" is used for classification despite the name "regression" — the sigmoid turns a continuous score into a class probability.
+The **sigmoid** ($\sigma$) squashes any real number into the range (0, 1). A large positive input maps to ≈1 (confident positive prediction), a large negative input maps to ≈0 (confident negative), and zero maps to exactly 0.5 (maximum uncertainty). This is why "logistic regression" is used for classification despite the name "regression" — the sigmoid turns a continuous score into a class probability.
 
-Each TF-IDF feature gets a weight $w_i$. A **positive weight** means that word pushes toward the positive class; a **negative weight** pushes away. This makes logistic regression interpretable — you can inspect the highest-weight features to see which words drive predictions.
+#### Why it is interpretable
+
+Each TF-IDF feature gets a weight $w_i$. A **positive weight** means that word pushes toward the positive class; a **negative weight** pushes away. You can rank features by weight to see exactly which words drive a prediction — a key advantage over Naive Bayes, which has no single set of comparable feature weights. In the demo (option 4), you can inspect the top features for any tip and see *why* the model classified it as credible or hoax.
+
+#### Regularisation and C
 
 The **C** parameter controls regularisation (see overfitting section above): smaller C means stronger penalty on large weights, reducing overfitting on rare words. **`max_iter`** sets the optimisation iteration limit — increase it if the solver warns about non-convergence.
 
@@ -137,11 +172,33 @@ Pipeline([("tfidf", TfidfVectorizer(stop_words="english")),
 
 ### Linear Support Vector Machine
 
-Joachims (1998) showed that **Support Vector Machines** excel at text classification. Linear SVM finds the **hyperplane** that **maximises the margin**. A hyperplane is a flat decision boundary — a line in 2D, a plane in 3D, and a higher-dimensional analogue when features number in the thousands (as with TF-IDF). The margin is the distance between this boundary and the nearest training points from each class:
+Logistic regression computes a probability; a **Support Vector Machine** takes a different approach. Instead of asking "how probable is each class?", SVM asks "where should I draw a dividing line between classes, and how can I make that line as robust as possible?"
+
+#### The decision boundary
+
+SVM draws a **decision boundary** between classes and positions it to be as far as possible from the nearest training examples on both sides. The gap between the boundary and those closest points is the **margin**.
+
+In two dimensions (two features), the boundary is a line. In three dimensions, it is a flat plane. With thousands of TF-IDF features, it is a **hyperplane** — the same concept extended to high-dimensional space. You cannot visualise a hyperplane in thousands of dimensions, but the mathematics works identically to the 2D case.
+
+#### Why margin matters
+
+A boundary that barely squeezes between classes is fragile — a slightly different test document could easily land on the wrong side. A **wide margin** means the model is more confident about the gap between classes and generalises better to unseen text.
 
 $$\text{margin} = \frac{2}{\|\mathbf{w}\|}$$
 
-On high-dimensional sparse text data (many features, relatively few documents), a large-margin linear separator generalises well. Text features are already nearly linearly separable in many tasks - there is little need for complex non-linear kernels.
+The formula shows that **smaller weights produce a wider margin** — the same regularisation intuition as logistic regression. Keeping weights small forces the model to find a robust separator rather than memorising quirks of the training data.
+
+#### Support vectors
+
+The training examples that sit exactly on the edge of the margin are called **support vectors**. Only these closest points determine where the boundary goes — all other training examples could be moved or removed without changing the decision boundary at all. This is why SVM works well on sparse text data: most documents are far from the boundary and do not influence it. Joachims (1998) demonstrated this effectiveness on text classification tasks.
+
+#### No native probabilities
+
+SVM predicts a class label, not a probability. If you need calibrated probabilities, use logistic regression instead or set `probability=True` on `SVC` (which adds a separate calibration step and is slower). For filtering tasks where you only need a binary decision (credible or hoax), the lack of probabilities is rarely a problem.
+
+#### The C parameter
+
+**C** controls the trade-off between margin width and training accuracy. Small C allows some misclassifications in exchange for a wider margin — more generalisation, less overfitting. Large C forces the boundary to classify all training points correctly even if the margin shrinks. On high-dimensional text data, the default or a moderately small C usually works well.
 
 | Strengths                              | Weaknesses                                  |
 | -------------------------------------- | ------------------------------------------- |
@@ -199,12 +256,10 @@ print(classification_report(y_test, predictions, labels=["credible", "hoax"]))
 
 Accuracy alone lies. A confusion matrix reveals where the model succeeds and fails:
 
-```
-                 Predicted
-                 credible  hoax
-Actual credible     TN       FP
-       hoax         FN       TP
-```
+|                    | Predicted **credible** | Predicted **hoax** |
+| ------------------ | ---------------------- | ------------------ |
+| Actual **credible** | TN                     | FP                 |
+| Actual **hoax**     | FN                     | TP                 |
 
 From this table, derive the metrics that matter for your task:
 
@@ -263,11 +318,23 @@ A single train/test split can be lucky or unlucky - especially on small datasets
 
 ## Demo
 
-Interactive console menu - train classifiers, predict, and compare on Inkwell data:
+Interactive console menu — train classifiers, predict, and compare on Inkwell data:
 
 ```bash
 python module-03-text-classification/demo/demo.py
 ```
+
+| Option | What it does |
+| ------ | ------------ |
+| 1 | List datasets (sentiment + tips class counts) |
+| 2 | Sentiment pipeline — predict one witness statement |
+| 3 | Naive Bayes — predict one tip + posterior probabilities |
+| 4 | Logistic Regression — predict one tip + top weighted features |
+| 5 | Linear SVM — predict one tip + hold-out F1 |
+| 6 | Classifier shootout (NB / LR / SVM via cross-validation) |
+| 7 | Classification report + confusion matrix |
+
+Options 3–5 introduce each classifier individually before option 6 compares them.
 
 ---
 

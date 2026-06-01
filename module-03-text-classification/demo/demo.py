@@ -7,6 +7,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
+import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix, f1_score, make_scorer
 from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.pipeline import Pipeline
@@ -30,13 +31,6 @@ def load_tips() -> list[dict]:
 
 
 def build_sentiment_pipeline() -> Pipeline:
-    return Pipeline([
-        ("tfidf", TfidfVectorizer(stop_words="english")),
-        ("clf", MultinomialNB()),
-    ])
-
-
-def build_hoax_pipeline() -> Pipeline:
     return Pipeline([
         ("tfidf", TfidfVectorizer(stop_words="english")),
         ("clf", MultinomialNB()),
@@ -77,16 +71,60 @@ def pick_record(records: list[dict], label: str = "record") -> dict | None:
     return records[int(choice) - 1]
 
 
+def predict_tip(classifier_key: str, records: list[dict]) -> None:
+    X_train, X_test, y_train, y_test = train_test(records, "label")
+    pipeline = build_pipeline(classifier_key)
+    pipeline.fit(X_train, y_train)
+
+    record = pick_record(records, "tip")
+    if record is None:
+        return
+
+    pred = pipeline.predict([record["text"]])[0]
+    print(f"\nPrediction: {pred}  (actual: {record['label']})")
+
+    if classifier_key == "nb":
+        proba = pipeline.predict_proba([record["text"]])[0]
+        classes = pipeline.classes_
+        print("\nPosterior probabilities:")
+        for cls, p in zip(classes, proba):
+            print(f"  {cls}: {p:.3f}")
+
+    elif classifier_key == "lr":
+        clf = pipeline.named_steps["clf"]
+        tfidf = pipeline.named_steps["tfidf"]
+        features = tfidf.get_feature_names_out()
+        weights = clf.coef_[0]
+        top_hoax = np.argsort(weights)[-5:][::-1]
+        top_credible = np.argsort(weights)[:5]
+        hoax_idx = list(clf.classes_).index("hoax")
+        if hoax_idx == 0:
+            top_hoax, top_credible = top_credible, top_hoax
+        print("\nTop features pushing toward hoax:")
+        for i in top_hoax:
+            print(f"  {features[i]:<20} {weights[i]:+.3f}")
+        print("Top features pushing toward credible:")
+        for i in top_credible:
+            print(f"  {features[i]:<20} {weights[i]:+.3f}")
+
+    elif classifier_key == "svm":
+        preds = pipeline.predict(X_test)
+        f1 = f1_score(y_test, preds, pos_label="hoax")
+        print(f"\nHold-out F1 (hoax): {f1:.3f}")
+
+
 def main() -> None:
     print("Inkwell Investigations - Triage Desk")
     print("=" * 40)
 
     while True:
         print("\n1. List datasets")
-        print("2. Sentiment - predict one witness statement")
-        print("3. Hoax - predict one tip")
-        print("4. Classifier shootout on tips (NB / LR / SVM)")
-        print("5. Classification report for hoax detector")
+        print("2. Sentiment pipeline - predict one witness statement")
+        print("3. Naive Bayes - predict one tip")
+        print("4. Logistic Regression - predict one tip + top features")
+        print("5. Linear SVM - predict one tip + hold-out F1")
+        print("6. Classifier shootout on tips (NB / LR / SVM)")
+        print("7. Classification report + confusion matrix")
         print("0. Quit")
         choice = input("\nChoice: ").strip()
 
@@ -115,18 +153,11 @@ def main() -> None:
             pred = pipeline.predict([record["text"]])[0]
             print(f"\nPrediction: {pred}  (actual: {record['sentiment']})")
 
-        elif choice == "3":
-            records = load_tips()
-            X_train, X_test, y_train, y_test = train_test(records, "label")
-            pipeline = build_hoax_pipeline()
-            pipeline.fit(X_train, y_train)
-            record = pick_record(records, "tip")
-            if record is None:
-                continue
-            pred = pipeline.predict([record["text"]])[0]
-            print(f"\nPrediction: {pred}  (actual: {record['label']})")
+        elif choice in ("3", "4", "5"):
+            key = {"3": "nb", "4": "lr", "5": "svm"}[choice]
+            predict_tip(key, load_tips())
 
-        elif choice == "4":
+        elif choice == "6":
             records = load_tips()
             texts = [r["text"] for r in records]
             labels = [r["label"] for r in records]
@@ -138,10 +169,10 @@ def main() -> None:
                 scores = cross_val_score(pipeline, texts, labels, cv=5, scoring=hoax_f1)
                 print(f"{label:<20} {scores.mean():>8.3f} {scores.std():>8.3f}")
 
-        elif choice == "5":
+        elif choice == "7":
             records = load_tips()
             X_train, X_test, y_train, y_test = train_test(records, "label")
-            pipeline = build_hoax_pipeline()
+            pipeline = build_pipeline("nb")
             pipeline.fit(X_train, y_train)
             preds = pipeline.predict(X_test)
             print("\nClassification report:")

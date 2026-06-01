@@ -22,6 +22,7 @@ export const slides = [
       points: [
         'Module 2 turned statements into **numerical fingerprints**.',
         'Now we **label** text and train models to predict those labels.',
+        'Meet **three classifiers one at a time** — Naive Bayes, Logistic Regression, and Linear SVM.',
         'Two Inkwell tasks: **witness sentiment** (calm vs hostile) and **tip credibility** (credible vs hoax).',
         'scikit-learn **Pipelines** keep vectorisation and classification leak-free.',
       ],
@@ -33,11 +34,35 @@ export const slides = [
       title: 'Learning goals',
       icon: 'target',
       points: [
+        'Explain what a **model** is in supervised text classification.',
         'Split data with **`train_test_split`** - stratify, hold out a test set.',
         'Build **`Pipeline`** objects chaining TfidfVectorizer and a classifier.',
         'Compare **MultinomialNB**, **LogisticRegression**, and **LinearSVC**.',
         'Evaluate with **accuracy**, **precision**, **recall**, **F1**, and **confusion matrices**.',
         'Understand **precision vs recall** for filtering tasks like hoax detection.',
+      ],
+    },
+  },
+
+  // ---- What is a model? ----
+  {
+    type: 'title',
+    content: {
+      title: 'What is a model?',
+      subtitle: 'Supervised learning',
+      icon: 'brain',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Supervised text classification',
+      icon: 'book-open',
+      points: [
+        'A **supervised** model learns from **labelled pairs** — each text comes with a known category.',
+        'Training (`fit`) discovers which word patterns predict which label.',
+        'Prediction (`predict`) applies those patterns to text the model has never seen.',
+        'The **Pipeline** (vectoriser + classifier) *is* the model object — one call to `fit`, one call to `predict`.',
       ],
     },
   },
@@ -90,8 +115,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     type: 'title',
     content: {
       title: 'Demo - Dataset overview',
-      subtitle:
-        'python module-03-text-classification/demo/demo.py - option 1',
+      subtitle: 'python module-03-text-classification/demo/demo.py - option 1',
       icon: 'terminal',
     },
   },
@@ -131,19 +155,241 @@ preds = pipeline.predict(X_test)`,
     type: 'title',
     content: {
       title: 'Demo - Sentiment pipeline',
-      subtitle:
-        'python module-03-text-classification/demo/demo.py - option 2',
+      subtitle: 'python module-03-text-classification/demo/demo.py - option 2',
       icon: 'terminal',
     },
   },
 
-  // ---- Classifiers ----
+  // ---- Bayes theorem ----
   {
     type: 'title',
     content: {
-      title: 'Three classifiers',
-      subtitle: 'Baselines for text classification',
-      icon: 'brain',
+      title: "Bayes' theorem",
+      subtitle: 'Updating beliefs with evidence',
+      icon: 'bar-chart',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Intuition — tips and evidence',
+      icon: 'lightbulb',
+      points: [
+        'Classification question: *given this tip text, how probable is each label?*',
+        'Start with a **prior belief** — most tips are credible (base rate from training data).',
+        'Then look at the **evidence** — words like "wire $500" or "demand payment" are strong signals for hoax.',
+        "Bayes' theorem combines prior belief with evidence to produce an **updated probability**.",
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Three quantities',
+      icon: 'list',
+      points: [
+        '**Prior** P(c) — how common is class c in training data? (base rate of hoaxes vs credible tips)',
+        '**Likelihood** P(d | c) — how typical is this document if class c were true?',
+        '**Posterior** P(c | d) — what we want: class probability *after* reading the document.',
+        'The denominator P(d) is the same for all classes — when comparing, we work with proportions.',
+      ],
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: "Bayes' theorem",
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>d</mi><mo>∣</mo><mi>c</mi><mo>)</mo><mspace width="0.2em"/><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>d</mi><mo>)</mo></mrow></mfrac></math>',
+      description:
+        'Posterior = (likelihood × prior) / evidence. The prior is the base rate; the likelihood measures how well the document fits the class; the posterior is the updated belief.',
+    },
+  },
+
+  // ---- MultinomialNB ----
+  {
+    type: 'title',
+    content: {
+      title: 'Multinomial Naive Bayes',
+      subtitle: 'From theorem to text classifier',
+      icon: 'zap',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'From Bayes to Naive Bayes',
+      icon: 'file-text',
+      points: [
+        'For text: estimate P(w | c) from word counts in training documents of class c.',
+        'The **naive** assumption treats every word as independent given the class.',
+        'This lets us replace the full document likelihood with a **product over individual words**.',
+        '**Laplace smoothing** (α = 1) prevents unseen words from zeroing out the posterior.',
+      ],
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'Naive Bayes — word independence',
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo><mo>∝</mo><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo><munder><mo>∏</mo><mi>w</mi></munder><mi>P</mi><mo>(</mo><mi>w</mi><mo>∣</mo><mi>c</mi><mo>)</mo></math>',
+      description:
+        "Multiply the prior by each word's likelihood. Independence is unrealistic — but on sparse text data, this simple model works remarkably well.",
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      title: 'Naive Bayes pipeline',
+      code: `from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+
+pipeline = Pipeline([
+    ("tfidf", TfidfVectorizer(stop_words="english")),
+    ("clf", MultinomialNB()),
+])`,
+      highlights: [
+        'Fast to train — strong baseline for short text',
+        'Works well with TF-IDF and count vectors',
+      ],
+    },
+  },
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Naive Bayes on tips',
+      subtitle: 'python module-03-text-classification/demo/demo.py - option 3',
+      icon: 'terminal',
+    },
+  },
+
+  // ---- LogisticRegression ----
+  {
+    type: 'title',
+    content: {
+      title: 'Logistic Regression',
+      subtitle: 'Interpretable weights and probabilities',
+      icon: 'scale',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'The sigmoid classifier',
+      icon: 'trending-up',
+      points: [
+        'Models class probability as a **sigmoid** of a linear combination of TF-IDF features.',
+        'Each feature gets a weight — **positive** pushes toward one class, **negative** pushes away.',
+        'Weights are **interpretable**: inspect the top features to see which words drive predictions.',
+        '**C** controls regularisation — smaller C penalises large weights, reducing overfitting on rare words.',
+      ],
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'Logistic regression — the sigmoid',
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi mathvariant="bold">w</mi><mo>·</mo><mi mathvariant="bold">x</mi><mo>+</mo><mi>b</mi><mo>)</mo></mrow></msup></mrow></mfrac></math>',
+      description:
+        'The sigmoid squashes any real number into (0, 1) — interpretable as a probability. Positive weights push toward class 1; negative weights push away.',
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      title: 'Logistic Regression pipeline',
+      code: `from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+
+pipeline = Pipeline([
+    ("tfidf", TfidfVectorizer(stop_words="english")),
+    ("clf", LogisticRegression(max_iter=1000)),
+])`,
+      highlights: [
+        'Calibrated probability outputs via predict_proba',
+        'Inspect feature weights to understand predictions',
+      ],
+    },
+  },
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Logistic Regression on tips',
+      subtitle: 'python module-03-text-classification/demo/demo.py - option 4',
+      icon: 'terminal',
+    },
+  },
+
+  // ---- LinearSVC ----
+  {
+    type: 'title',
+    content: {
+      title: 'Linear SVM',
+      subtitle: 'Maximum-margin decision boundary',
+      icon: 'shield',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Support Vector Machine',
+      icon: 'maximize',
+      points: [
+        'Finds the **hyperplane** that **maximises the margin** between classes.',
+        'On high-dimensional sparse text data, a linear separator generalises well.',
+        'No native probability outputs — predicts a class label directly.',
+        '**C** controls the margin-error trade-off — same regularisation idea as logistic regression.',
+      ],
+    },
+  },
+  {
+    type: 'equation',
+    content: {
+      title: 'SVM margin',
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>margin</mtext><mo>=</mo><mfrac><mn>2</mn><mrow><mo>‖</mo><mi mathvariant="bold">w</mi><mo>‖</mo></mrow></mfrac></math>',
+      description:
+        'SVM finds the decision boundary that maximises the gap between the two nearest class examples. Smaller weights = wider margin = better generalisation.',
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      title: 'Linear SVM pipeline',
+      code: `from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.svm import LinearSVC
+
+pipeline = Pipeline([
+    ("tfidf", TfidfVectorizer(stop_words="english")),
+    ("clf", LinearSVC(dual="auto")),
+])`,
+      highlights: [
+        'Sharp decision boundaries on sparse text',
+        'Use dual="auto" for wide TF-IDF matrices',
+      ],
+    },
+  },
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Linear SVM on tips',
+      subtitle: 'python module-03-text-classification/demo/demo.py - option 5',
+      icon: 'terminal',
+    },
+  },
+
+  // ---- Compare classifiers ----
+  {
+    type: 'title',
+    content: {
+      title: 'Comparing classifiers',
+      subtitle: 'Which model wins on your data?',
+      icon: 'bar-chart-2',
     },
   },
   {
@@ -181,37 +427,11 @@ preds = pipeline.predict(X_test)`,
       ],
     },
   },
-
-  {
-    type: 'equation',
-    content: {
-      title: 'Naive Bayes',
-      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo><mo>∝</mo><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo><munder><mo>∏</mo><mi>w</mi></munder><mi>P</mi><mo>(</mo><mi>w</mi><mo>∣</mo><mi>c</mi><mo>)</mo></math>',
-      description: "Multiply the prior class probability by each word's likelihood given that class. 'Naive' means we assume words are independent — wrong but effective.",
-    },
-  },
-  {
-    type: 'equation',
-    content: {
-      title: 'Logistic regression — the sigmoid',
-      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi mathvariant="bold">w</mi><mo>·</mo><mi mathvariant="bold">x</mi><mo>+</mo><mi>b</mi><mo>)</mo></mrow></msup></mrow></mfrac></math>',
-      description: "The sigmoid squashes any real number into (0, 1) — interpretable as a probability. Positive weights push toward class 1; negative weights push away.",
-    },
-  },
-  {
-    type: 'equation',
-    content: {
-      title: 'SVM margin',
-      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>margin</mtext><mo>=</mo><mfrac><mn>2</mn><mrow><mo>‖</mo><mi mathvariant="bold">w</mi><mo>‖</mo></mrow></mfrac></math>',
-      description: "SVM finds the decision boundary that maximises the gap between the two nearest class examples. Smaller weights = wider margin = better generalisation.",
-    },
-  },
   {
     type: 'title',
     content: {
-      title: 'Demo - Hoax pipeline and classifier shootout',
-      subtitle:
-        'python module-03-text-classification/demo/demo.py - options 3 & 4',
+      title: 'Demo - Classifier shootout',
+      subtitle: 'python module-03-text-classification/demo/demo.py - option 6',
       icon: 'terminal',
     },
   },
@@ -298,8 +518,32 @@ scores = cross_val_score(pipeline, texts, labels, cv=5, scoring=hoax_f1)`,
     type: 'equation',
     content: {
       title: 'Precision, Recall, F1',
-      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" rowspacing="1em"><mtr><mtd><mtext>Precision</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FP</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><mtext>Recall</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FN</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><msub><mtext>F</mtext><mn>1</mn></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><mo>·</mo><mfrac><mrow><mtext>Precision</mtext><mo>·</mo><mtext>Recall</mtext></mrow><mrow><mtext>Precision</mtext><mo>+</mo><mtext>Recall</mtext></mrow></mfrac></mtd></mtr></mtable></math>',
-      description: "Precision = of predicted positives, how many are correct. Recall = of actual positives, how many were found. F1 is their harmonic mean — it is low if either is low.",
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" rowspacing="1em"><mtr><mtd><mtext>Precision</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FP</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><mtext>Recall</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FN</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><msub><mtext>F</mtext><mn>1</mn></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><mo>·</mo><mfrac><mrow><mtext>Precision</mtext><mo>·</mo><mtext>Recall</mtext></mrow><mrow><mtext>Precision</mtext><mo>+</mo><mtext>Recall</mtext></mrow></mfrac></mtd></mtr></mtable></math>',
+      description:
+        'Precision = of predicted positives, how many are correct. Recall = of actual positives, how many were found. F1 is their harmonic mean — it is low if either is low.',
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      title: 'The confusion matrix',
+      code: `                 Predicted
+                 credible    hoax
+              ┌───────────┬──────────┐
+  Actual      │           │          │
+  credible    │    TN     │    FP    │
+              │           │          │
+              ├───────────┼──────────┤
+  Actual      │           │          │
+  hoax        │    FN     │    TP    │
+              │           │          │
+              └───────────┴──────────┘`,
+      highlights: [
+        '**TN** / **TP** (diagonal) = correct predictions',
+        '**FP** = credible tip wrongly flagged as hoax (false alarm)',
+        '**FN** = hoax that slipped through as credible (missed)',
+      ],
     },
   },
   {
@@ -320,8 +564,7 @@ scores = cross_val_score(pipeline, texts, labels, cv=5, scoring=hoax_f1)`,
     type: 'title',
     content: {
       title: 'Demo - Classification report and confusion matrix',
-      subtitle:
-        'python module-03-text-classification/demo/demo.py - option 5',
+      subtitle: 'python module-03-text-classification/demo/demo.py - option 7',
       icon: 'terminal',
     },
   },

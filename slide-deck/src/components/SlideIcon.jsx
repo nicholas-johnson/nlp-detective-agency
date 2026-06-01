@@ -93,6 +93,9 @@ import {
   Bot,
   Terminal,
   Route,
+  BarChart,
+  BarChart2,
+  Maximize,
 } from 'lucide-react';
 
 // Map icon names to Lucide components
@@ -115,7 +118,9 @@ const iconMap = {
   rocket: Rocket,
   'arrow-right': ArrowRight,
   'git-branch': GitBranch,
-
+  'bar-chart': BarChart,
+  'bar-chart-2': BarChart2,
+  maximize: Maximize,
   // UI & Layout
   layers: Layers,
   blocks: Layers,
