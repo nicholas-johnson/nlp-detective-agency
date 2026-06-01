@@ -237,6 +237,76 @@ filtered = [
     },
   },
   {
+    type: 'standard',
+    content: {
+      title: 'Stemming',
+      icon: 'scissors',
+      points: [
+        '**Stemming** strips suffixes with a cascade of rules - no dictionary lookup.',
+        'Porter (1980): five phases of suffix rules (`-s`, `-ed`, `-ing`, `-ational`, …).',
+        'Goal: collapse inflected forms so they match in search and bag-of-words.',
+        '`investigating`, `investigated`, `investigation` → all become **`investig`**.',
+        'Fast, but stems are not always real words (`studies` → `studi`).',
+      ],
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      title: 'PorterStemmer',
+      code: `from nltk.stem import PorterStemmer
+
+stemmer = PorterStemmer()
+
+[stemmer.stem(w) for w in [
+    "investigating",
+    "investigated",
+    "investigation",
+    "studies",
+]]
+# ['investig', 'investig', 'investig', 'studi']
+
+# SnowballStemmer("english") is Porter's improved successor`,
+      highlights: [
+        'All investigate-forms collapse to the same stem',
+        'Good for search indexing and high-volume bag-of-words',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Lemmatisation',
+      icon: 'book-open',
+      points: [
+        'A **lemma** is the dictionary headword: `go`, `goes`, `went`, `gone` → **`go`**.',
+        '**Lemmatisation** maps each token to a valid dictionary form using **WordNet**.',
+        'Strip suffixes, then **validate against the lexicon** - unlike stemming, which stops after rules.',
+        '**POS matters**: `saw` (verb) → `see`, but `saw` (noun) → `saw`.',
+        'Default is noun - pass `pos="v"` for verbs or `investigating` stays unchanged.',
+      ],
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      title: 'WordNetLemmatizer',
+      code: `from nltk.stem import WordNetLemmatizer
+
+lemmatizer = WordNetLemmatizer()
+
+lemmatizer.lemmatize("docks")                 # 'dock'
+lemmatizer.lemmatize("investigating")         # 'investigating' (noun default!)
+lemmatizer.lemmatize("investigating", pos="v")  # 'investigate'
+lemmatizer.lemmatize("saw", pos="v")          # 'see'
+lemmatizer.lemmatize("saw", pos="n")          # 'saw'`,
+      highlights: [
+        'pos="v" for verbs, "a" adjectives, "r" adverbs, "n" nouns',
+        'Module 6: use spaCy POS tags to lemmatise automatically',
+      ],
+    },
+  },
+  {
     type: 'cards',
     content: {
       title: 'Stemming vs lemmatisation',
