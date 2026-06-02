@@ -97,6 +97,8 @@ import {
   BarChart,
   BarChart2,
   Maximize,
+  Type,
+  Regex,
 } from 'lucide-react';
 
 // Map icon names to Lucide components
@@ -204,6 +206,10 @@ const iconMap = {
   'file-code': FileCode,
   'folder-plus': FolderPlus,
   'folder-tree': FolderPlus,
+
+  // Typography & Patterns
+  type: Type,
+  regex: Regex,
 
   // Tools
   scissors: Scissors,

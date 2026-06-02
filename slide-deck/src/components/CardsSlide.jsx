@@ -35,13 +35,19 @@ export function CardsSlide({ content }) {
               <h3 className="text-xl font-bold text-white mb-3">
                 {card.heading}
               </h3>
-              <ul className="space-y-2">
-                {card.points.map((point, j) => (
-                  <li key={j} className="text-sm text-gray-300 leading-relaxed">
-                    <InlineMarkdown text={point} />
-                  </li>
-                ))}
-              </ul>
+              {card.points ? (
+                <ul className="space-y-2">
+                  {card.points.map((point, j) => (
+                    <li key={j} className="text-sm text-gray-300 leading-relaxed">
+                      <InlineMarkdown text={point} />
+                    </li>
+                  ))}
+                </ul>
+              ) : card.body ? (
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  <InlineMarkdown text={card.body} />
+                </p>
+              ) : null}
             </div>
           ))}
         </div>
