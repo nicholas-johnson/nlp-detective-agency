@@ -211,6 +211,63 @@ export const slides = [
   {
     type: 'title',
     content: {
+      title: 'More capstone missions',
+      subtitle: 'Freeform exercises',
+      icon: 'rocket',
+    },
+  },
+  {
+    type: 'cards',
+    content: {
+      title: 'Choose your mission',
+      cards: [
+        {
+          heading: '01 Open case',
+          body: 'Structured capstone: dataset, baseline, transformer, FastAPI deploy.',
+        },
+        {
+          heading: '02 Case chatbot',
+          body: 'Build a conversational assistant over Inkwell cases with a HF chat model.',
+        },
+        {
+          heading: '03 NLP audit',
+          body: 'Run every course technique against a corpus and produce a structured report.',
+        },
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Exercise 02 - Case chatbot',
+      icon: 'message-square',
+      points: [
+        'Load **statements + cold cases** for a case.',
+        'Retrieve relevant documents with **TF-IDF similarity** (M2).',
+        'Feed context to a **HF text-generation** model.',
+        'Run **spaCy NER** on responses to highlight entities (M6).',
+        '**Validate** entity names against case data — flag hallucinations.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Exercise 03 - NLP audit dashboard',
+      icon: 'bar-chart',
+      points: [
+        'Corpus stats, **topic discovery** (M4), **sentiment scan** (M7).',
+        '**Entity census** with spaCy NER (M6).',
+        '**Classification probe** — TF-IDF baseline F1 (M3).',
+        'Assemble a **JSON report** and formatted CLI summary.',
+        'Stretch: expose a `/audit` **FastAPI** endpoint.',
+      ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
       title: 'Field rules',
       subtitle: 'Capstone discipline',
       icon: 'book-open',

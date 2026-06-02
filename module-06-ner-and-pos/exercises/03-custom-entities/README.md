@@ -46,11 +46,9 @@ Sample extractions:
 
 ## Part B - Real-world extension (optional)
 
-```bash
-python start.py --real-world
-```
-
 Apply **`ticket_patterns()`** to the support tickets sample - same EntityRuler API, different domain patterns.
+
+To run: uncomment `run_real_world()` in `main()` (and comment out `run_inkwell()`).
 
 ---
 
@@ -65,5 +63,5 @@ pytest test_start.py test_extension.py -v
 
 - [ ] EntityRuler finds `CASE-42` in STM-001
 - [ ] `audit_coverage` finds nearly all case IDs
-- [ ] `--real-world` recall ≥ 0.9 on ticket refs
+- [ ] `run_real_world()` recall ≥ 0.9 on ticket refs
 - [ ] All tests passed

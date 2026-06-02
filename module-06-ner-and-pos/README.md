@@ -241,7 +241,7 @@ python module-06-ner-and-pos/demo/demo.py
 
 ## Exercises
 
-| Folder                                                          | Part A (Inkwell)                        | Part B (optional `--real-world`) |
+| Folder                                                          | Part A (Inkwell)                        | Part B (optional real-world)     |
 | --------------------------------------------------------------- | --------------------------------------- | -------------------------------- |
 | [`exercises/01-grammar-audit`](exercises/01-grammar-audit/)     | POS + SVO triples on witness statements | SVO vs UD English EWT gold       |
 | [`exercises/02-ner-extraction`](exercises/02-ner-extraction/)   | Evidence board + gold-label P/R         | NER audit on CoNLL-2003 sample   |
@@ -257,13 +257,7 @@ python module-06-ner-and-pos/exercises/02-ner-extraction/start.py
 python module-06-ner-and-pos/exercises/03-custom-entities/start.py
 ```
 
-Optional real-world extension:
-
-```bash
-python module-06-ner-and-pos/exercises/01-grammar-audit/start.py --real-world
-python module-06-ner-and-pos/exercises/02-ner-extraction/start.py --real-world
-python module-06-ner-and-pos/exercises/03-custom-entities/start.py --real-world
-```
+Optional real-world extension: uncomment `run_real_world()` in each exercise's `main()` (and comment out `run_inkwell()`).
 
 Run tests (from each exercise folder):
 

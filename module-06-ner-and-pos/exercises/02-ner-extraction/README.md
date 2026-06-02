@@ -53,11 +53,9 @@ Use flexible text matching (case-insensitive substring) for evaluation.
 
 ## Part B - Real-world extension (optional)
 
-```bash
-python start.py --real-world
-```
-
 Evaluate NER on `data/public/conll_ner_sample.json` (~40 sentences from CoNLL-2003). Same `evaluate_ner()` function.
+
+To run: uncomment `run_real_world()` in `main()` (and comment out `run_inkwell()`).
 
 ---
 
@@ -72,5 +70,5 @@ pytest test_start.py test_extension.py -v
 
 - [ ] Evidence board for CASE-42 includes Reeves or docks
 - [ ] `evaluate_ner` returns precision/recall per label
-- [ ] `--real-world` prints CoNLL metrics
+- [ ] `run_real_world()` prints CoNLL metrics
 - [ ] All tests passed

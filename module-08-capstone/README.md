@@ -309,16 +309,22 @@ The capstone is not done until you can explain _where_ your system breaks and _w
 
 ---
 
-## Exercise
+## Exercises
 
-| Folder                                              | Mission                                              |
-| --------------------------------------------------- | ---------------------------------------------------- |
-| [`exercises/01-open-case`](exercises/01-open-case/) | Open your case: choose data, train, compare, deploy. |
+| Folder                                                    | Mission                                                          |
+| --------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`exercises/01-open-case`](exercises/01-open-case/)       | Open your case: choose data, train, compare, deploy.             |
+| [`exercises/02-case-chatbot`](exercises/02-case-chatbot/) | Build a conversational assistant over Inkwell cases with HF chat model. |
+| [`exercises/03-nlp-audit`](exercises/03-nlp-audit/)       | Run every course technique against a corpus and produce a report. |
+
+Exercises are **independent** - complete them in any order. Exercise 01 is the structured capstone; Exercises 02 and 03 are more freeform.
 
 Run tests:
 
 ```bash
 pytest module-08-capstone/exercises/01-open-case/ -v
+pytest module-08-capstone/exercises/02-case-chatbot/ -v
+pytest module-08-capstone/exercises/03-nlp-audit/ -v
 ```
 
 ## Demo

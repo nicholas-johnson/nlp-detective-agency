@@ -272,6 +272,118 @@ export const slides = [
   {
     type: 'title',
     content: {
+      title: 'Evaluating language models',
+      subtitle: 'How do we know it works?',
+      icon: 'bar-chart',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Classification metrics',
+      icon: 'target',
+      points: [
+        '**Accuracy** — fraction of correct predictions. Misleading on imbalanced data.',
+        '**Precision** — of all positive predictions, how many were correct?',
+        '**Recall** — of all actual positives, how many did we find?',
+        '**F1** — harmonic mean of precision and recall. Balances both.',
+        '**Macro** averages per-class scores equally; **micro** weights by class frequency.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Task-specific evaluation',
+      icon: 'sliders',
+      points: [
+        '**NER:** span-level P/R/F1 — boundaries *and* labels must match exactly (Module 6).',
+        '**Summarisation:** **ROUGE** — overlap of n-grams between generated and reference text.',
+        '**Translation:** **BLEU** — precision of n-gram matches with a brevity penalty.',
+        '**Language modelling:** **perplexity** — how surprised the model is by held-out text. Lower = better.',
+        '**QA:** exact match (EM) and token-level F1 against gold answers.',
+      ],
+    },
+  },
+  {
+    type: 'cards',
+    content: {
+      title: 'Standard benchmarks',
+      cards: [
+        {
+          heading: 'GLUE / SuperGLUE',
+          body: 'Suite of 9+ tasks (sentiment, entailment, paraphrase). DistilBERT scores ~97% of BERT on GLUE.',
+        },
+        {
+          heading: 'SQuAD',
+          body: 'Reading comprehension QA. Model extracts answer spans from passages.',
+        },
+        {
+          heading: 'MMLU',
+          body: '57-subject multiple choice. Tests broad knowledge across domains.',
+        },
+        {
+          heading: 'CoNLL-2003',
+          body: 'NER benchmark (Module 6). Span-level F1 is the standard metric.',
+        },
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Train / validation / test splits',
+      icon: 'filter',
+      points: [
+        'Never evaluate on training data — the model has **memorised** it.',
+        '**Train** (~80%) — model learns from this.',
+        '**Validation** (~10%) — tune hyperparameters, pick best checkpoint.',
+        '**Test** (~10%) — final held-out evaluation. Run **once** to report results.',
+        '**k-fold cross-validation** — rotate folds when data is scarce.',
+      ],
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      title: 'Evaluation in practice — classification_report',
+      code: `from sklearn.metrics import classification_report
+
+y_true = ["hostile", "calm", "hostile", "calm", "calm"]
+y_pred = ["hostile", "calm", "calm",    "calm", "hostile"]
+
+print(classification_report(y_true, y_pred))
+
+#               precision  recall  f1-score  support
+#   calm           0.67     0.67     0.67        3
+#   hostile        0.50     0.50     0.50        2
+#   accuracy                         0.60        5
+#   macro avg      0.58     0.58     0.58        5`,
+      highlights: [
+        'One call gives per-class **precision, recall, F1** and overall accuracy.',
+        'Compare this output across models: TF-IDF baseline vs fine-tuned transformer.',
+        'Exercise 01 and 03 both use this pattern to evaluate pipeline and fine-tuned results.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Beyond metrics — qualitative checks',
+      icon: 'eye',
+      points: [
+        '**Confusion matrix** — which classes get mixed up? Spot systematic errors.',
+        '**Error analysis** — read the misclassified examples. Why did the model fail?',
+        '**Bias auditing** — does performance vary across demographic groups or writing styles?',
+        '**Adversarial probing** — small input changes should not flip predictions.',
+        'Metrics tell you **how much**; inspection tells you **why**.',
+      ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
       title: 'Exercises',
       subtitle: 'Independent - any order',
       icon: 'book-open',

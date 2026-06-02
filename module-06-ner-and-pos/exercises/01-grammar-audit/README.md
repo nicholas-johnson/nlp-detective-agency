@@ -44,13 +44,11 @@ STM-001 Margaret Hayes:
 
 ## Part B - Real-world extension (optional)
 
-```bash
-python start.py --real-world
-```
-
 Score SVO extraction against gold triples in `data/public/ud_ewt_sample.json` (UD English EWT, CC BY-SA).
 
 Implement **`load_ud_sample(path)`** and reuse `score_svo()`.
+
+To run: uncomment `run_real_world()` in `main()` (and comment out `run_inkwell()`).
 
 ---
 
@@ -65,5 +63,5 @@ pytest test_start.py test_extension.py -v
 
 - [ ] `extract_svo_triples` finds at least one triple in "She saw him near the station."
 - [ ] `audit_case` returns results for all CASE-42 statements
-- [ ] `--real-world` prints overall SVO recall
+- [ ] `run_real_world()` prints overall SVO recall
 - [ ] All tests passed

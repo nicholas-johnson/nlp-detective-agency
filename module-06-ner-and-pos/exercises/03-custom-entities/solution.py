@@ -2,7 +2,6 @@
 Exercise 03 - Custom Entities (solution)
 """
 
-import argparse
 import json
 import re
 from pathlib import Path
@@ -122,13 +121,9 @@ def run_real_world() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--real-world", action="store_true")
-    args = parser.parse_args()
-    if args.real_world:
-        run_real_world()
-    else:
-        run_inkwell()
+    run_inkwell()
+    # Uncomment below (and comment out run_inkwell) to run the real-world extension:
+    # run_real_world()
 
 
 if __name__ == "__main__":

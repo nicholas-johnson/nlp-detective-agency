@@ -522,7 +522,7 @@ for ent in doc.ents:
       title: 'Part B - real-world extensions',
       icon: 'globe',
       points: [
-        'Optional: `python start.py --real-world`',
+        'Optional: uncomment `run_real_world()` in `main()`',
         'Same functions, public datasets under `data/public/`.',
         'Expect **lower scores** on real data - domain shift is normal.',
         'Core tests use Inkwell only.',
