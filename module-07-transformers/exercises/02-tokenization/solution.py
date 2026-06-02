@@ -1,123 +1,164 @@
 """
-Exercise 02 - Tokenization (solution)
+Exercise 02 - Text Generation (solution)
 """
 
 import argparse
 import json
-import statistics
+import time
 from pathlib import Path
 
-import tiktoken
+from transformers import pipeline, set_seed
 
 STATEMENTS_PATH = (
     Path(__file__).resolve().parent.parent.parent.parent / "data" / "inkwell" / "statements.json"
 )
-SMS_PATH = (
-    Path(__file__).resolve().parent.parent.parent.parent / "data" / "public" / "sms_spam_sample.json"
-)
 
-TIKTOKEN_MODEL = "cl100k_base"
-HF_MODEL = "distilbert-base-uncased"
+DEFAULT_MODEL = "distilgpt2"
+
+_generators: dict = {}
 
 
-def load_tiktoken_encoding(name: str = TIKTOKEN_MODEL):
-    return tiktoken.get_encoding(name)
+def load_generator(model_name: str = DEFAULT_MODEL):
+    if model_name not in _generators:
+        print(f"  Loading {model_name}...")
+        _generators[model_name] = pipeline(
+            "text-generation", model=model_name, pad_token_id=50256
+        )
+    return _generators[model_name]
 
 
-def count_tokens(encoding, text: str) -> int:
-    return len(encoding.encode(text))
+def load_json(path: Path) -> list[dict]:
+    return json.loads(path.read_text())
 
 
-def show_subwords(encoding, text: str) -> list[str]:
-    token_ids = encoding.encode(text)
-    return [encoding.decode([tid]) for tid in token_ids]
+def continue_statement(text: str, max_new_tokens: int = 50) -> str:
+    gen = load_generator()
+    result = gen(
+        text,
+        max_new_tokens=max_new_tokens,
+        do_sample=True,
+        temperature=0.7,
+        num_return_sequences=1,
+    )
+    full = result[0]["generated_text"]
+    return full[len(text):].strip()
 
 
-def batch_token_stats(encoding, texts: list[str]) -> dict:
-    counts = [count_tokens(encoding, t) for t in texts]
-    return {
-        "min": min(counts) if counts else 0,
-        "max": max(counts) if counts else 0,
-        "mean": round(statistics.mean(counts), 2) if counts else 0.0,
-        "total": sum(counts),
-    }
+def generate_variants(text: str, n: int = 3, temperature: float = 0.7) -> list[str]:
+    gen = load_generator()
+    results = gen(
+        text,
+        max_new_tokens=50,
+        do_sample=True,
+        temperature=temperature,
+        num_return_sequences=n,
+    )
+    return [r["generated_text"][len(text):].strip() for r in results]
 
 
-def truncate_analysis(encoding, text: str, max_tokens: int) -> dict:
-    token_ids = encoding.encode(text)
-    truncated = token_ids[:max_tokens]
-    return {
-        "original_tokens": len(token_ids),
-        "truncated_tokens": len(truncated),
-        "truncated_text": encoding.decode(truncated),
-        "was_truncated": len(token_ids) > max_tokens,
-    }
+def interrogation_prompt(witness_name: str, context: str, max_new_tokens: int = 40) -> str:
+    prompt = (
+        f"Detective's follow-up question for {witness_name}, "
+        f"who said: '{context}'\nQuestion:"
+    )
+    gen = load_generator()
+    result = gen(
+        prompt,
+        max_new_tokens=max_new_tokens,
+        do_sample=True,
+        temperature=0.8,
+        num_return_sequences=1,
+    )
+    full = result[0]["generated_text"]
+    return full[len(prompt):].strip()
 
 
-def compare_tokenizers(text: str, tiktoken_encoding=None, hf_model: str = HF_MODEL) -> dict:
-    if tiktoken_encoding is None:
-        tiktoken_encoding = load_tiktoken_encoding()
-    tik_ids = tiktoken_encoding.encode(text)
-    tik_tokens = [tiktoken_encoding.decode([i]) for i in tik_ids]
-
-    hf_tokens: list[str] = []
-    hf_count = 0
-    try:
-        from transformers import AutoTokenizer
-
-        hf_tok = AutoTokenizer.from_pretrained(hf_model)
-        hf_encoded = hf_tok(text, truncation=False, add_special_tokens=True)
-        hf_count = len(hf_encoded["input_ids"])
-        hf_tokens = hf_tok.convert_ids_to_tokens(hf_encoded["input_ids"])
-    except ImportError:
-        hf_tokens = ["(transformers not installed)"]
-
-    return {
-        "tiktoken_count": len(tik_ids),
-        "tiktoken_tokens": tik_tokens[:20],
-        "hf_count": hf_count,
-        "hf_tokens": hf_tokens[:20],
-    }
+def batch_generate(statements: list[dict], max_new_tokens: int = 40) -> list[dict]:
+    gen = load_generator()
+    results = []
+    for stmt in statements:
+        prompt = stmt["raw_text"][:80]
+        out = gen(
+            prompt,
+            max_new_tokens=max_new_tokens,
+            do_sample=True,
+            temperature=0.7,
+            num_return_sequences=1,
+        )
+        continuation = out[0]["generated_text"][len(prompt):].strip()
+        results.append({
+            "id": stmt["id"],
+            "witness": stmt["witness"],
+            "prompt_snippet": prompt,
+            "continuation": continuation,
+        })
+    return results
 
 
 def run_inkwell() -> None:
-    encoding = load_tiktoken_encoding()
-    statements = json.loads(STATEMENTS_PATH.read_text())
-    texts = [s["raw_text"] for s in statements]
+    statements = load_json(STATEMENTS_PATH)
 
-    print("Inkwell Investigations - Tokenization Lab")
-    print("=" * 48)
+    print("Inkwell Investigations - Text Generation Lab")
+    print("=" * 46)
 
-    stats = batch_token_stats(encoding, texts)
-    print(f"\nWitness statements ({len(texts)} docs):")
-    print(f"  Tokens - min: {stats['min']}, max: {stats['max']}, mean: {stats['mean']}")
+    # Single continuation
+    t0 = time.time()
+    stmt = statements[0]
+    prompt = stmt["raw_text"][:80]
+    continuation = continue_statement(prompt)
+    print(f"\n--- Continuation ({stmt['id']} {stmt['witness']}) ---")
+    print(f"  Prompt: \"{prompt}...\"")
+    print(f"  → \"{continuation[:120]}...\"")
+    print(f"  Time: {time.time() - t0:.1f}s")
 
-    sample = texts[0]
-    subwords = show_subwords(encoding, sample)[:15]
-    print(f"\nSubwords (STM-001, first 15): {subwords}")
+    # Temperature variants
+    t0 = time.time()
+    stmt = statements[2]
+    prompt = stmt["raw_text"][:60]
+    print(f"\n--- Temperature variants ({stmt['id']} {stmt['witness']}) ---")
+    for temp in [0.3, 0.7, 1.2]:
+        variants = generate_variants(prompt, n=1, temperature=temp)
+        print(f"  temp={temp}: \"{variants[0][:100]}...\"")
+    print(f"  Time: {time.time() - t0:.1f}s")
 
-    trunc = truncate_analysis(encoding, texts[-2], max_tokens=50)
-    print(f"\nTruncation at 50 tokens (STM-009):")
-    print(f"  Original: {trunc['original_tokens']} → Truncated: {trunc['truncated_tokens']}")
+    # Interrogation
+    t0 = time.time()
+    stmt = statements[2]
+    question = interrogation_prompt(stmt["witness"], stmt["raw_text"][:100])
+    print(f"\n--- Interrogation prompt ---")
+    print(f"  Witness: {stmt['witness']}")
+    print(f"  Generated question: \"{question[:120]}\"")
+    print(f"  Time: {time.time() - t0:.1f}s")
 
-    cmp = compare_tokenizers(sample)
-    print(f"\nTokenizer comparison (STM-001 excerpt):")
-    print(f"  tiktoken: {cmp['tiktoken_count']} tokens")
-    print(f"  HF ({HF_MODEL}): {cmp['hf_count']} tokens")
+    # Batch
+    t0 = time.time()
+    batch = batch_generate(statements[:5])
+    print(f"\n--- Batch generation (first 5 statements) ---")
+    for r in batch:
+        print(f"  {r['id']} {r['witness']}: \"{r['continuation'][:80]}...\"")
+    print(f"  Time: {time.time() - t0:.1f}s")
 
 
 def run_real_world() -> None:
-    encoding = load_tiktoken_encoding()
-    statements = json.loads(STATEMENTS_PATH.read_text())
-    sms = json.loads(SMS_PATH.read_text())
+    statements = load_json(STATEMENTS_PATH)
+    prompt = statements[0]["raw_text"][:80]
 
-    inkwell_stats = batch_token_stats(encoding, [s["raw_text"] for s in statements])
-    sms_stats = batch_token_stats(encoding, [m["text"] for m in sms])
+    print("Text Generation - Model Comparison")
+    print("=" * 36)
 
-    print("Tokenization Lab - Domain Comparison")
-    print("=" * 48)
-    print(f"Inkwell statements - mean tokens: {inkwell_stats['mean']}")
-    print(f"SMS messages       - mean tokens: {sms_stats['mean']}")
+    for model_name in ["distilgpt2", "gpt2"]:
+        t0 = time.time()
+        gen = load_generator(model_name)
+        load_time = time.time() - t0
+
+        t0 = time.time()
+        result = gen(prompt, max_new_tokens=50, do_sample=True, temperature=0.7)
+        gen_time = time.time() - t0
+
+        continuation = result[0]["generated_text"][len(prompt):]
+        print(f"\n--- {model_name} ---")
+        print(f"  Load: {load_time:.1f}s | Generate: {gen_time:.2f}s")
+        print(f"  Output: \"{continuation.strip()[:120]}...\"")
 
 
 def main() -> None:

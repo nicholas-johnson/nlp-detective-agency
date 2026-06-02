@@ -66,6 +66,7 @@ import {
   Accessibility,
   Gamepad2,
   GitBranch,
+  GitCompare,
   Code,
   TreeDeciduous,
   CircleArrowUp,
@@ -99,6 +100,7 @@ import {
   Maximize,
   Type,
   Regex,
+  Play,
 } from 'lucide-react';
 
 // Map icon names to Lucide components
@@ -121,6 +123,7 @@ const iconMap = {
   rocket: Rocket,
   'arrow-right': ArrowRight,
   'git-branch': GitBranch,
+  'git-compare': GitCompare,
   'bar-chart': BarChart,
   'bar-chart-2': BarChart2,
   maximize: Maximize,
@@ -163,6 +166,7 @@ const iconMap = {
   calculator: Calculator,
   hash: Hash,
   sliders: SlidersHorizontal,
+  play: Play,
 
   // Hooks
   anchor: Anchor,

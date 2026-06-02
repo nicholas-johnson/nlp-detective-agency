@@ -1,9 +1,10 @@
 """
-Exercise 01 - HF Pipelines (solution)
+Exercise 01 - Transformer Inference Lab (solution)
 """
 
 import argparse
 import json
+import time
 from pathlib import Path
 
 from transformers import pipeline
@@ -33,8 +34,9 @@ CONLL_PATH = (
 _pipelines: dict = {}
 
 
-def load_pipeline(task: str, **kwargs):
+def load_model(task: str, **kwargs):
     if task not in _pipelines:
+        print(f"  Loading {task}...")
         _pipelines[task] = pipeline(task, **kwargs)
     return _pipelines[task]
 
@@ -43,105 +45,158 @@ def load_json(path: Path) -> list[dict]:
     return json.loads(path.read_text())
 
 
-def classify_sentiment(texts: list[str]) -> list[dict]:
-    clf = load_pipeline("sentiment-analysis")
-    results = clf(texts, truncation=True, max_length=512)
-    if isinstance(texts, str):
-        return [results]
+def analyse_sentiment(records: list[dict]) -> list[dict]:
+    clf = load_model("sentiment-analysis")
+    texts = [r["text"] for r in records]
+    raw = clf(texts, truncation=True, max_length=512)
+    results = []
+    for rec, out in zip(records, raw, strict=True):
+        results.append({
+            "id": rec["id"],
+            "witness": rec["witness"],
+            "predicted": out["label"],
+            "score": round(out["score"], 3),
+            "actual": rec["sentiment"],
+        })
     return results
 
 
-def extract_entities_hf(texts: list[str]) -> list[list[dict]]:
-    ner = load_pipeline("ner", grouped_entities=True)
-    if isinstance(texts, str):
-        return [ner(texts)]
-    return [ner(t) for t in texts]
+def extract_entities(statements: list[dict]) -> list[dict]:
+    ner = load_model("ner", grouped_entities=True)
+    results = []
+    for stmt in statements:
+        ents = ner(stmt["raw_text"])
+        results.append({
+            "id": stmt["id"],
+            "case_id": stmt["case_id"],
+            "witness": stmt["witness"],
+            "entities": [
+                {"entity_group": e["entity_group"], "word": e["word"].strip()}
+                for e in ents
+            ],
+        })
+    return results
 
 
-def zero_shot_classify(texts: list[str], labels: list[str]) -> list[dict]:
-    clf = load_pipeline("zero-shot-classification")
-    if isinstance(texts, str):
-        texts = [texts]
-    return clf(texts, candidate_labels=labels, truncation=True)
+def build_evidence_board(entity_results: list[dict], case_id: str) -> dict:
+    board: dict[str, set] = {}
+    for result in entity_results:
+        if result["case_id"] != case_id:
+            continue
+        for ent in result["entities"]:
+            group = ent["entity_group"]
+            board.setdefault(group, set()).add(ent["word"])
+    return board
 
 
-def _normalize(text: str) -> str:
-    return text.lower().strip()
+def classify_zero_shot(records: list[dict], labels: list[str]) -> list[dict]:
+    clf = load_model("zero-shot-classification")
+    results = []
+    for rec in records:
+        out = clf(rec["text"], candidate_labels=labels, truncation=True)
+        results.append({
+            "id": rec["id"],
+            "predicted": out["labels"][0],
+            "scores": {l: round(s, 3) for l, s in zip(out["labels"], out["scores"], strict=True)},
+            "actual": rec["sentiment"],
+        })
+    return results
 
 
-def compare_ner_to_gold(hf_entities: list[dict], gold_entities: list[dict]) -> dict:
-    """Compare HF NER spans to gold entity list."""
-    pred_texts = {_normalize(e.get("word", e.get("entity_group", ""))) for e in hf_entities}
-    matched = sum(
-        1
-        for g in gold_entities
-        if any(_normalize(g["text"]) in p or p in _normalize(g["text"]) for p in pred_texts)
-    )
+def summarise_longest(statements: list[dict]) -> dict:
+    longest = max(statements, key=lambda s: len(s["raw_text"].split()))
+    summarizer = load_model("summarization")
+    out = summarizer(longest["raw_text"], max_length=60, min_length=20, do_sample=False)
+    summary = out[0]["summary_text"]
     return {
-        "matched": matched,
-        "gold_total": len(gold_entities),
-        "recall": round(matched / len(gold_entities), 3) if gold_entities else 0.0,
+        "id": longest["id"],
+        "original_words": len(longest["raw_text"].split()),
+        "summary": summary,
+        "summary_words": len(summary.split()),
     }
 
 
-def run_inkwell() -> None:
+def run_all() -> None:
     sentiment_records = load_json(SENTIMENT_PATH)
     statements = load_json(STATEMENTS_PATH)
-    gold_by_id = {r["id"]: r["entities"] for r in load_json(GOLD_PATH)}
 
-    print("Inkwell Investigations - HF Pipeline Lab")
-    print("=" * 48)
+    print("Inkwell Investigations - Transformer Inference Lab")
+    print("=" * 52)
+    total_start = time.time()
 
-    texts = [r["text"] for r in sentiment_records[:5]]
-    sentiments = classify_sentiment(texts)
-    print("\nSentiment (first 5 witness statements):")
-    for rec, result in zip(sentiment_records[:5], sentiments, strict=True):
-        label = result["label"]
-        score = result["score"]
-        print(f"  {rec['id']} ({rec['sentiment']}): {label} ({score:.3f})")
+    # Sentiment
+    t0 = time.time()
+    sent_results = analyse_sentiment(sentiment_records)
+    sent_time = time.time() - t0
+    print(f"\n--- Sentiment Analysis ({len(sent_results)} statements) ---")
+    for r in sent_results:
+        print(f"  {r['id']} {r['witness']}: {r['predicted']} ({r['score']}) ← {r['actual']}")
+    print(f"  Time: {sent_time:.1f}s")
 
-    stmt_texts = [s["raw_text"] for s in statements[:3]]
-    entities = extract_entities_hf(stmt_texts)
-    print("\nNER (first 3 statements):")
-    for stmt, ents in zip(statements[:3], entities, strict=True):
-        names = [e.get("entity_group", e.get("entity", "")) + ":" + e["word"] for e in ents]
-        print(f"  {stmt['id']}: {names[:5]}")
+    # NER
+    t0 = time.time()
+    ner_results = extract_entities(statements)
+    ner_time = time.time() - t0
+    print(f"\n--- Named Entity Recognition ({len(statements)} statements) ---")
+    for r in ner_results:
+        groups: dict[str, list] = {}
+        for e in r["entities"]:
+            groups.setdefault(e["entity_group"], []).append(e["word"])
+        parts = [f"{k}: {', '.join(v)}" for k, v in groups.items()]
+        print(f"  {r['id']}: {' | '.join(parts) or '(none)'}")
+    board = build_evidence_board(ner_results, "CASE-42")
+    print(f"  Evidence board (CASE-42): {dict({k: sorted(v) for k, v in board.items()})}")
+    print(f"  Time: {ner_time:.1f}s")
 
-    zero_labels = ["calm", "hostile"]
-    zs = zero_shot_classify([sentiment_records[0]["text"]], zero_labels)[0]
-    print(f"\nZero-shot on SNT-001: {zs['labels'][0]} ({zs['scores'][0]:.3f})")
+    # Zero-shot
+    t0 = time.time()
+    zs_results = classify_zero_shot(sentiment_records, ["calm", "hostile"])
+    zs_time = time.time() - t0
+    print(f"\n--- Zero-shot Classification ---")
+    correct = 0
+    for r in zs_results:
+        match = "✓" if r["predicted"] == r["actual"] else "✗"
+        scores = " > ".join(f"{l} ({s})" for l, s in r["scores"].items())
+        print(f"  {r['id']}: {scores}  actual={r['actual']} {match}")
+        if r["predicted"] == r["actual"]:
+            correct += 1
+    print(f"  Accuracy: {correct}/{len(zs_results)}")
+    print(f"  Time: {zs_time:.1f}s")
 
-    if statements:
-        stm = statements[0]
-        hf_ents = extract_entities_hf([stm["raw_text"]])[0]
-        gold = gold_by_id.get(stm["id"], [])
-        if gold:
-            cmp = compare_ner_to_gold(hf_ents, gold)
-            print(f"\nNER vs gold ({stm['id']}): recall={cmp['recall']}")
+    # Summarisation
+    t0 = time.time()
+    summary = summarise_longest(statements)
+    sum_time = time.time() - t0
+    print(f"\n--- Summarisation (longest statement) ---")
+    print(f"  {summary['id']} ({summary['original_words']} words → {summary['summary_words']} words):")
+    print(f"  \"{summary['summary']}\"")
+    print(f"  Time: {sum_time:.1f}s")
+
+    total = time.time() - total_start
+    print(f"\nTotal inference time: {total:.1f}s")
 
 
 def run_real_world() -> None:
     sms = load_json(SMS_PATH)[:10]
     conll = load_json(CONLL_PATH)[:10]
 
-    print("HF Pipeline Lab - Real-World Sample")
+    print("Transformer Inference Lab - Real-World Sample")
     print("=" * 48)
 
+    clf = load_model("sentiment-analysis")
     sms_texts = [m["text"] for m in sms]
-    sentiments = classify_sentiment(sms_texts)
+    sentiments = clf(sms_texts, truncation=True, max_length=512)
     print("\nSMS sentiment (first 10):")
     for msg, result in zip(sms, sentiments, strict=True):
         print(f"  {msg['id']} ({msg['label']}): {result['label']} ({result['score']:.3f})")
 
+    ner = load_model("ner", grouped_entities=True)
     conll_texts = [c["text"] for c in conll]
-    entities = extract_entities_hf(conll_texts)
-    total_gold = sum(len(c["entities"]) for c in conll)
-    total_matched = 0
-    for record, hf_ents in zip(conll, entities, strict=True):
-        cmp = compare_ner_to_gold(hf_ents, record["entities"])
-        total_matched += cmp["matched"]
-    recall = round(total_matched / total_gold, 3) if total_gold else 0.0
-    print(f"\nCoNLL NER recall (first 10): {recall} ({total_matched}/{total_gold})")
+    print(f"\nCoNLL NER (first 10):")
+    for record in conll[:10]:
+        ents = ner(record["text"])
+        names = [f"{e['entity_group']}:{e['word']}" for e in ents[:5]]
+        print(f"  {record['id']}: {names}")
 
 
 def main() -> None:
@@ -151,7 +206,7 @@ def main() -> None:
     if args.real_world:
         run_real_world()
     else:
-        run_inkwell()
+        run_all()
 
 
 if __name__ == "__main__":

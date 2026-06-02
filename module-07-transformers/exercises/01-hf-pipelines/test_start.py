@@ -1,4 +1,4 @@
-"""Tests for Exercise 01 - HF Pipelines (Part A)."""
+"""Tests for Exercise 01 - Transformer Inference Lab (Part A)."""
 
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -15,6 +15,9 @@ SENTIMENT_PATH = (
     / "inkwell"
     / "witness_sentiment.json"
 )
+STATEMENTS_PATH = (
+    Path(__file__).resolve().parent.parent.parent.parent / "data" / "inkwell" / "statements.json"
+)
 
 
 def _mock_sentiment(texts, **kwargs):
@@ -24,16 +27,15 @@ def _mock_sentiment(texts, **kwargs):
 
 
 def _mock_ner(text, **kwargs):
-    return [{"entity_group": "PER", "word": "Reeves", "score": 0.95}]
+    return [{"entity_group": "PER", "word": "Reeves", "score": 0.95, "start": 0, "end": 6}]
 
 
-def _mock_zero_shot(texts, candidate_labels, **kwargs):
-    if isinstance(texts, str):
-        texts = [texts]
-    return [
-        {"labels": candidate_labels, "scores": [0.8, 0.2]}
-        for _ in texts
-    ]
+def _mock_zero_shot(text, candidate_labels, **kwargs):
+    return {"labels": candidate_labels, "scores": [0.8, 0.2]}
+
+
+def _mock_summarize(text, **kwargs):
+    return [{"summary_text": "Two figures argued near the pier."}]
 
 
 @pytest.fixture(autouse=True)
@@ -46,9 +48,11 @@ def mock_pipelines():
             pipe.side_effect = _mock_ner
         elif task == "zero-shot-classification":
             pipe.side_effect = _mock_zero_shot
+        elif task == "summarization":
+            pipe.side_effect = _mock_summarize
         return pipe
 
-    with patch.object(start, "load_pipeline", side_effect=factory):
+    with patch.object(start, "load_model", side_effect=factory):
         yield
 
 
@@ -57,31 +61,56 @@ class TestLoadJson:
         records = start.load_json(SENTIMENT_PATH)
         assert len(records) == 14
 
+    def test_loads_statements(self):
+        records = start.load_json(STATEMENTS_PATH)
+        assert len(records) == 10
 
-class TestClassifySentiment:
-    def test_returns_labels(self):
-        results = start.classify_sentiment(["Bad day.", "Good day."])
-        assert len(results) == 2
-        assert "label" in results[0]
+
+class TestAnalyseSentiment:
+    def test_returns_results(self):
+        records = start.load_json(SENTIMENT_PATH)[:3]
+        results = start.analyse_sentiment(records)
+        assert len(results) == 3
+        assert "predicted" in results[0]
         assert "score" in results[0]
+        assert "actual" in results[0]
 
 
 class TestExtractEntities:
     def test_returns_entities(self):
-        results = start.extract_entities_hf(["Reeves near the docks."])
-        assert len(results) == 1
-        assert results[0][0]["word"] == "Reeves"
+        statements = start.load_json(STATEMENTS_PATH)[:2]
+        results = start.extract_entities(statements)
+        assert len(results) == 2
+        assert "entities" in results[0]
+        assert results[0]["entities"][0]["word"] == "Reeves"
 
 
-class TestZeroShot:
-    def test_returns_labels_and_scores(self):
-        results = start.zero_shot_classify(["I am angry."], ["calm", "hostile"])
-        assert results[0]["labels"] == ["calm", "hostile"]
+class TestBuildEvidenceBoard:
+    def test_merges_entities_by_case(self):
+        entity_results = [
+            {"case_id": "CASE-42", "entities": [{"entity_group": "PER", "word": "Reeves"}]},
+            {"case_id": "CASE-42", "entities": [{"entity_group": "PER", "word": "Marsh"}]},
+            {"case_id": "CASE-17", "entities": [{"entity_group": "PER", "word": "Corbin"}]},
+        ]
+        board = start.build_evidence_board(entity_results, "CASE-42")
+        assert "PER" in board
+        assert "Reeves" in board["PER"]
+        assert "Marsh" in board["PER"]
+        assert "Corbin" not in board.get("PER", set())
 
 
-class TestCompareNer:
-    def test_recall_perfect(self):
-        hf = [{"word": "Reeves", "entity_group": "PER"}]
-        gold = [{"text": "Reeves", "label": "PERSON"}]
-        result = start.compare_ner_to_gold(hf, gold)
-        assert result["recall"] == 1.0
+class TestClassifyZeroShot:
+    def test_returns_predictions(self):
+        records = start.load_json(SENTIMENT_PATH)[:2]
+        results = start.classify_zero_shot(records, ["calm", "hostile"])
+        assert len(results) == 2
+        assert "predicted" in results[0]
+        assert "scores" in results[0]
+
+
+class TestSummariseLongest:
+    def test_returns_summary(self):
+        statements = start.load_json(STATEMENTS_PATH)
+        result = start.summarise_longest(statements)
+        assert "summary" in result
+        assert result["original_words"] > result["summary_words"]

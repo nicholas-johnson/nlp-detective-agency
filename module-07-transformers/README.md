@@ -248,13 +248,13 @@ python module-07-transformers/demo/demo.py
 
 ## Exercises
 
-| Folder                                                    | Part A (Inkwell)                          | Part B (optional `--real-world`) | Extra deps?               |
-| --------------------------------------------------------- | ----------------------------------------- | -------------------------------- | ------------------------- |
-| [`exercises/01-hf-pipelines`](exercises/01-hf-pipelines/) | Sentiment, NER, zero-shot pipelines       | SMS spam + CoNLL NER audit       | `[local-ml]`              |
-| [`exercises/02-tokenization`](exercises/02-tokenization/) | tiktoken BPE + HF comparison              | Inkwell vs SMS token stats       | tiktoken only\*           |
-| [`exercises/03-fine-tuning`](exercises/03-fine-tuning/)   | Fine-tune DistilBERT on witness sentiment | Movie reviews sample             | `[local-ml]` **optional** |
+All exercises run transformer models locally and require `[local-ml]` (PyTorch + Hugging Face).
 
-\* AutoTokenizer comparison in Ex02 loads DistilBERT when called.
+| Folder                                                    | Part A (Inkwell)                              | Part B (optional `--real-world`)       |
+| --------------------------------------------------------- | --------------------------------------------- | -------------------------------------- |
+| [`exercises/01-hf-pipelines`](exercises/01-hf-pipelines/) | Inference lab: sentiment, NER, zero-shot, summarisation | SMS spam + CoNLL NER   |
+| [`exercises/02-tokenization`](exercises/02-tokenization/) | Text generation with distilgpt2               | Model comparison (distilgpt2 vs gpt2)  |
+| [`exercises/03-fine-tuning`](exercises/03-fine-tuning/)   | Fine-tune DistilBERT on witness sentiment     | Movie reviews sample                   |
 
 Exercises are **independent** - complete them in any order.
 
@@ -263,7 +263,7 @@ Run an exercise:
 ```bash
 python module-07-transformers/exercises/01-hf-pipelines/start.py
 python module-07-transformers/exercises/02-tokenization/start.py
-python module-07-transformers/exercises/03-fine-tuning/start.py   # optional
+python module-07-transformers/exercises/03-fine-tuning/start.py
 python module-07-transformers/exercises/01-hf-pipelines/start.py --real-world
 ```
 

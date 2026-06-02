@@ -1,5 +1,5 @@
 """
-Exercise 03 - Fine-Tuning (optional)
+Exercise 03 - Fine-Tuning
 Fine-tune DistilBERT on witness sentiment. Requires [local-ml].
 """
 
@@ -33,32 +33,41 @@ def load_sentiment_data(path: Path) -> list[dict]:
 
 
 def split_data(records: list[dict]) -> tuple[list[str], list[str], list[str], list[str]]:
-    """Stratified train/test split of texts and labels."""
-    # TODO
+    """Stratified train/test split of texts and labels (75/25)."""
+    # TODO: use sklearn train_test_split with stratify
     raise NotImplementedError
 
 
 def sklearn_baseline(texts: list[str], labels: list[str]) -> dict:
     """TF-IDF + Naive Bayes baseline; return accuracy and f1_hostile."""
-    # TODO
+    # TODO: split, fit pipeline, predict, return metrics
+    raise NotImplementedError
+
+
+def predict_samples(model, tokenizer, texts: list[str]) -> list[dict]:
+    """Run inference on sample texts using the model.
+
+    Return list of {text_snippet, predicted_label, confidence}.
+    """
+    # TODO: tokenize texts, run model forward pass, apply softmax, decode labels
     raise NotImplementedError
 
 
 def tokenize_dataset(tokenizer, texts: list[str], labels: list[str]):
     """Build Hugging Face Dataset with tokenized text and label ids."""
-    # TODO
+    # TODO: create Dataset, map tokenizer over it
     raise NotImplementedError
 
 
 def build_trainer(model, tokenizer, train_ds, eval_ds):
-    """Return configured transformers Trainer."""
+    """Return configured transformers Trainer (3 epochs, batch 4, lr 5e-5)."""
     # TODO
     raise NotImplementedError
 
 
 def train_and_evaluate(records: list[dict]) -> dict:
     """Fine-tune DistilBERT; return eval_loss and eval_accuracy."""
-    # TODO
+    # TODO: load model/tokenizer, split, tokenize, build trainer, train, evaluate
     raise NotImplementedError
 
 
@@ -69,11 +78,13 @@ def compare_to_baseline(hf_metrics: dict, baseline_metrics: dict) -> dict:
 
 
 def run_inkwell() -> None:
+    """Full pipeline: before predictions, baseline, train, after predictions, compare."""
     # TODO
     raise NotImplementedError
 
 
 def run_real_world() -> None:
+    """Fine-tune on movie reviews (pos=calm, neg=hostile)."""
     # TODO
     raise NotImplementedError
 

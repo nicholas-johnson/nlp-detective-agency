@@ -12,3 +12,4 @@ export { CardsSlide } from "./CardsSlide";
 export { DescriptionSlide } from "./DescriptionSlide";
 export { SlideIcon, availableIcons } from "./SlideIcon";
 export { InlineMarkdown, parseInlineMarkdown } from "./InlineMarkdown";
+export { SlideBullet } from "./SlideBullet";

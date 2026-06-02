@@ -1,49 +1,62 @@
-"""Tests for Exercise 02 - Tokenization (Part A)."""
+"""Tests for Exercise 02 - Text Generation (Part A)."""
 
-import json
-from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import pytest
 
+pytest.importorskip("transformers")
+
 import start
 
-STATEMENTS_PATH = (
-    Path(__file__).resolve().parent.parent.parent.parent / "data" / "inkwell" / "statements.json"
-)
+
+def _mock_generate(text, **kwargs):
+    n = kwargs.get("num_return_sequences", 1)
+    return [{"generated_text": text + " The fog rolled in."} for _ in range(n)]
 
 
-@pytest.fixture(scope="module")
-def encoding():
-    return start.load_tiktoken_encoding()
+@pytest.fixture(autouse=True)
+def mock_generator():
+    pipe = MagicMock(side_effect=_mock_generate)
+    with patch.object(start, "load_generator", return_value=pipe):
+        yield pipe
 
 
-class TestTiktoken:
-    def test_count_tokens_positive(self, encoding):
-        assert start.count_tokens(encoding, "Hello world") > 0
+class TestLoadJson:
+    def test_loads_statements(self):
+        records = start.load_json(start.STATEMENTS_PATH)
+        assert len(records) == 10
 
-    def test_round_trip_subwords(self, encoding):
-        text = "Reeves near the docks"
-        subwords = start.show_subwords(encoding, text)
-        assert len(subwords) >= 3
-        joined = "".join(subwords)
-        assert "Reeves" in joined or "reeves" in joined.lower()
 
-    def test_batch_stats(self, encoding):
-        statements = json.loads(STATEMENTS_PATH.read_text())
-        texts = [s["raw_text"] for s in statements]
-        stats = start.batch_token_stats(encoding, texts)
-        assert stats["min"] > 0
-        assert stats["max"] >= stats["min"]
-        assert stats["mean"] > 0
+class TestContinueStatement:
+    def test_returns_continuation(self):
+        result = start.continue_statement("I saw him near the docks.")
+        assert isinstance(result, str)
+        assert len(result) > 0
 
-    def test_truncation(self, encoding):
-        long_text = "word " * 200
-        result = start.truncate_analysis(encoding, long_text, max_tokens=10)
-        assert result["was_truncated"]
-        assert result["truncated_tokens"] == 10
+    def test_does_not_include_prompt(self):
+        prompt = "I saw him near the docks."
+        result = start.continue_statement(prompt)
+        assert not result.startswith(prompt)
 
-    def test_compare_tokenizers_keys(self, encoding):
-        cmp = start.compare_tokenizers("I saw Reeves.", encoding)
-        assert "tiktoken_count" in cmp
-        assert "hf_count" in cmp
-        assert cmp["tiktoken_count"] > 0
+
+class TestGenerateVariants:
+    def test_returns_n_variants(self):
+        results = start.generate_variants("The docks were empty.", n=3, temperature=0.7)
+        assert len(results) == 3
+        assert all(isinstance(r, str) for r in results)
+
+
+class TestInterrogationPrompt:
+    def test_returns_question(self):
+        result = start.interrogation_prompt("Eleanor Marsh", "I was at the warehouse.")
+        assert isinstance(result, str)
+        assert len(result) > 0
+
+
+class TestBatchGenerate:
+    def test_returns_results_for_all(self):
+        statements = start.load_json(start.STATEMENTS_PATH)[:3]
+        results = start.batch_generate(statements)
+        assert len(results) == 3
+        assert "continuation" in results[0]
+        assert "id" in results[0]

@@ -1,4 +1,5 @@
 import { InlineMarkdown } from "./InlineMarkdown";
+import { SlideBullet } from "./SlideBullet";
 
 export function EquationSlide({ content }) {
   return (
@@ -24,19 +25,7 @@ export function EquationSlide({ content }) {
               <li key={i} className="text-base text-gray-300 leading-relaxed flex items-start gap-2">
                 <span className="text-cyan-400 mt-1">•</span>
                 <span>
-                  {typeof point === "string" ? (
-                    <InlineMarkdown text={point} />
-                  ) : (
-                    <>
-                      <span
-                        className="inline-block align-middle text-white"
-                        dangerouslySetInnerHTML={{ __html: point.mathml }}
-                      />
-                      {point.text && (
-                        <span className="ml-1"><InlineMarkdown text={point.text} /></span>
-                      )}
-                    </>
-                  )}
+                  <SlideBullet point={point} />
                 </span>
               </li>
             ))}

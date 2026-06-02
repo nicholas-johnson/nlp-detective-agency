@@ -21,7 +21,7 @@ importers:
         specifier: ^3.4.2
         version: 3.8.1
 
-  module-00-python-fundamentals/slides:
+  module-00-python-for-text/slides:
     dependencies:
       react:
         specifier: ^18.3.1

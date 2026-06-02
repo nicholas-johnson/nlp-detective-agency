@@ -1,4 +1,4 @@
-import { InlineMarkdown } from "./InlineMarkdown";
+import { SlideBullet } from "./SlideBullet";
 
 export function WelcomeSlide({ content }) {
   return (
@@ -10,7 +10,7 @@ export function WelcomeSlide({ content }) {
         <ul className="space-y-4">
           {content.points.map((point, i) => (
             <li key={i} className="text-xl md:text-2xl text-gray-200">
-              <InlineMarkdown text={point} />
+              <SlideBullet point={point} />
             </li>
           ))}
         </ul>

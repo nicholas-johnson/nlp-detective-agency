@@ -1,5 +1,5 @@
 import { SlideIcon } from "./SlideIcon";
-import { InlineMarkdown } from "./InlineMarkdown";
+import { SlideBullet } from "./SlideBullet";
 
 export function StandardSlide({ content }) {
   return (
@@ -20,7 +20,9 @@ export function StandardSlide({ content }) {
               className="text-xl md:text-2xl text-gray-200 flex items-start gap-3"
             >
               <span className="text-secondary font-bold">→</span>
-              <span><InlineMarkdown text={point} /></span>
+              <span>
+                <SlideBullet point={point} />
+              </span>
             </li>
           ))}
         </ul>

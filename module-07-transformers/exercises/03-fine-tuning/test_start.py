@@ -1,6 +1,7 @@
 """Tests for Exercise 03 - Fine-Tuning (Part A)."""
 
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -35,6 +36,27 @@ class TestSklearnBaseline:
         assert "accuracy" in metrics
         assert "f1_hostile" in metrics
         assert 0.0 <= metrics["accuracy"] <= 1.0
+
+
+class TestPredictSamples:
+    def test_returns_predictions(self):
+        mock_model = MagicMock()
+        mock_tokenizer = MagicMock()
+        # Simulate model output
+        import torch
+
+        mock_logits = torch.tensor([[0.2, 0.8]])
+        mock_output = MagicMock()
+        mock_output.logits = mock_logits
+        mock_model.return_value = mock_output
+        mock_model.eval = MagicMock()
+        mock_tokenizer.return_value = {"input_ids": torch.zeros(1, 10, dtype=torch.long), "attention_mask": torch.ones(1, 10, dtype=torch.long)}
+
+        results = start.predict_samples(mock_model, mock_tokenizer, ["Test text."])
+        assert len(results) == 1
+        assert "predicted_label" in results[0]
+        assert "confidence" in results[0]
+        assert results[0]["predicted_label"] in ("calm", "hostile")
 
 
 class TestCompareBaseline:

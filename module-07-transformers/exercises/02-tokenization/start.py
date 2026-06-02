@@ -1,66 +1,83 @@
 """
-Exercise 02 - Tokenization
-Explore BPE tokenization with tiktoken; compare to Hugging Face AutoTokenizer.
+Exercise 02 - Text Generation
+Load a local causal LM and generate continuations of witness statements.
 """
 
 import argparse
 import json
+import time
 from pathlib import Path
 
 STATEMENTS_PATH = (
     Path(__file__).resolve().parent.parent.parent.parent / "data" / "inkwell" / "statements.json"
 )
-SMS_PATH = (
-    Path(__file__).resolve().parent.parent.parent.parent / "data" / "public" / "sms_spam_sample.json"
-)
 
-TIKTOKEN_MODEL = "cl100k_base"
-HF_MODEL = "distilbert-base-uncased"
+DEFAULT_MODEL = "distilgpt2"
+
+_generators: dict = {}
 
 
-def load_tiktoken_encoding(name: str = TIKTOKEN_MODEL):
-    """Return a tiktoken encoding (default cl100k_base)."""
+def load_generator(model_name: str = DEFAULT_MODEL):
+    """Load and cache a text-generation pipeline for the given model."""
+    # TODO: use transformers.pipeline("text-generation", model=model_name)
+    raise NotImplementedError
+
+
+def load_json(path: Path) -> list[dict]:
+    """Load a JSON array from disk."""
     # TODO
     raise NotImplementedError
 
 
-def count_tokens(encoding, text: str) -> int:
-    """Return token count for text."""
+def continue_statement(text: str, max_new_tokens: int = 50) -> str:
+    """Generate a single continuation of the given text.
+
+    Return only the generated portion (not the original prompt).
+    """
+    # TODO: call load_generator, generate, strip prompt from output
+    raise NotImplementedError
+
+
+def generate_variants(text: str, n: int = 3, temperature: float = 0.7) -> list[str]:
+    """Generate n different continuations at the given temperature.
+
+    Return list of generated texts (without prompt).
+    """
+    # TODO: use do_sample=True, temperature=temperature, num_return_sequences=n
+    raise NotImplementedError
+
+
+def interrogation_prompt(witness_name: str, context: str, max_new_tokens: int = 40) -> str:
+    """Build an interrogation prompt and generate a follow-up question.
+
+    Prompt format:
+      "Detective's follow-up question for {witness_name}, who said: '{context}'\nQuestion:"
+
+    Return the generated question text.
+    """
     # TODO
     raise NotImplementedError
 
 
-def show_subwords(encoding, text: str) -> list[str]:
-    """Return list of subword strings after BPE encode/decode per token."""
-    # TODO
-    raise NotImplementedError
+def batch_generate(statements: list[dict], max_new_tokens: int = 40) -> list[dict]:
+    """Generate continuations for all statements.
 
-
-def batch_token_stats(encoding, texts: list[str]) -> dict:
-    """Return min, max, mean, total token counts across texts."""
-    # TODO
-    raise NotImplementedError
-
-
-def truncate_analysis(encoding, text: str, max_tokens: int) -> dict:
-    """Truncate to max_tokens; return original/truncated counts and text."""
-    # TODO
-    raise NotImplementedError
-
-
-def compare_tokenizers(text: str, tiktoken_encoding=None, hf_model: str = HF_MODEL) -> dict:
-    """Side-by-side tiktoken vs AutoTokenizer token counts and sample tokens."""
-    # TODO
+    Return list of {id, witness, prompt_snippet, continuation}.
+    """
+    # TODO: use first 80 chars of raw_text as prompt
     raise NotImplementedError
 
 
 def run_inkwell() -> None:
-    # TODO
+    """Run generation tasks on Inkwell data with timing."""
+    # TODO: load statements, run continue_statement, generate_variants,
+    # interrogation_prompt, batch_generate. Print formatted output.
     raise NotImplementedError
 
 
 def run_real_world() -> None:
-    # TODO
+    """Compare distilgpt2 vs gpt2 generation speed and output."""
+    # TODO: time both models on same prompts, print comparison
     raise NotImplementedError
 
 

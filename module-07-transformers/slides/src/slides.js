@@ -45,9 +45,65 @@ export const slides = [
   {
     type: 'title',
     content: {
-      title: 'Attention and transformers',
+      title: 'Transformers',
       subtitle: 'How the specialist thinks',
       icon: 'layers',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What is a Transformer?',
+      icon: 'cpu',
+      points: [
+        'A **neural network architecture** introduced in "Attention Is All You Need" (2017).',
+        'Replaces recurrence (RNNs) with **self-attention** — processes all tokens in parallel.',
+        'Learns **contextual representations** — the same word gets different vectors in different sentences.',
+        'Pre-trained on massive text → **fine-tuned** on small tasks with little data.',
+      ],
+    },
+  },
+  {
+    type: 'cards',
+    content: {
+      title: 'Examples of transformers',
+      cards: [
+        {
+          heading: 'BERT',
+          body: 'Bidirectional encoder. Great for classification, NER, QA. Reads left and right.',
+        },
+        {
+          heading: 'GPT',
+          body: 'Autoregressive decoder. Generates text left-to-right. Powers ChatGPT.',
+        },
+        {
+          heading: 'DistilBERT',
+          body: '40% smaller, 97% of BERT accuracy. We use this in exercises.',
+        },
+        {
+          heading: 'T5 / BART',
+          body: 'Encoder-decoder. Summarisation, translation, seq-to-seq tasks.',
+        },
+      ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Chatbot',
+      subtitle:
+        'python module-07-transformers/demo/demo.py - option 7',
+      icon: 'terminal',
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Self Attention',
+      subtitle: 'How transformers understand context',
+      icon: 'zap',
     },
   },
   {
@@ -56,7 +112,7 @@ export const slides = [
       title: 'Self-attention intuition',
       icon: 'zap',
       points: [
-        'Each token **attends** to all others in the sentence.',
+        'Each token **attends** to every other token in the context window.',
         'Stack of encoder layers builds **contextual** representations.',
         'Same word → **different vector** in different sentences.',
         'You use transformers via **pipelines** - no need to implement attention.',
@@ -113,9 +169,7 @@ export const slides = [
       icon: 'git-compare',
       points: [
         '**Word2Vec (M5):** one vector per word, always.',
-        '**BERT / DistilBERT:** vector depends on **surrounding context**.',
-        '**DistilBERT:** ~40% smaller, ~97% of BERT GLUE performance.',
-        'Trade-off: **accuracy vs speed vs install size**.',
+        '**Transformer:** vector depends on **surrounding context**.',
       ],
     },
   },
@@ -133,76 +187,22 @@ export const slides = [
   {
     type: 'title',
     content: {
-      title: 'Tokenization',
-      subtitle: 'Subwords, not whitespace',
-      icon: 'hash',
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'How BPE tokenization works',
-      icon: 'scissors',
-      points: [
-        'Start with individual characters; repeatedly **merge the most frequent pair**.',
-        'Common words become single tokens ("the" → 1 token).',
-        'Rare words are split into known sub-parts ("unhappiness" → "un" + "happiness").',
-        'No word is ever truly **unknown** — handles typos, jargon, any language.',
-        'Token **count** determines API cost and context-window limits.',
-      ],
-    },
-  },
-  {
-    type: 'cards',
-    content: {
-      title: 'Two tokenizers in this module',
-      cards: [
-        {
-          heading: 'tiktoken',
-          body: 'BPE for OpenAI models. Core dep. Fast. Exercise 02 primary.',
-        },
-        {
-          heading: 'AutoTokenizer',
-          body: 'WordPiece for DistilBERT. HF models. Comparison in Ex02.',
-        },
-        {
-          heading: 'NLTK (M1)',
-          body: 'Word-level splits. Different purpose - preprocessing.',
-        },
-        { heading: 'spaCy (M6)', body: 'Linguistic tokens. Rules + statistical NER.' },
-      ],
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'tiktoken essentials',
-      icon: 'code',
-      points: [
-        '`enc = tiktoken.get_encoding("cl100k_base")`',
-        '`enc.encode(text)` → token IDs',
-        '`enc.decode(ids)` → round-trip text',
-        'Token **count** matters for API limits and truncation.',
-      ],
-    },
-  },
-
-  {
-    type: 'title',
-    content: {
-      title: 'Demo - tiktoken explorer',
-      subtitle:
-        'python module-07-transformers/demo/demo.py - option 5',
-      icon: 'terminal',
-    },
-  },
-
-  {
-    type: 'title',
-    content: {
       title: 'Hugging Face pipelines',
       subtitle: 'Deploy in minutes',
       icon: 'play',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What is Hugging Face?',
+      icon: 'box',
+      points: [
+        'An **open-source platform** hosting 500k+ pre-trained models.',
+        'The `transformers` library gives one-line access to BERT, GPT, T5, and more.',
+        '**`pipeline()`** wraps tokenization, inference, and post-processing in a single call.',
+        'Also hosts **datasets**, **spaces** (demos), and model cards with documentation.',
+      ],
     },
   },
   {
@@ -215,32 +215,6 @@ export const slides = [
         '`ner` - entity spans (vs M6 spaCy).',
         '`zero-shot-classification` - custom labels, **no training**.',
         '`summarization` - condense long statements.',
-      ],
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'Zero-shot classification',
-      icon: 'sparkles',
-      points: [
-        'Provide **candidate labels** at inference time.',
-        'No `fit()` - compare to Module 3 trained models.',
-        'Useful when labels are scarce or exploratory.',
-        'Domain nuance may still need **fine-tuning**.',
-      ],
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'How zero-shot works under the hood',
-      icon: 'help-circle',
-      points: [
-        'Uses **natural language inference** (NLI): "Does this text *entail* the label?"',
-        'For each candidate label, the model scores entailment vs contradiction.',
-        'The label with the **highest entailment score** wins.',
-        'No training on your labels — the NLI model generalises from its pre-training.',
       ],
     },
   },
@@ -291,6 +265,31 @@ export const slides = [
   },
 
   {
+    type: 'standard',
+    content: {
+      title: 'LoRA — lightweight fine-tuning',
+      icon: 'pen-tool',
+      points: [
+        'Full fine-tuning updates **all** model weights — expensive and memory-heavy.',
+        'LoRA freezes the original weights and injects small **trainable adapter matrices**.',
+        'Typically trains **<1%** of parameters with comparable performance.',
+        'Adapters are tiny files — swap tasks without duplicating the full model.',
+        'Libraries: **PEFT** (HuggingFace) and **QLoRA** (quantised + LoRA).',
+      ],
+    },
+  },
+
+  {
+    type: 'title',
+    content: {
+      title: 'Demo - Fine-tuning DistilBERT',
+      subtitle:
+        'python module-07-transformers/demo/demo.py - option 8',
+      icon: 'terminal',
+    },
+  },
+
+  {
     type: 'title',
     content: {
       title: 'Evaluating language models',
@@ -333,20 +332,34 @@ export const slides = [
       cards: [
         {
           heading: 'GLUE / SuperGLUE',
-          body: 'Suite of 9+ tasks (sentiment, entailment, paraphrase). DistilBERT scores ~97% of BERT on GLUE.',
+          body: 'General Language Understanding Evaluation. Suite of 9+ tasks (sentiment, entailment, paraphrase). DistilBERT scores ~97% of BERT on GLUE.',
         },
         {
           heading: 'SQuAD',
-          body: 'Reading comprehension QA. Model extracts answer spans from passages.',
+          body: 'Stanford Question Answering Dataset. Reading comprehension QA. Model extracts answer spans from passages.',
         },
         {
           heading: 'MMLU',
-          body: '57-subject multiple choice. Tests broad knowledge across domains.',
+          body: 'Massive Multitask Language Understanding. 57-subject multiple choice. Tests broad knowledge across domains.',
         },
         {
           heading: 'CoNLL-2003',
-          body: 'NER benchmark (Module 6). Span-level F1 is the standard metric.',
+          body: 'Conference on Natural Language Learning. NER benchmark (Module 6). Span-level F1 is the standard metric.',
         },
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'When are benchmarks used?',
+      icon: 'clock',
+      points: [
+        '**GLUE / SuperGLUE** — evaluating general understanding: sentiment, entailment, paraphrase.',
+        '**SQuAD** — testing reading comprehension and extractive QA.',
+        '**MMLU** — measuring broad knowledge across many domains (LLM evals).',
+        '**CoNLL-2003** — evaluating NER: can the model find and label entity spans?',
+        'Pick the benchmark that matches **your task** — or build a custom eval on your own data.',
       ],
     },
   },
@@ -416,16 +429,16 @@ print(classification_report(y_true, y_pred))
       title: 'Three missions',
       cards: [
         {
-          heading: '01 HF pipelines',
-          body: 'Sentiment, NER, zero-shot. Part B: SMS + CoNLL.',
+          heading: '01 Inference lab',
+          body: 'Sentiment, NER, zero-shot, summarisation — all local. Part B: SMS + CoNLL.',
         },
         {
-          heading: '02 Tokenization',
-          body: 'tiktoken BPE + HF compare. Part B: domain stats.',
+          heading: '02 Text generation',
+          body: 'Load distilgpt2 locally. Generate continuations, explore temperature. Part B: model comparison.',
         },
         {
           heading: '03 Fine-tuning',
-          body: 'DistilBERT optional. Part B: movie reviews.',
+          body: 'Fine-tune DistilBERT. Before/after predictions. Part B: movie reviews.',
         },
       ],
     },
@@ -448,7 +461,7 @@ print(classification_report(y_true, y_pred))
         '**Pipeline before fine-tune** - baseline quality first.',
         '**Watch token limits** - truncate long case files (512 tokens).',
         '**Cache models** - first download is slow; then offline OK.',
-        '**Ex03 optional** - skip if CPU/time constrained.',
+        '**Ex03 (fine-tuning)** - skip if CPU/time constrained.',
       ],
     },
   },

@@ -192,9 +192,9 @@ All **exercises** run in **Python** and are checked with **pytest** (`start.py` 
 
 | Exercise | Folder | What you build |
 | -------- | ------ | -------------- |
-| HF pipelines | [`exercises/01-hf-pipelines`](module-07-transformers/exercises/01-hf-pipelines/) | Sentiment, NER, zero-shot on Inkwell data |
-| Tokenization | [`exercises/02-tokenization`](module-07-transformers/exercises/02-tokenization/) | tiktoken BPE + AutoTokenizer comparison |
-| Fine-tuning | [`exercises/03-fine-tuning`](module-07-transformers/exercises/03-fine-tuning/) | Fine-tune DistilBERT on witness sentiment (optional) |
+| Inference lab | [`exercises/01-hf-pipelines`](module-07-transformers/exercises/01-hf-pipelines/) | Run sentiment, NER, zero-shot, summarisation locally |
+| Text generation | [`exercises/02-tokenization`](module-07-transformers/exercises/02-tokenization/) | Load distilgpt2, generate continuations, explore temperature |
+| Fine-tuning | [`exercises/03-fine-tuning`](module-07-transformers/exercises/03-fine-tuning/) | Fine-tune DistilBERT on witness sentiment |
 
 ### Module 8 — [Applied NLP Capstone](module-08-capstone/)
 

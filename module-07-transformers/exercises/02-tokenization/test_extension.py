@@ -1,35 +1,43 @@
-"""Tests for Exercise 02 - Tokenization (Part B)."""
+"""Tests for Exercise 02 - Text Generation (Part B)."""
 
-import json
-from pathlib import Path
+import time
+from unittest.mock import MagicMock, patch
 
 import pytest
 
+pytest.importorskip("transformers")
+
 import start
 
-STATEMENTS_PATH = (
-    Path(__file__).resolve().parent.parent.parent.parent / "data" / "inkwell" / "statements.json"
-)
-SMS_PATH = (
-    Path(__file__).resolve().parent.parent.parent.parent / "data" / "public" / "sms_spam_sample.json"
-)
+
+def _mock_generate(text, **kwargs):
+    n = kwargs.get("num_return_sequences", 1)
+    return [{"generated_text": text + " Generated text."} for _ in range(n)]
 
 
-@pytest.fixture(scope="module")
-def encoding():
-    return start.load_tiktoken_encoding()
+@pytest.fixture(autouse=True)
+def mock_generators():
+    pipes = {}
+
+    def factory(model_name=start.DEFAULT_MODEL):
+        if model_name not in pipes:
+            pipe = MagicMock(side_effect=_mock_generate)
+            pipes[model_name] = pipe
+        return pipes[model_name]
+
+    with patch.object(start, "load_generator", side_effect=factory):
+        yield pipes
 
 
-class TestDomainComparison:
-    def test_sms_stats(self, encoding):
-        sms = json.loads(SMS_PATH.read_text())
-        stats = start.batch_token_stats(encoding, [m["text"] for m in sms])
-        assert stats["total"] > 100
+class TestModelComparison:
+    def test_distilgpt2_generates(self):
+        gen = start.load_generator("distilgpt2")
+        result = gen("Test prompt")
+        assert len(result) == 1
+        assert "generated_text" in result[0]
 
-    def test_inkwell_vs_sms_mean(self, encoding):
-        statements = json.loads(STATEMENTS_PATH.read_text())
-        sms = json.loads(SMS_PATH.read_text())
-        ink = start.batch_token_stats(encoding, [s["raw_text"] for s in statements])
-        sms_s = start.batch_token_stats(encoding, [m["text"] for m in sms])
-        assert ink["mean"] > 0
-        assert sms_s["mean"] > 0
+    def test_gpt2_generates(self):
+        gen = start.load_generator("gpt2")
+        result = gen("Test prompt")
+        assert len(result) == 1
+        assert "generated_text" in result[0]

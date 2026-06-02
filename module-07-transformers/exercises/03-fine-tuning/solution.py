@@ -1,5 +1,5 @@
 """
-Exercise 03 - Fine-Tuning (solution, optional)
+Exercise 03 - Fine-Tuning (solution)
 Requires: pip install -e ".[nlp,local-ml,dev]"
 """
 
@@ -7,6 +7,7 @@ import argparse
 import json
 from pathlib import Path
 
+import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
@@ -60,6 +61,24 @@ def sklearn_baseline(texts: list[str], labels: list[str]) -> dict:
     }
 
 
+def predict_samples(model, tokenizer, texts: list[str]) -> list[dict]:
+    results = []
+    model.eval()
+    for text in texts:
+        inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=128)
+        with torch.no_grad():
+            logits = model(**inputs).logits
+        probs = torch.softmax(logits, dim=-1)
+        pred_id = probs.argmax(dim=-1).item()
+        confidence = probs[0, pred_id].item()
+        results.append({
+            "text_snippet": text[:60],
+            "predicted_label": ID2LABEL[pred_id],
+            "confidence": round(confidence, 3),
+        })
+    return results
+
+
 def tokenize_dataset(tokenizer, texts: list[str], labels: list[str]):
     from datasets import Dataset
 
@@ -83,7 +102,7 @@ def build_trainer(model, tokenizer, train_ds, eval_ds):
         learning_rate=5e-5,
         eval_strategy="epoch",
         save_strategy="no",
-        logging_steps=10,
+        logging_steps=5,
         seed=RANDOM_STATE,
     )
     return Trainer(
@@ -96,7 +115,6 @@ def build_trainer(model, tokenizer, train_ds, eval_ds):
 
 
 def train_and_evaluate(records: list[dict]) -> dict:
-    torch = __import__("torch")
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
     texts = [r["text"] for r in records]
@@ -121,6 +139,8 @@ def train_and_evaluate(records: list[dict]) -> dict:
     return {
         "eval_loss": round(float(metrics["eval_loss"]), 4),
         "eval_accuracy": round(float(metrics.get("eval_accuracy", 0)), 3),
+        "model": model,
+        "tokenizer": tokenizer,
     }
 
 
@@ -129,21 +149,54 @@ def compare_to_baseline(hf_metrics: dict, baseline_metrics: dict) -> dict:
 
 
 def run_inkwell() -> None:
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
     records = load_sentiment_data(SENTIMENT_PATH)
     texts = [r["text"] for r in records]
     labels = [r["sentiment"] for r in records]
 
-    print("Inkwell Investigations - Fine-Tuning Lab (optional)")
-    print("=" * 52)
-    print("Training DistilBERT on witness sentiment (calm/hostile)...")
+    print("Inkwell Investigations - Fine-Tuning Lab")
+    print("=" * 42)
 
+    # Before training - pre-trained model predictions
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = AutoModelForSequenceClassification.from_pretrained(
+        MODEL_NAME, num_labels=2, id2label=ID2LABEL, label2id=LABEL2ID
+    )
+    sample_texts = [records[0]["text"], records[1]["text"], records[3]["text"]]
+    sample_actuals = [records[0]["sentiment"], records[1]["sentiment"], records[3]["sentiment"]]
+
+    print("\n--- Before training (pre-trained DistilBERT) ---")
+    before = predict_samples(model, tokenizer, sample_texts)
+    for pred, actual in zip(before, sample_actuals, strict=True):
+        print(f"  {pred['text_snippet'][:50]}...")
+        print(f"    predicted={pred['predicted_label']} ({pred['confidence']})  actual={actual}")
+
+    # Sklearn baseline
     baseline = sklearn_baseline(texts, labels)
-    print(f"\nSklearn baseline - accuracy: {baseline['accuracy']}, F1 hostile: {baseline['f1_hostile']}")
+    print(f"\n--- Sklearn baseline (TF-IDF + Naive Bayes) ---")
+    print(f"  Accuracy: {baseline['accuracy']} | F1 (hostile): {baseline['f1_hostile']}")
 
-    hf_metrics = train_and_evaluate(records)
+    # Fine-tune
+    print(f"\n--- Fine-tuning DistilBERT (3 epochs) ---")
+    result = train_and_evaluate(records)
+
+    # After training
+    print(f"\n--- After training (fine-tuned) ---")
+    ft_model = result.get("model", model)
+    ft_tokenizer = result.get("tokenizer", tokenizer)
+    after = predict_samples(ft_model, ft_tokenizer, sample_texts)
+    for pred, actual in zip(after, sample_actuals, strict=True):
+        match = "✓" if pred["predicted_label"] == actual else "✗"
+        print(f"  {pred['text_snippet'][:50]}...")
+        print(f"    predicted={pred['predicted_label']} ({pred['confidence']})  actual={actual} {match}")
+
+    # Comparison
+    hf_metrics = {"eval_loss": result["eval_loss"], "eval_accuracy": result["eval_accuracy"]}
     comparison = compare_to_baseline(hf_metrics, baseline)
-    print(f"\nDistilBERT - eval loss: {comparison['transformer']['eval_loss']}")
-    print(f"DistilBERT - eval accuracy: {comparison['transformer']['eval_accuracy']}")
+    print(f"\n--- Comparison ---")
+    print(f"  Sklearn baseline:  accuracy={baseline['accuracy']}  F1={baseline['f1_hostile']}")
+    print(f"  Fine-tuned BERT:   accuracy={result['eval_accuracy']}  loss={result['eval_loss']}")
 
 
 def run_real_world() -> None:
@@ -156,13 +209,15 @@ def run_real_world() -> None:
     labels = [r["sentiment"] for r in records]
 
     print("Fine-Tuning Lab - Movie Reviews Sample")
-    print("=" * 52)
+    print("=" * 42)
 
     baseline = sklearn_baseline(texts, labels)
     print(f"Sklearn baseline - accuracy: {baseline['accuracy']}, F1: {baseline['f1_hostile']}")
 
-    hf_metrics = train_and_evaluate(records)
-    print(f"DistilBERT - eval accuracy: {hf_metrics['eval_accuracy']}")
+    print("\nFine-tuning DistilBERT on movie reviews...")
+    result = train_and_evaluate(records)
+    print(f"DistilBERT - eval accuracy: {result['eval_accuracy']}")
+    print(f"DistilBERT - eval loss: {result['eval_loss']}")
 
 
 def main() -> None:

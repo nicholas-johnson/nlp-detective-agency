@@ -1,4 +1,4 @@
-"""Tests for Exercise 01 - HF Pipelines (Part B)."""
+"""Tests for Exercise 01 - Transformer Inference Lab (Part B)."""
 
 import json
 from pathlib import Path
@@ -27,15 +27,15 @@ def mock_pipelines():
             ]
         elif task == "ner":
             pipe.side_effect = lambda text, **kw: [
-                {"entity_group": "ORG", "word": "EU", "score": 0.9}
+                {"entity_group": "ORG", "word": "EU", "score": 0.9, "start": 0, "end": 2}
             ]
         return pipe
 
-    with patch.object(start, "load_pipeline", side_effect=factory):
+    with patch.object(start, "load_model", side_effect=factory):
         yield
 
 
-class TestRealWorldExtension:
+class TestRealWorldData:
     def test_sms_sample_loads(self):
         sms = json.loads(SMS_PATH.read_text())
         assert len(sms) >= 50
@@ -45,7 +45,7 @@ class TestRealWorldExtension:
         assert len(conll) >= 35
 
     def test_sms_sentiment_runs(self):
-        sms = json.loads(SMS_PATH.read_text())[:5]
-        texts = [m["text"] for m in sms]
-        results = start.classify_sentiment(texts)
-        assert len(results) == 5
+        records = [{"id": "sms-1", "text": "Win a free prize!", "witness": "test", "sentiment": "spam"}]
+        results = start.analyse_sentiment(records)
+        assert len(results) == 1
+        assert "predicted" in results[0]

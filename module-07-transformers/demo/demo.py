@@ -134,6 +134,120 @@ def demo_context() -> None:
     print("the transformer model, not the tokenizer.")
 
 
+def demo_chatbot() -> None:
+    from transformers import pipeline
+
+    model_name = "HuggingFaceTB/SmolLM2-360M-Instruct"
+    print(f"\n--- Chatbot: {model_name} ---")
+    print("A small 360M-parameter chat model running locally.")
+    print("This demonstrates that transformers can generate coherent")
+    print("multi-turn dialogue — no API key needed.\n")
+    print("Type 'quit' to exit the chat.\n")
+
+    if "chatbot" not in _pipelines:
+        print(f"Loading {model_name} (first run downloads ~700 MB)...")
+        _pipelines["chatbot"] = pipeline(
+            "text-generation",
+            model=model_name,
+            device="cpu",
+        )
+    chat = _pipelines["chatbot"]
+
+    messages = [
+        {"role": "system", "content": "You are a helpful detective assistant at Inkwell Investigations. Keep answers brief (1-2 sentences)."},
+    ]
+
+    while True:
+        user_input = input("You: ").strip()
+        if not user_input or user_input.lower() == "quit":
+            print("Chat ended.")
+            break
+
+        messages.append({"role": "user", "content": user_input})
+        output = chat(messages, max_new_tokens=100, do_sample=True, temperature=0.7)
+        reply = output[0]["generated_text"][-1]["content"]
+        messages.append({"role": "assistant", "content": reply})
+        print(f"Bot: {reply}\n")
+
+
+def demo_fine_tune() -> None:
+    import torch
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer, TrainingArguments
+    from datasets import Dataset
+    from sklearn.model_selection import train_test_split
+
+    MODEL_NAME = "distilbert-base-uncased"
+    LABEL2ID = {"calm": 0, "hostile": 1}
+    ID2LABEL = {0: "calm", 1: "hostile"}
+
+    records = load_sentiment()
+    texts = [r["text"] for r in records]
+    labels = [r["sentiment"] for r in records]
+
+    print(f"\n--- Fine-tuning {MODEL_NAME} on witness sentiment ---")
+    print(f"Dataset: {len(records)} examples ({labels.count('calm')} calm, {labels.count('hostile')} hostile)")
+
+    train_texts, test_texts, train_labels, test_labels = train_test_split(
+        texts, labels, test_size=0.25, random_state=42, stratify=labels
+    )
+
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = AutoModelForSequenceClassification.from_pretrained(
+        MODEL_NAME, num_labels=2, id2label=ID2LABEL, label2id=LABEL2ID
+    )
+
+    def make_dataset(texts, labels):
+        ds = Dataset.from_dict({"text": texts, "label": [LABEL2ID[l] for l in labels]})
+        ds = ds.map(lambda b: tokenizer(b["text"], truncation=True, padding="max_length", max_length=128), batched=True)
+        ds.set_format("torch", columns=["input_ids", "attention_mask", "label"])
+        return ds
+
+    train_ds = make_dataset(train_texts, train_labels)
+    eval_ds = make_dataset(test_texts, test_labels)
+
+    # Before training
+    print("\nBefore training (random head):")
+    model.eval()
+    for text, actual in zip(test_texts[:3], test_labels[:3], strict=True):
+        inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=128)
+        with torch.no_grad():
+            logits = model(**inputs).logits
+        pred = ID2LABEL[logits.argmax(dim=-1).item()]
+        print(f"  {text[:50]}... → {pred} (actual: {actual})")
+
+    # Train
+    print("\nTraining (3 epochs)...")
+    args = TrainingArguments(
+        output_dir="./tmp_finetune",
+        num_train_epochs=3,
+        per_device_train_batch_size=4,
+        per_device_eval_batch_size=4,
+        learning_rate=5e-5,
+        eval_strategy="epoch",
+        save_strategy="no",
+        logging_steps=5,
+        seed=42,
+    )
+    trainer = Trainer(model=model, args=args, train_dataset=train_ds, eval_dataset=eval_ds, tokenizer=tokenizer)
+    trainer.train()
+
+    # After training
+    metrics = trainer.evaluate()
+    print(f"\nAfter training:")
+    print(f"  Eval accuracy: {metrics.get('eval_accuracy', 'N/A')}")
+    print(f"  Eval loss: {metrics['eval_loss']:.4f}")
+
+    model.eval()
+    print("\nSample predictions:")
+    for text, actual in zip(test_texts[:3], test_labels[:3], strict=True):
+        inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=128)
+        with torch.no_grad():
+            logits = model(**inputs).logits
+        pred = ID2LABEL[logits.argmax(dim=-1).item()]
+        match = "✓" if pred == actual else "✗"
+        print(f"  {text[:50]}... → {pred} (actual: {actual}) {match}")
+
+
 def main() -> None:
     while True:
         print("\nInkwell Investigations - Transformer Lab")
@@ -144,6 +258,8 @@ def main() -> None:
         print("4. Zero-shot classification")
         print("5. tiktoken explorer")
         print("6. Context / token IDs")
+        print("7. Chatbot (SmolLM2)")
+        print("8. Fine-tune DistilBERT")
         print("0. Quit")
 
         choice = input("\nChoice: ").strip()
@@ -162,6 +278,10 @@ def main() -> None:
             demo_tokenizer()
         elif choice == "6":
             demo_context()
+        elif choice == "7":
+            demo_chatbot()
+        elif choice == "8":
+            demo_fine_tune()
         else:
             print("Unknown option.")
 
