@@ -64,6 +64,19 @@ export const slides = [
     },
   },
   {
+    type: 'standard',
+    content: {
+      title: 'Queries, Keys, and Values',
+      icon: 'search',
+      points: [
+        'Think of attention as a **search**: each token creates a **query** ("what am I looking for?").',
+        'Every other token provides a **key** ("here is what I offer") and a **value** ("here is my content").',
+        'The query is matched against all keys — **high match = high attention weight**.',
+        'The output is a **weighted sum of values** — tokens that matter most contribute most.',
+      ],
+    },
+  },
+  {
     type: 'equation',
     content: {
       title: 'Scaled dot-product attention',
@@ -102,6 +115,20 @@ export const slides = [
       title: 'Tokenization',
       subtitle: 'Subwords, not whitespace',
       icon: 'hash',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'How BPE tokenization works',
+      icon: 'scissors',
+      points: [
+        'Start with individual characters; repeatedly **merge the most frequent pair**.',
+        'Common words become single tokens ("the" → 1 token).',
+        'Rare words are split into known sub-parts ("unhappiness" → "un" + "happiness").',
+        'No word is ever truly **unknown** — handles typos, jargon, any language.',
+        'Token **count** determines API cost and context-window limits.',
+      ],
     },
   },
   {
@@ -183,6 +210,19 @@ export const slides = [
       ],
     },
   },
+  {
+    type: 'standard',
+    content: {
+      title: 'How zero-shot works under the hood',
+      icon: 'help-circle',
+      points: [
+        'Uses **natural language inference** (NLI): "Does this text *entail* the label?"',
+        'For each candidate label, the model scores entailment vs contradiction.',
+        'The label with the **highest entailment score** wins.',
+        'No training on your labels — the NLI model generalises from its pre-training.',
+      ],
+    },
+  },
 
   {
     type: 'title',
@@ -200,6 +240,19 @@ export const slides = [
       title: 'Fine-tuning (optional)',
       subtitle: 'Exercise 03',
       icon: 'settings',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What is fine-tuning?',
+      icon: 'help-circle',
+      points: [
+        'Start with a **pre-trained model** (DistilBERT) that already understands English.',
+        'Continue training on your **small labelled dataset** (witness sentiment).',
+        'The model adapts its weights to your specific task — like a specialist learning your domain.',
+        'Much **less data** needed than training from scratch.',
+      ],
     },
   },
   {

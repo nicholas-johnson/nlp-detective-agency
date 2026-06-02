@@ -86,6 +86,19 @@ export const slides = [
   {
     type: 'standard',
     content: {
+      title: 'What is POS tagging?',
+      icon: 'help-circle',
+      points: [
+        'Labels every word with its **grammatical role**: noun, verb, adjective, ...',
+        'Why: filter for **verbs** to find actions, **nouns** to find subjects and objects.',
+        'Enables **dependency parsing** and **SVO extraction** downstream.',
+        'spaCy does it automatically as part of `nlp(text)` — no extra step needed.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
       title: 'Universal POS tags',
       icon: 'tag',
       points: [
@@ -103,6 +116,19 @@ export const slides = [
       title: 'Dependency parsing',
       subtitle: 'Who did what to whom',
       icon: 'git-branch',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What is a dependency tree?',
+      icon: 'help-circle',
+      points: [
+        'Every word points to a **parent** — its grammatical head.',
+        'The **root** is usually the main verb; subjects and objects hang off it.',
+        'The tree captures *who did what to whom* structurally.',
+        'Walk the tree programmatically: `token.head`, `token.children`.',
+      ],
     },
   },
   {
@@ -136,6 +162,19 @@ export const slides = [
       title: 'Named Entity Recognition',
       subtitle: 'Naming the suspects',
       icon: 'users',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What is NER?',
+      icon: 'help-circle',
+      points: [
+        'Finds and classifies **proper names, places, dates, organisations** in running text.',
+        'Sequence labelling: each token gets a tag — **B-PERSON** (begin), **I-PERSON** (inside), **O** (outside).',
+        'Pre-trained spaCy model handles common entities out of the box.',
+        'It misses domain-specific IDs — that is why we add an **EntityRuler** for case-specific patterns.',
+      ],
     },
   },
   {

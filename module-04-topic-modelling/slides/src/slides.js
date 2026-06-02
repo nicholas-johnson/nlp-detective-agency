@@ -98,6 +98,47 @@ export const slides = [
     },
   },
   {
+    type: 'standard',
+    content: {
+      title: 'What the name means',
+      icon: 'book-open',
+      points: [
+        '**Latent** — topics are hidden; we never observe them directly.',
+        '**Dirichlet** — topic mixtures are drawn from a Dirichlet distribution (a distribution over proportions that sum to 1).',
+        '**Allocation** — each word is allocated to one topic.',
+        'LDA is a **generative model**: it describes a hypothetical process that *could* have produced the observed words.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'The generative story',
+      icon: 'edit',
+      points: [
+        'For each document, draw a **topic proportion vector** — e.g. 70% Waterfront, 30% Financial.',
+        'For each word position in the document:',
+        '  1. Pick a **topic** according to those proportions (like rolling a loaded die).',
+        '  2. Pick a **word** from that topic\'s vocabulary (another loaded die).',
+        'Training **inverts** this: given observed words, infer the hidden topics. That is what `fit_transform()` does.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'The Dirichlet distribution',
+      icon: 'sliders',
+      points: [
+        'Generates probability vectors that sum to 1 — perfect for topic proportions.',
+        'Concentration parameter **α** controls sparsity of the mixture.',
+        '**α < 1** (e.g. 0.1) → sparse: each document is about **few topics** (cleaner briefings).',
+        '**α = 1** → uniform: all topic mixtures are equally likely.',
+        '**α > 1** (e.g. 10) → every document blends **all topics** equally.',
+      ],
+    },
+  },
+  {
     type: 'code',
     content: {
       title: 'LDA in scikit-learn',
@@ -135,6 +176,34 @@ doc_topics = lda.fit_transform(dtm)  # (n_docs, n_topics)`,
       title: 'Non-negative Matrix Factorization',
       subtitle: 'Sharper topics on TF-IDF',
       icon: 'filter',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What NMF does',
+      icon: 'scissors',
+      points: [
+        'No probability story — pure **linear algebra**.',
+        'Take the document-term matrix **V** and split it into two smaller matrices: **W** and **H**.',
+        '**W** = document-topic weights (how much of each topic is in each document).',
+        '**H** = topic-word distributions (which words define each topic).',
+        'Reconstruct: **V ≈ W × H** — the product approximates the original matrix.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Why non-negative?',
+      icon: 'plus-circle',
+      points: [
+        'All entries in W and H must be **≥ 0** — no negative weights.',
+        'A document *contains* a positive amount of each topic — like mixing paint colours.',
+        'A topic *contains* a positive amount of each word — purely additive parts.',
+        'This makes topics directly interpretable: high weight = word matters, zero = irrelevant.',
+        'On TF-IDF input, NMF often produces **sharper top words** than LDA because TF-IDF already down-weights common terms.',
+      ],
     },
   },
   {
@@ -207,6 +276,20 @@ doc_topics = nmf.fit_transform(tfidf)`,
       title: 'Choosing the number of topics',
       subtitle: 'Perplexity plus human judgement',
       icon: 'sliders',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What is perplexity?',
+      icon: 'help-circle',
+      points: [
+        'Perplexity measures how **surprised** the model is by the words it sees.',
+        'A model with good topics predicts words well → **low** perplexity.',
+        'A model with bad topics is constantly surprised → **high** perplexity.',
+        'Think of it as: "if the model had to guess the next word, how many choices would it be torn between?"',
+        '**Lower is better** — but perplexity alone cannot tell you if topics make *human* sense. Always inspect top words.',
+      ],
     },
   },
   {

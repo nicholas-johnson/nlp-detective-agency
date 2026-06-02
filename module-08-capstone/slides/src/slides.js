@@ -188,6 +188,8 @@ export const slides = [
         '`config.json` - dataset, labels, classifier.',
         '`metrics.json` - evaluation results.',
         '`predictions.log` - API audit trail.',
+        '**Serialisation** saves a trained model to disk so you can **reload without retraining**.',
+        '**joblib** is preferred over pickle for scikit-learn: faster on large numpy arrays, same API.',
       ],
     },
   },
@@ -197,6 +199,7 @@ export const slides = [
       title: 'FastAPI service',
       icon: 'globe',
       points: [
+        '**FastAPI** is a Python web framework for building REST APIs — it turns your model into a web service anyone can query.',
         '`GET /health` - status + label set.',
         '`POST /predict` - `{"text": "..."}` → label + confidence.',
         'Load model **at startup** from artifacts dir.',

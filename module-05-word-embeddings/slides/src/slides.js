@@ -76,6 +76,19 @@ export const slides = [
     },
   },
   {
+    type: 'standard',
+    content: {
+      title: 'What is Word2Vec?',
+      icon: 'compass',
+      points: [
+        'Each word becomes a **dense vector** — 50–300 numbers instead of 10,000+ sparse.',
+        'Vectors are learned by training a neural network to **predict context words**.',
+        'The prediction task is a means to an end — the learned weights *are* the word vectors.',
+        'Words that appear in similar contexts end up with **similar vectors**.',
+      ],
+    },
+  },
+  {
     type: 'cards',
     content: {
       title: 'CBOW vs Skip-gram',
@@ -130,6 +143,19 @@ model.wv.most_similar("dock", topn=5)`,
   },
 
   {
+    type: 'standard',
+    content: {
+      title: 'Why negative sampling?',
+      icon: 'zap',
+      points: [
+        'Full softmax over the entire vocabulary is **too expensive** to compute at every step.',
+        'Instead: for each real word-context pair, sample **k random "noise" words**.',
+        'Push the real pair **closer together**; push noise pairs **apart**.',
+        'Same learning signal, a fraction of the cost — this is how Word2Vec scales.',
+      ],
+    },
+  },
+  {
     type: 'equation',
     content: {
       title: 'Negative sampling loss',
@@ -154,6 +180,19 @@ model.wv.most_similar("dock", topn=5)`,
       title: 'Pre-trained embeddings',
       subtitle: 'GloVe and fastText',
       icon: 'globe',
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'What are pre-trained embeddings?',
+      icon: 'download',
+      points: [
+        '**GloVe**: trained on billions of words of Wikipedia + news — captures general English.',
+        'You get vectors for **~400k words** without training anything yourself.',
+        'Use pre-trained for general vocabulary; train **Word2Vec on domain jargon** (case files).',
+        '**fastText** adds character n-grams — handles unseen words by breaking them into parts.',
+      ],
     },
   },
   {
@@ -208,6 +247,19 @@ model.most_similar(
     },
   },
 
+  {
+    type: 'standard',
+    content: {
+      title: 'Why cosine?',
+      icon: 'compass',
+      points: [
+        'Two vectors pointing in **similar directions** are semantically similar.',
+        'Cosine ignores **magnitude** (vector length) — only direction matters.',
+        '**1.0** = identical direction; **0.0** = unrelated; **-1.0** = opposite.',
+        'This is how `most_similar()` ranks neighbours and how we measure analogy accuracy.',
+      ],
+    },
+  },
   {
     type: 'equation',
     content: {
