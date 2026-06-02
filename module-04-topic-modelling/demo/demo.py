@@ -100,19 +100,26 @@ def main() -> None:
             avg = sum(word_counts) / len(word_counts)
             print(f"\nDocuments: {len(records)}")
             print(f"Average words per summary: {avg:.1f}")
+            print("\nEach document is a cold-case summary. Longer documents")
+            print("give LDA more word co-occurrences to learn from.")
 
         elif choice == "2":
             k = input("Number of topics (default 4): ").strip() or "4"
+            print("\nEach topic is a cluster of words that tend to co-occur.")
+            print("The top words define what the topic is 'about'.\n")
             dtm, vec = build_dtm(texts)
             lda = fit_lda(dtm, int(k))
-            print(f"\nLDA top words (k={k}):")
+            print(f"LDA top words (k={k}):")
             print_top_words(lda, vec.get_feature_names_out())
+            print("\nTry labelling each topic yourself — e.g. Topic 0")
+            print("might be 'financial crime' or 'witness locations'.")
 
         elif choice == "3":
             k = input("Number of topics (default 4): ").strip() or "4"
             dtm, vec = build_dtm(texts)
             lda = fit_lda(dtm, int(k))
             doc_topics = lda.transform(dtm)
+            feature_names = vec.get_feature_names_out()
             record = pick_record(records)
             if record is None:
                 continue
@@ -122,21 +129,36 @@ def main() -> None:
             print(f"\n{record['id']} - {record['title']}")
             print(f"Dominant topic: {dominant} (weight {weights[dominant]:.3f})")
             print("All topic weights:", ", ".join(f"{w:.3f}" for w in weights))
+            even_weight = 1.0 / int(k)
+            print(f"\nA weight of {weights[dominant]:.2f} means this case is mostly about Topic {dominant}.")
+            print(f"Weights near {even_weight:.2f} (= 1/{k}) would mean no strong topic signal.")
+            ranked = lda.components_[dominant].argsort()[::-1][:8]
+            terms = [feature_names[i] for i in ranked]
+            print(f"Topic {dominant} top words: {', '.join(terms)}")
 
         elif choice == "4":
             k = input("Number of topics (default 4): ").strip() or "4"
+            print("\nNMF tends to produce sharper topics than LDA —")
+            print("words cluster more tightly around each theme.\n")
             tfidf, vec = build_tfidf(texts)
             nmf = fit_nmf(tfidf, int(k))
-            print(f"\nNMF top words (k={k}):")
+            print(f"NMF top words (k={k}):")
             print_top_words(nmf, vec.get_feature_names_out())
+            print(f"\nCompare with LDA (option 2) on the same k={k} —")
+            print("which gives more interpretable topics?")
 
         elif choice == "5":
+            print("\nPerplexity measures how 'surprised' the model is by the data.")
+            print("Lower = better fit. But very low can mean overfitting.\n")
             dtm, _ = build_dtm(texts)
-            print(f"\n{'k':>4} {'perplexity':>12}")
+            print(f"{'k':>4} {'perplexity':>12}")
             print("-" * 20)
             for k in range(3, 7):
                 lda = fit_lda(dtm, k)
                 print(f"{k:>4} {lda.perplexity(dtm):>12.2f}")
+            print("\nLook for the k where perplexity drops most — but always")
+            print("check topic coherence too (option 2). Numbers alone don't")
+            print("tell you if the topics make sense to a human.")
 
         elif choice == "6":
             k = input("Number of topics (default 4): ").strip() or "4"

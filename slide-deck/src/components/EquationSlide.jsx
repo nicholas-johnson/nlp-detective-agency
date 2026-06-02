@@ -1,3 +1,5 @@
+import { InlineMarkdown } from "./InlineMarkdown";
+
 export function EquationSlide({ content }) {
   return (
     <div className="flex-1 flex flex-col justify-center items-center animate-fade-in p-8 w-full">
@@ -13,8 +15,32 @@ export function EquationSlide({ content }) {
         />
         {content.description && (
           <p className="text-lg text-gray-300 text-center max-w-2xl">
-            {content.description}
+            <InlineMarkdown text={content.description} />
           </p>
+        )}
+        {content.points && (
+          <ul className="text-left max-w-2xl w-full space-y-2">
+            {content.points.map((point, i) => (
+              <li key={i} className="text-base text-gray-300 leading-relaxed flex items-start gap-2">
+                <span className="text-cyan-400 mt-1">•</span>
+                <span>
+                  {typeof point === "string" ? (
+                    <InlineMarkdown text={point} />
+                  ) : (
+                    <>
+                      <span
+                        className="inline-block align-middle text-white"
+                        dangerouslySetInnerHTML={{ __html: point.mathml }}
+                      />
+                      {point.text && (
+                        <span className="ml-1"><InlineMarkdown text={point.text} /></span>
+                      )}
+                    </>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
         {content.credit && (
           <p className="text-sm text-gray-400 text-center">{content.credit}</p>

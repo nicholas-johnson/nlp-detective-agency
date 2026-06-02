@@ -89,13 +89,53 @@ export const slides = [
     },
   },
   {
+    type: 'standard',
+    content: {
+      title: 'Two ways to train Word2Vec',
+      icon: 'git-branch',
+      points: [
+        'Word2Vec learns vectors by **predicting words from context** — but which direction?',
+        'You pick **one** of two training strategies: **CBOW** or **Skip-gram**.',
+        'Both use the same shallow network and backprop — only the prediction direction differs.',
+        'The trained network is **disposable** — you keep the hidden layer weights as your word vectors.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'CBOW (Continuous Bag of Words)',
+      icon: 'layers',
+      points: [
+        '"The cat **___** on the mat" — cover a word, **guess it from the neighbours**.',
+        'A shallow neural network trained with **backpropagation**.',
+        'The hidden layer weights *are* the embedding table — training is just a means to **learn those vectors**.',
+        "Averages the context vectors — **word order doesn't matter**.",
+        'Faster than Skip-gram; better on **frequent words**.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Skip-gram',
+      icon: 'zap',
+      points: [
+        'The reverse of CBOW: start from **one word**, predict the words around it.',
+        '"sat" → ("sat","the"), ("sat","cat"), ("sat","on") — pairs that **skip across** positions.',
+        'Same shallow network, same backprop — but each window produces **multiple training pairs**.',
+        'More work per window gives **richer signal**, especially for **rare words**.',
+        'The default in most setups — Skip-gram + negative sampling (SGNS) is the standard recipe.',
+      ],
+    },
+  },
+  {
     type: 'cards',
     content: {
       title: 'CBOW vs Skip-gram',
       cards: [
         {
-          title: 'CBOW',
-          icon: 'layers',
+          heading: 'CBOW',
           points: [
             'Predict target word from context',
             'Faster training',
@@ -103,8 +143,7 @@ export const slides = [
           ],
         },
         {
-          title: 'Skip-gram',
-          icon: 'zap',
+          heading: 'Skip-gram',
           points: [
             'Predict context from target word',
             'Better on rare words',
@@ -118,8 +157,30 @@ export const slides = [
     type: 'equation',
     content: {
       title: 'Skip-gram objective',
-      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><munder><mo>max</mo><mi>θ</mi></munder><munder><mo>∑</mo><mi>t</mi></munder><munder><mo>∑</mo><mrow><mo>−</mo><mi>c</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>c</mi></mrow></munder><mi>log</mi><mspace width="0.2em"/><mi>P</mi><mo>(</mo><msub><mi>w</mi><mrow><mi>t</mi><mo>+</mo><mi>j</mi></mrow></msub><mo>∣</mo><msub><mi>w</mi><mi>t</mi></msub><mo>)</mo></math>',
-      description: "Given a target word, predict every context word within window c. The weights learned by this prediction task become the word vectors.",
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><munder><mo>max</mo><mi>θ</mi></munder><munder><mo>∑</mo><mi>t</mi></munder><munder><mo>∑</mo><mrow><mo>−</mo><mi>c</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>c</mi></mrow></munder><mi>log</mi><mspace width="0.2em"/><mi>P</mi><mo>(</mo><msub><mi>w</mi><mrow><mi>t</mi><mo>+</mo><mi>j</mi></mrow></msub><mo>∣</mo><msub><mi>w</mi><mi>t</mi></msub><mo>)</mo></math>',
+      points: [
+        {
+          mathml:
+            '<math xmlns="http://www.w3.org/1998/Math/MathML"><munder><mo>max</mo><mi>θ</mi></munder></math>',
+          text: '— find the network weights that maximise this expression (via backprop).',
+        },
+        {
+          mathml:
+            '<math xmlns="http://www.w3.org/1998/Math/MathML"><munder><mo>∑</mo><mi>t</mi></munder></math>',
+          text: '— for every word position *t* in the corpus.',
+        },
+        {
+          mathml:
+            '<math xmlns="http://www.w3.org/1998/Math/MathML"><munder><mo>∑</mo><mrow><mo>−</mo><mi>c</mi><mo>≤</mo><mi>j</mi><mo>≤</mo><mi>c</mi></mrow></munder></math>',
+          text: '— for every neighbour within window size *c* around position *t*.',
+        },
+        {
+          mathml:
+            '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>log</mi><mspace width="0.2em"/><mi>P</mi><mo>(</mo><msub><mi>w</mi><mrow><mi>t</mi><mo>+</mo><mi>j</mi></mrow></msub><mo>∣</mo><msub><mi>w</mi><mi>t</mi></msub><mo>)</mo></math>',
+          text: '— log probability of predicting context word from target word.',
+        },
+      ],
       credit: 'Mikolov et al., 2013',
     },
   },
@@ -143,32 +204,10 @@ model.wv.most_similar("dock", topn=5)`,
   },
 
   {
-    type: 'standard',
-    content: {
-      title: 'Why negative sampling?',
-      icon: 'zap',
-      points: [
-        'Full softmax over the entire vocabulary is **too expensive** to compute at every step.',
-        'Instead: for each real word-context pair, sample **k random "noise" words**.',
-        'Push the real pair **closer together**; push noise pairs **apart**.',
-        'Same learning signal, a fraction of the cost — this is how Word2Vec scales.',
-      ],
-    },
-  },
-  {
-    type: 'equation',
-    content: {
-      title: 'Negative sampling loss',
-      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>log</mi><mspace width="0.2em"/><mi>σ</mi><mo>(</mo><msub><mi mathvariant="bold">v</mi><mi>w</mi></msub><mo>·</mo><msub><mi mathvariant="bold">v</mi><mi>c</mi></msub><mo>)</mo><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></munderover><mi>log</mi><mspace width="0.2em"/><mi>σ</mi><mo>(</mo><mo>−</mo><msub><mi mathvariant="bold">v</mi><mi>w</mi></msub><mo>·</mo><msub><mi mathvariant="bold">v</mi><msub><mi>n</mi><mi>i</mi></msub></msub><mo>)</mo></math>',
-      description: "Push the real context word's vector close to the target, and push k random 'noise' words apart. Avoids computing softmax over the entire vocabulary.",
-    },
-  },
-  {
     type: 'title',
     content: {
       title: 'Demo - Train Word2Vec and nearest neighbours',
-      subtitle:
-        'python module-05-word-embeddings/demo/demo.py - options 1 & 2',
+      subtitle: 'python module-05-word-embeddings/demo/demo.py - options 1 & 2',
       icon: 'terminal',
     },
   },
@@ -188,7 +227,7 @@ model.wv.most_similar("dock", topn=5)`,
       title: 'What are pre-trained embeddings?',
       icon: 'download',
       points: [
-        '**GloVe**: trained on billions of words of Wikipedia + news — captures general English.',
+        '**GloVe** (Global Vectors) — learns from the **global** co-occurrence matrix, not local windows.',
         'You get vectors for **~400k words** without training anything yourself.',
         'Use pre-trained for general vocabulary; train **Word2Vec on domain jargon** (case files).',
         '**fastText** adds character n-grams — handles unseen words by breaking them into parts.',
@@ -218,8 +257,7 @@ model.most_similar(
     type: 'title',
     content: {
       title: 'Demo - Pre-trained GloVe queries',
-      subtitle:
-        'python module-05-word-embeddings/demo/demo.py - option 4',
+      subtitle: 'python module-05-word-embeddings/demo/demo.py - option 4',
       icon: 'terminal',
     },
   },
@@ -264,16 +302,17 @@ model.most_similar(
     type: 'equation',
     content: {
       title: 'Cosine similarity',
-      mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></mrow><mrow><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo><mspace width="0.2em"/><mo>‖</mo><mi mathvariant="bold">b</mi><mo>‖</mo></mrow></mfrac></math>',
-      description: "Two vectors pointing in similar directions have high cosine similarity. This is how most_similar() ranks neighbours and how we measure analogy accuracy.",
+      mathml:
+        '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></mrow><mrow><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo><mspace width="0.2em"/><mo>‖</mo><mi mathvariant="bold">b</mi><mo>‖</mo></mrow></mfrac></math>',
+      description:
+        'Two vectors pointing in similar directions have high cosine similarity. This is how most_similar() ranks neighbours and how we measure analogy accuracy.',
     },
   },
   {
     type: 'title',
     content: {
       title: 'Demo - Vector arithmetic',
-      subtitle:
-        'python module-05-word-embeddings/demo/demo.py - option 3',
+      subtitle: 'python module-05-word-embeddings/demo/demo.py - option 3',
       icon: 'terminal',
     },
   },
@@ -305,32 +344,8 @@ model.most_similar(
     type: 'title',
     content: {
       title: 'Demo - Document similarity by averaging',
-      subtitle:
-        'python module-05-word-embeddings/demo/demo.py - option 5',
+      subtitle: 'python module-05-word-embeddings/demo/demo.py - option 5',
       icon: 'terminal',
-    },
-  },
-
-  // ---- Contextual vs static ----
-  {
-    type: 'title',
-    content: {
-      title: 'Static vs contextual',
-      subtitle: 'The bridge to Module 7',
-      icon: 'eye',
-    },
-  },
-  {
-    type: 'standard',
-    content: {
-      title: 'One vector or many?',
-      icon: 'tag',
-      points: [
-        '**Word2Vec / GloVe:** "bank" always gets the same vector.',
-        '**BERT / transformers:** "river bank" vs "bank robbery" → different vectors.',
-        'Static embeddings are a strong **baseline**.',
-        'Contextual embeddings are the **modern standard**.',
-      ],
     },
   },
 
@@ -350,11 +365,39 @@ model.most_similar(
   },
 
   {
+    type: 'standard',
+    content: {
+      title: 'Vector databases',
+      icon: 'database',
+      points: [
+        '10 statements → compute cosine similarity **in memory**.',
+        '10 million documents → you need a **vector database**.',
+        'Store embeddings + metadata, query by **nearest-neighbour search**.',
+        'Same cosine similarity underneath, with **indexing** for speed.',
+      ],
+    },
+  },
+  {
+    type: 'standard',
+    content: {
+      title: 'Vector database landscape',
+      icon: 'globe',
+      points: [
+        '**ChromaDB** - open-source, runs locally or in Docker, good for prototyping.',
+        '**Pinecone** - fully managed cloud service, scales without ops.',
+        '**Weaviate** - open-source with hybrid search (vector + keyword).',
+        '**Milvus / Zilliz** - open-source, built for billion-scale datasets.',
+        '**Qdrant** - open-source, Rust-based, strong filtering support.',
+        '**pgvector** - PostgreSQL extension — add vectors to your existing database.',
+      ],
+    },
+  },
+
+  {
     type: 'title',
     content: {
-      title: 'Demo - PCA projection of top words',
-      subtitle:
-        'python module-05-word-embeddings/demo/demo.py - option 6',
+      title: 'Demo - PCA projection of GloVe word clusters',
+      subtitle: 'python module-05-word-embeddings/demo/demo.py - option 6',
       icon: 'terminal',
     },
   },

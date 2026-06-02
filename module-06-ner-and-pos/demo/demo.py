@@ -61,6 +61,8 @@ def demo_pipeline_tour() -> None:
     record = statements[0]
     doc = nlp(record["raw_text"])
     print(f"\n--- Pipeline tour: {record['id']} ---")
+    print("POS = part-of-speech (NOUN, VERB, ...).  Dep = dependency relation")
+    print("(nsubj = subject, dobj = object).  Head = the word this token depends on.\n")
     print(f"{'Token':<12} {'POS':<6} {'Dep':<10} {'Head'}")
     print("-" * 45)
     for token in doc[:20]:
@@ -74,6 +76,8 @@ def demo_pipeline_tour() -> None:
 
 def demo_svo() -> None:
     nlp = get_nlp()
+    print("\nSVO = Subject-Verb-Object. We walk the dependency tree: find")
+    print("nsubj tokens, follow to their head verb, then find the verb's dobj.\n")
     case_id = input("Case ID (default CASE-42): ").strip() or "CASE-42"
     statements = [s for s in load_statements() if s["case_id"] == case_id]
     print(f"\n--- SVO triples: {case_id} ---")
@@ -85,10 +89,14 @@ def demo_svo() -> None:
             print(f"  ({s}, {v}, {o})")
         if len(triples) > 5:
             print(f"  ... +{len(triples) - 5} more")
+    print("\nPronouns ('he', 'it') and passive voice make triples imperfect —")
+    print("always inspect manually on critical sentences.")
 
 
 def demo_evidence_board() -> None:
     nlp = get_nlp()
+    print("\nNER scans every statement and collects persons, places, dates,")
+    print("and orgs into one board.\n")
     case_id = input("Case ID (default CASE-42): ").strip() or "CASE-42"
     from collections import defaultdict
 
@@ -100,19 +108,30 @@ def demo_evidence_board() -> None:
         for ent in doc.ents:
             board[ent.label_].add(ent.text)
     print(f"\n--- Evidence board: {case_id} ---")
+    total = 0
     for label in sorted(board.keys()):
-        print(f"{label}: {', '.join(sorted(board[label]))}")
+        entities = sorted(board[label])
+        total += len(entities)
+        print(f"{label}: {', '.join(entities)}")
+    print(f"\n{total} unique entities found across all statements.")
+    print("Missing a name? The pre-trained model doesn't know Inkwell")
+    print("jargon — see option 4 (EntityRuler) for custom patterns.")
 
 
 def demo_entity_ruler() -> None:
+    print("\nThe EntityRuler adds regex patterns (CASE-\\d+) before the")
+    print("statistical NER pipe — catching IDs the model would miss.\n")
     nlp = get_ruler_nlp()
     statements = load_statements()
-    print("\n--- EntityRuler: CASE IDs ---")
+    print("--- EntityRuler: CASE IDs ---")
+    found = 0
     for record in statements:
         doc = nlp(record["raw_text"])
         case_ents = [e.text for e in doc.ents if e.label_ == "CASE_ID"]
         if case_ents:
+            found += len(case_ents)
             print(f"  {record['id']}: {case_ents}")
+    print(f"\n{found} CASE_ID entities found across {len(statements)} statements.")
 
 
 def demo_displacy() -> None:
@@ -129,6 +148,8 @@ def demo_displacy() -> None:
     ent_path.write_text(html_ent)
     print(f"\nSaved dependency viz: {dep_path}")
     print(f"Saved entity viz:       {ent_path}")
+    print("\nOpen the HTML files in a browser to see dependency arcs")
+    print("and entity highlights rendered visually.")
 
 
 def demo_pipe_timing() -> None:
@@ -144,6 +165,10 @@ def demo_pipe_timing() -> None:
     print(f"\n--- Pipe timing ---")
     print(f"Full pipeline:  {full_ms:.1f} ms")
     print(f"Tagger only:    {lite_ms:.1f} ms")
+    if full_ms > 0:
+        speedup = full_ms / lite_ms if lite_ms > 0 else float("inf")
+        print(f"\nDisabling parser + NER gives ~{speedup:.1f}x speedup.")
+    print("Useful when you only need POS tags on a large corpus.")
 
 
 def main() -> None:

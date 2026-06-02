@@ -5,7 +5,7 @@
 ## Learning goals
 
 - Understand **distributional semantics** - meaning from context.
-- Train and use **Word2Vec** (CBOW and Skip-gram) embeddings with gensim.
+- Train and use **Word2Vec** (CBOW — Continuous Bag of Words, and Skip-gram) embeddings with gensim.
 - Load pre-trained **GloVe** vectors via `gensim.downloader`.
 - Compute **word similarity**, **analogies**, and **embedding arithmetic**.
 - Build **document embeddings** by averaging word vectors.
@@ -49,14 +49,16 @@ Individual dimensions are **not interpretable** - no single axis means "waterfro
 
 Mikolov et al. (2013a) introduced **Word2Vec**, which trains a **shallow neural network** on a prediction task using co-occurrence statistics from a large corpus. A neural network is a function that learns to transform inputs into outputs through layers of simple computations. "Shallow" means it has just **one hidden layer** — as opposed to deep networks with many layers (Module 7). In Word2Vec, the hidden layer's weight matrix _is_ the embedding table — each row is a word vector. Training the network is simply a means to learn those vectors.
 
-Two architectures share the same embedding matrix but predict differently:
+Both architectures slide a **context window** of size $k$ across the corpus. At each position the window frames a target word and its neighbours. The two approaches differ in which side they predict:
 
-| Model         | Predicts                             | Objective                                                                  | Best for                         |
-| ------------- | ------------------------------------ | -------------------------------------------------------------------------- | -------------------------------- |
-| **CBOW**      | Target word from surrounding context | $\max \log P(w_t \mid w_{t-k}, \ldots, w_{t-1}, w_{t+1}, \ldots, w_{t+k})$ | Faster; better on frequent words |
-| **Skip-gram** | Context words from target word       | $\max \sum_{-k \leq j \leq k, j \neq 0} \log P(w_{t+j} \mid w_t)$          | Better on rare words             |
+**CBOW (Continuous Bag of Words)** takes the surrounding context words as input and predicts the target word in the middle. Imagine covering a word with your thumb and guessing it from the words on either side — that is CBOW. Because it averages multiple context words together, it trains faster and tends to work better on **frequent words** where the model sees many training examples.
 
-Both slide a **context window** of size $k$ across the corpus, creating training pairs from local co-occurrence patterns.
+**Skip-gram** does the reverse: it takes a single target word as input and tries to predict each of the surrounding context words. This forces the model to learn a rich representation for every word individually, which makes it better at capturing **rare words** that appear in varied contexts.
+
+| Model         | Input                  | Predicts                       | Best for                         |
+| ------------- | ---------------------- | ------------------------------ | -------------------------------- |
+| **CBOW**      | Surrounding context    | Target word in the middle      | Faster; better on frequent words |
+| **Skip-gram** | Single target word     | Each surrounding context word  | Better on rare words             |
 
 ```python
 from gensim.models import Word2Vec
