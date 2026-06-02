@@ -241,6 +241,7 @@ def demo_fine_tune() -> None:
     print("\nSample predictions:")
     for text, actual in zip(test_texts[:3], test_labels[:3], strict=True):
         inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=128)
+        inputs = {k: v.to(model.device) for k, v in inputs.items()}
         with torch.no_grad():
             logits = model(**inputs).logits
         pred = ID2LABEL[logits.argmax(dim=-1).item()]

@@ -1,14 +1,13 @@
 # Module 8 - Applied NLP Capstone
 
-> The big case - but this time you choose it. Every technique from the course comes together on **real data you care about**: load a public corpus or bring your own, train a classical baseline, challenge it with a transformer, understand where it breaks, persist the model, and ship a **FastAPI service** detectives (or users) can query without touching Python.
+> The big case - but this time you choose it. Every technique from the course comes together on **real data you care about**: load a public corpus or bring your own, train a classical baseline, challenge it with a transformer, understand where it breaks, and persist the model.
 
 ## Learning goals
 
-- Build an **end-to-end text classification pipeline** from raw text to deployed API.
+- Build an **end-to-end text classification pipeline** from raw text to saved model.
 - **Choose your own dataset** from a menu of real public corpora or a custom file.
 - Compare a **classical baseline** (TF-IDF + classifier) against a **transformer** (zero-shot; optional fine-tune).
 - **Persist models** with joblib and run **evaluation + error analysis**.
-- Expose a simple **inference API** with request logging.
 
 ## Setup
 
@@ -16,10 +15,11 @@
 pip install -e ".[nlp,local-ml,dev]"
 ```
 
-- **Baseline + API:** `[nlp]` is enough for TF-IDF training and FastAPI.
+- **Baseline:** `[nlp]` is enough for TF-IDF training.
 - **Zero-shot transformer:** requires PyTorch (`[local-ml]`). First run downloads models (~250 MB).
 - **Optional fine-tune:** same as Module 7 Ex03 - GPU time recommended.
 - **Stretch NER on errors:** `python -m spacy download en_core_web_sm`
+- **Stretch FastAPI:** `[nlp]` includes FastAPI and uvicorn.
 
 ---
 
@@ -29,15 +29,14 @@ By the end of the capstone you will have:
 
 1. A **trained sklearn pipeline** saved to `artifacts/{dataset}/`
 2. A **comparison report** - baseline vs zero-shot metrics + misclassified examples
-3. A **FastAPI service** - `POST /predict` returns `{label, confidence, model}`
 
-This is a real, runnable system - not a notebook exercise. The capstone connects every module: preprocessing (M1), TF-IDF features (M2), classifiers and evaluation (M3), zero-shot transformers (M7), and two new skills covered below: model persistence and API deployment.
+This is a real, runnable system - not a notebook exercise. The capstone connects every module: preprocessing (M1), TF-IDF features (M2), classifiers and evaluation (M3), zero-shot transformers (M7), and a new skill covered below: model persistence.
 
 ---
 
 ## The capstone flow
 
-One extended exercise walks you through eight milestones:
+One extended exercise walks you through seven milestones:
 
 | Phase          | What you do                                              | Modules used  |
 | -------------- | -------------------------------------------------------- | ------------- |
@@ -48,7 +47,6 @@ One extended exercise walks you through eight milestones:
 | 5. Transformer | Zero-shot with your label names; optional fine-tune      | M7            |
 | 6. Compare     | Side-by-side metrics + error analysis on failures        | M3            |
 | 7. Persist     | Save pipeline, config, and metrics with joblib           | (this module) |
-| 8. Ship        | FastAPI `/predict` + `/health`; log every prediction     | (this module) |
 
 See the phased checklist in [`exercises/01-open-case/README.md`](exercises/01-open-case/README.md).
 
@@ -60,14 +58,13 @@ cd module-08-capstone/exercises/01-open-case
 python start.py --dataset movie_reviews explore
 python start.py --dataset sms_spam train --classifier lr
 python start.py --dataset newsgroups compare
-python start.py --dataset sms_spam serve --port 8000
 ```
 
 ---
 
 ## Model persistence - filing the results
 
-A model you cannot reload is a model you cannot deploy. After training, you need to save the pipeline so the API (or another process) can load it without retraining.
+A model you cannot reload is a model you cannot use. After training, you need to save the pipeline so you (or another process) can load it without retraining.
 
 ### Why joblib, not pickle?
 
@@ -122,7 +119,6 @@ artifacts/
     baseline.joblib    # sklearn Pipeline (TfidfVectorizer + classifier)
     config.json        # dataset name, labels, classifier, timestamp
     metrics.json       # accuracy, F1, confusion matrix
-    predictions.log    # API audit trail (created at serve time)
 ```
 
 ### Loading artifacts
@@ -139,9 +135,9 @@ Always load the config alongside the model. Six months later, you need to know w
 
 ---
 
-## FastAPI deployment - the detective's dashboard
+## Stretch: FastAPI deployment
 
-Training a model in a notebook (or script) is half the job. The other half is making it **usable** - callable by other systems, other people, or a frontend - without requiring Python knowledge.
+Once your pipeline is trained and persisted, you can optionally wrap it in a web API - making it callable by other systems or a frontend without requiring Python knowledge.
 
 **FastAPI** is a modern Python web framework for building APIs. It validates request data with **Pydantic** models, generates automatic API documentation, and runs on **uvicorn**, a fast Python web server designed for async frameworks like FastAPI.
 
@@ -304,7 +300,7 @@ The capstone is not done until you can explain _where_ your system breaks and _w
 
 - **Ship a baseline first.** A working TF-IDF pipeline beats a half-finished transformer.
 - **Pick data you care about.** Sports news, film reviews, spam - motivation matters for error analysis.
-- **Log inputs and outputs.** The API appends every prediction to `predictions.log`.
+- **Persist everything.** Model, config, and metrics saved to disk.
 - **Error analysis is not optional.** The capstone is not done until you know where it breaks.
 
 ---
@@ -313,7 +309,7 @@ The capstone is not done until you can explain _where_ your system breaks and _w
 
 | Folder                                                    | Mission                                                          |
 | --------------------------------------------------------- | ---------------------------------------------------------------- |
-| [`exercises/01-open-case`](exercises/01-open-case/)       | Open your case: choose data, train, compare, deploy.             |
+| [`exercises/01-open-case`](exercises/01-open-case/)       | Open your case: choose data, train, compare, persist.            |
 | [`exercises/02-case-chatbot`](exercises/02-case-chatbot/) | Build a conversational assistant over Inkwell cases with HF chat model. |
 | [`exercises/03-nlp-audit`](exercises/03-nlp-audit/)       | Run every course technique against a corpus and produce a report. |
 

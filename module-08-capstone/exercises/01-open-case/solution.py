@@ -1,6 +1,6 @@
 """
 Capstone - Open Your Case (solution)
-End-to-end text classification: load real data, baseline, zero-shot, deploy.
+End-to-end text classification: load real data, baseline, zero-shot, persist.
 """
 
 from __future__ import annotations

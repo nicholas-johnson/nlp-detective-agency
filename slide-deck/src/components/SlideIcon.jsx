@@ -87,6 +87,7 @@ import {
   PenTool,
   Image,
   List,
+  ListChecks,
   Wifi,
   Scissors,
   FileMinus,
@@ -160,6 +161,7 @@ const iconMap = {
 
   // Data & State
   list: List,
+  'list-checks': ListChecks,
   clipboard: ClipboardList,
   'clipboard-list': ClipboardList,
   scale: Scale,

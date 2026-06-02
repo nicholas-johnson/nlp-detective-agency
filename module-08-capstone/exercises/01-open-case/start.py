@@ -1,6 +1,6 @@
 """
 Capstone - Open Your Case
-Build an end-to-end text classifier on real data and deploy with FastAPI.
+Build an end-to-end text classifier on real data, compare models, and persist results.
 """
 
 from __future__ import annotations
