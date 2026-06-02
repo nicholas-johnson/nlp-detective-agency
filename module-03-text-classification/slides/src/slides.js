@@ -201,8 +201,24 @@ preds = pipeline.predict(X_test)`,
       title: "Bayes' theorem",
       mathml:
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>d</mi><mo>∣</mo><mi>c</mi><mo>)</mo><mspace width="0.2em"/><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>d</mi><mo>)</mo></mrow></mfrac></math>',
-      description:
-        'Posterior = (likelihood × prior) / evidence. The prior is the base rate; the likelihood measures how well the document fits the class; the posterior is the updated belief.',
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo></math>',
+          text: '— posterior: probability of class *c* given document *d* (what we want).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mi>d</mi><mo>∣</mo><mi>c</mi><mo>)</mo></math>',
+          text: '— likelihood: how well document *d* fits class *c*.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo></math>',
+          text: '— prior: base-rate probability of class *c* before seeing the document.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mi>d</mi><mo>)</mo></math>',
+          text: '— evidence: probability of the document (constant across classes, so often ignored).',
+        },
+      ],
     },
   },
 
@@ -234,8 +250,24 @@ preds = pipeline.predict(X_test)`,
       title: 'Naive Bayes — word independence',
       mathml:
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo><mo>∝</mo><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo><munder><mo>∏</mo><mi>w</mi></munder><mi>P</mi><mo>(</mo><mi>w</mi><mo>∣</mo><mi>c</mi><mo>)</mo></math>',
-      description:
-        "Multiply the prior by each word's likelihood. Independence is unrealistic — but on sparse text data, this simple model works remarkably well.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mi>c</mi><mo>∣</mo><mi>d</mi><mo>)</mo></math>',
+          text: '— posterior probability of class *c* given the document.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>∝</mo></math>',
+          text: '— proportional to (we drop P(d) since it is the same for all classes).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mi>c</mi><mo>)</mo></math>',
+          text: '— prior: fraction of training documents belonging to class *c*.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><munder><mo>∏</mo><mi>w</mi></munder><mi>P</mi><mo>(</mo><mi>w</mi><mo>∣</mo><mi>c</mi><mo>)</mo></math>',
+          text: '— product of each word\'s likelihood under class *c* (the "naive" independence assumption).',
+        },
+      ],
     },
   },
   {
@@ -244,8 +276,24 @@ preds = pipeline.predict(X_test)`,
       title: 'Worked example — is this message spam?',
       mathml:
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mtext>spam</mtext><mo>∣</mo><mi>d</mi><mo>)</mo><mo>∝</mo><mi>P</mi><mo>(</mo><mtext>spam</mtext><mo>)</mo><mo>×</mo><mi>P</mi><mo>(</mo><mtext>free</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo><mo>×</mo><mi>P</mi><mo>(</mo><mtext>money</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo><mo>×</mo><mi>P</mi><mo>(</mo><mtext>offer</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo></math>',
-      description:
-        'For the message "free money offer": multiply the prior probability of spam by each word\'s likelihood under the spam class. Repeat for ham, then compare — the higher product wins.',
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mtext>spam</mtext><mo>)</mo></math>',
+          text: '— prior: what fraction of all training messages were spam.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mtext>free</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo></math>',
+          text: '— likelihood of the word "free" appearing in spam messages.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mtext>money</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo></math>',
+          text: '— likelihood of "money" in spam.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mtext>offer</mtext><mo>∣</mo><mtext>spam</mtext><mo>)</mo></math>',
+          text: '— likelihood of "offer" in spam. Multiply all terms, then compare with the ham score.',
+        },
+      ],
     },
   },
   {
@@ -317,8 +365,24 @@ pipeline = Pipeline([
       title: 'Logistic regression — the sigmoid',
       mathml:
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi mathvariant="bold">x</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mo>(</mo><mi mathvariant="bold">w</mi><mo>·</mo><mi mathvariant="bold">x</mi><mo>+</mo><mi>b</mi><mo>)</mo></mrow></msup></mrow></mfrac></math>',
-      description:
-        'The sigmoid squashes any real number into (0, 1) — interpretable as a probability. Positive weights push toward class 1; negative weights push away.',
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi mathvariant="bold">x</mi><mo>)</mo></math>',
+          text: '— predicted probability that input **x** belongs to class 1.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="bold">w</mi><mo>·</mo><mi mathvariant="bold">x</mi></math>',
+          text: '— dot product of learned weights and input features (a linear score).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>b</mi></math>',
+          text: '— bias term that shifts the decision boundary.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>z</mi></mrow></msup></mrow></mfrac></math>',
+          text: '— the sigmoid function squashes any real number into (0, 1).',
+        },
+      ],
     },
   },
   {
@@ -390,8 +454,20 @@ pipeline = Pipeline([
       title: 'SVM margin',
       mathml:
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>margin</mtext><mo>=</mo><mfrac><mn>2</mn><mrow><mo>‖</mo><mi mathvariant="bold">w</mi><mo>‖</mo></mrow></mfrac></math>',
-      description:
-        'SVM finds the decision boundary that maximises the gap between the two nearest class examples. Smaller weights = wider margin = better generalisation.',
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>margin</mtext></math>',
+          text: '— the gap between the two closest points of opposite classes.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="bold">w</mi></math>',
+          text: '— the weight vector defining the decision boundary orientation.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>‖</mo><mi mathvariant="bold">w</mi><mo>‖</mo></math>',
+          text: '— magnitude of **w**; smaller weights → wider margin → better generalisation.',
+        },
+      ],
     },
   },
   {
@@ -572,8 +648,24 @@ scores = cross_val_score(pipeline, texts, labels, cv=5, scoring=hoax_f1)`,
       title: 'Precision, Recall, F1',
       mathml:
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtable columnalign="right center left" rowspacing="1em"><mtr><mtd><mtext>Precision</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FP</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><mtext>Recall</mtext></mtd><mtd><mo>=</mo></mtd><mtd><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FN</mtext></mrow></mfrac></mtd></mtr><mtr><mtd><msub><mtext>F</mtext><mn>1</mn></msub></mtd><mtd><mo>=</mo></mtd><mtd><mn>2</mn><mo>·</mo><mfrac><mrow><mtext>Precision</mtext><mo>·</mo><mtext>Recall</mtext></mrow><mrow><mtext>Precision</mtext><mo>+</mo><mtext>Recall</mtext></mrow></mfrac></mtd></mtr></mtable></math>',
-      description:
-        'Precision = of predicted positives, how many are correct. Recall = of actual positives, how many were found. F1 is their harmonic mean — it is low if either is low.',
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>TP</mtext></math>',
+          text: '— true positives: correctly predicted positive instances.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>FP</mtext></math>',
+          text: '— false positives: negative instances incorrectly predicted as positive.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>FN</mtext></math>',
+          text: '— false negatives: positive instances the model missed.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mtext>F</mtext><mn>1</mn></msub></math>',
+          text: '— harmonic mean of precision and recall; low if either metric is low.',
+        },
+      ],
     },
   },
   {

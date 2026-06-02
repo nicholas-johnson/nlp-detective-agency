@@ -304,8 +304,20 @@ model.most_similar(
       title: 'Cosine similarity',
       mathml:
         '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></mrow><mrow><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo><mspace width="0.2em"/><mo>‖</mo><mi mathvariant="bold">b</mi><mo>‖</mo></mrow></mfrac></math>',
-      description:
-        'Two vectors pointing in similar directions have high cosine similarity. This is how most_similar() ranks neighbours and how we measure analogy accuracy.',
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></math>',
+          text: '— dot product of the two embedding vectors.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo></math>',
+          text: '— magnitude (Euclidean length) of vector **a**.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo></math>',
+          text: '— result: 1 = identical direction, 0 = no relation, −1 = opposite meaning.',
+        },
+      ],
     },
   },
   {

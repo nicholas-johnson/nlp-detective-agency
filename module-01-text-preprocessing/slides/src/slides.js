@@ -199,7 +199,24 @@ def normalize_text(text: str) -> str:
     content: {
       title: "Zipf's law",
       mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>f</mi><mo>(</mo><mi>r</mi><mo>)</mo><mo>∝</mo><mfrac><mn>1</mn><msup><mi>r</mi><mi>s</mi></msup></mfrac><mo>,</mo><mspace width="1em"/><mi>s</mi><mo>≈</mo><mn>1</mn></math>',
-      description: "The r-th most common word appears roughly 1/r times as often as the most common. A few words dominate all counts — this is why stopword removal matters.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo>(</mo><mi>r</mi><mo>)</mo></math>',
+          text: '— frequency of the word at rank *r*.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi></math>',
+          text: '— rank of the word when sorted by frequency (1 = most common).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>s</mi><mo>≈</mo><mn>1</mn></math>',
+          text: '— exponent close to 1 for natural language, making frequency inversely proportional to rank.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><msup><mi>r</mi><mi>s</mi></msup></mfrac></math>',
+          text: '— a few top-ranked words dominate all counts; the long tail has many rare words.',
+        },
+      ],
       credit: 'Zipf, 1949',
     },
   },

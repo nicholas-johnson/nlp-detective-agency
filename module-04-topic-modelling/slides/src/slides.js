@@ -256,7 +256,24 @@ doc_topics = nmf.fit_transform(tfidf)`,
     content: {
       title: 'NMF factorisation',
       mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>V</mi><mo>≈</mo><mi>W</mi><mo>×</mo><mi>H</mi></math>',
-      description: "Decompose the document-term matrix V into W (document-topic weights) and H (topic-word distributions). Both are non-negative, so weights are interpretable as 'amounts'.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>V</mi></math>',
+          text: '— the document-term matrix (documents × words).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>W</mi></math>',
+          text: '— document-topic matrix: how much each document belongs to each topic.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>H</mi></math>',
+          text: '— topic-word matrix: the word distribution for each topic.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>≈</mo></math>',
+          text: '— approximate: the product W×H reconstructs V as closely as possible.',
+        },
+      ],
     },
   },
   {
@@ -314,7 +331,24 @@ doc_topics = nmf.fit_transform(tfidf)`,
     content: {
       title: 'Perplexity',
       mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>perplexity</mtext><mo>=</mo><mi>exp</mi><mrow><mo>(</mo><mo>−</mo><mfrac><mrow><munder><mo>∑</mo><mi>d</mi></munder><mi>log</mi><mspace width="0.2em"/><mi>p</mi><mo>(</mo><msub><mi mathvariant="bold">w</mi><mi>d</mi></msub><mo>)</mo></mrow><mrow><munder><mo>∑</mo><mi>d</mi></munder><msub><mi>N</mi><mi>d</mi></msub></mrow></mfrac><mo>)</mo></mrow></math>',
-      description: "Lower perplexity = the model is less 'surprised' by the data. Use as a guide for choosing k, but always check top words too — perplexity alone can't tell you if topics make sense.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>exp</mi></math>',
+          text: '— exponential: converts the average negative log-likelihood back to a "surprise" score.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>log</mi><mspace width="0.2em"/><mi>p</mi><mo>(</mo><msub><mi mathvariant="bold">w</mi><mi>d</mi></msub><mo>)</mo></math>',
+          text: '— log probability the model assigns to the words in document *d*.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>N</mi><mi>d</mi></msub></math>',
+          text: '— number of words in document *d* (normalises for document length).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><munder><mo>∑</mo><mi>d</mi></munder></math>',
+          text: '— sum over all documents in the held-out set. Lower perplexity = less surprised.',
+        },
+      ],
     },
   },
   {

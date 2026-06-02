@@ -175,7 +175,24 @@ print(len(vectorizer.get_feature_names_out()))
     content: {
       title: 'TF-IDF',
       mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>tf-idf</mtext><mo>(</mo><mi>t</mi><mo>,</mo><mi>d</mi><mo>)</mo><mo>=</mo><mtext>tf</mtext><mo>(</mo><mi>t</mi><mo>,</mo><mi>d</mi><mo>)</mo><mo>×</mo><mtext>idf</mtext><mo>(</mo><mi>t</mi><mo>)</mo><mspace width="2em"/><mtext>where</mtext><mspace width="1em"/><mtext>idf</mtext><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mi>log</mi><mfrac><mi>N</mi><mrow><mtext>df</mtext><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mfrac></math>',
-      description: "TF counts how often a term appears in this document. IDF penalises terms that appear in many documents. The product highlights words that are frequent here but rare overall.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>tf</mtext><mo>(</mo><mi>t</mi><mo>,</mo><mi>d</mi><mo>)</mo></math>',
+          text: '— term frequency: how often term *t* appears in document *d*.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>idf</mtext><mo>(</mo><mi>t</mi><mo>)</mo></math>',
+          text: '— inverse document frequency: penalises terms that appear across many documents.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi></math>',
+          text: '— total number of documents in the corpus.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>df</mtext><mo>(</mo><mi>t</mi><mo>)</mo></math>',
+          text: '— document frequency: number of documents containing term *t*.',
+        },
+      ],
     },
   },
   {
@@ -183,7 +200,20 @@ print(len(vectorizer.get_feature_names_out()))
     content: {
       title: 'scikit-learn IDF (smoothed)',
       mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>idf</mtext><mo>(</mo><mi>t</mi><mo>)</mo><mo>=</mo><mi>log</mi><mfrac><mrow><mn>1</mn><mo>+</mo><mi>N</mi></mrow><mrow><mn>1</mn><mo>+</mo><mtext>df</mtext><mo>(</mo><mi>t</mi><mo>)</mo></mrow></mfrac><mo>+</mo><mn>1</mn></math>',
-      description: "scikit-learn adds 1 to numerator and denominator to avoid division by zero, and adds 1 to the result so no term gets zero weight.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn><mo>+</mo><mi>N</mi></math>',
+          text: '— adds 1 to the total document count (smoothing the numerator).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn><mo>+</mo><mtext>df</mtext><mo>(</mo><mi>t</mi><mo>)</mo></math>',
+          text: '— adds 1 to document frequency to avoid division by zero.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>+</mo><mn>1</mn></math>',
+          text: '— final +1 ensures no term ever gets zero weight.',
+        },
+      ],
     },
   },
   {
@@ -227,7 +257,20 @@ score = sims[0][1]  # how similar are witnesses 0 and 1?`,
     content: {
       title: 'Cosine similarity',
       mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></mrow><mrow><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo><mspace width="0.2em"/><mo>‖</mo><mi mathvariant="bold">b</mi><mo>‖</mo></mrow></mfrac></math>',
-      description: "Measures direction, not magnitude. 1 = identical direction, 0 = no overlap, −1 = opposite. This is how we compare document fingerprints.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="bold">a</mi><mo>·</mo><mi mathvariant="bold">b</mi></math>',
+          text: '— dot product of the two vectors (sum of element-wise products).',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>‖</mo><mi mathvariant="bold">a</mi><mo>‖</mo></math>',
+          text: '— magnitude (length) of vector **a**.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>cos</mi><mo>(</mo><mi>θ</mi><mo>)</mo></math>',
+          text: '— result ranges from −1 (opposite) through 0 (orthogonal) to 1 (identical direction).',
+        },
+      ],
     },
   },
   {

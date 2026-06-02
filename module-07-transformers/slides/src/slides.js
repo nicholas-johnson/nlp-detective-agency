@@ -81,7 +81,28 @@ export const slides = [
     content: {
       title: 'Scaled dot-product attention',
       mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mtext>Attention</mtext><mo>(</mo><mi>Q</mi><mo>,</mo><mi>K</mi><mo>,</mo><mi>V</mi><mo>)</mo><mo>=</mo><mtext>softmax</mtext><mrow><mo>(</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi>T</mi></msup></mrow><msqrt><msub><mi>d</mi><mi>k</mi></msub></msqrt></mfrac><mo>)</mo></mrow><mi>V</mi></math>',
-      description: "Each token queries all keys to get attention weights, then aggregates values. Dividing by √d_k prevents dot products from growing too large in high dimensions.",
+      points: [
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>Q</mi></math>',
+          text: '— queries: what each token is looking for.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>K</mi></math>',
+          text: '— keys: what each token advertises about itself.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>V</mi></math>',
+          text: '— values: the actual information each token contributes.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><msqrt><msub><mi>d</mi><mi>k</mi></msub></msqrt></math>',
+          text: '— scaling factor: prevents dot products from growing too large in high dimensions.',
+        },
+        {
+          mathml: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>softmax</mtext></math>',
+          text: '— normalises scores into attention weights that sum to 1.',
+        },
+      ],
       credit: 'Vaswani et al., 2017',
     },
   },
